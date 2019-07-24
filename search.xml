@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[jQuery实现返回顶部按钮]]></title>
+    <url>%2F2019%2F07%2F24%2FjQuery%E5%AE%9E%E7%8E%B0%E8%BF%94%E5%9B%9E%E9%A1%B6%E9%83%A8%E6%8C%89%E9%92%AE%2F</url>
+    <content type="text"><![CDATA[1、创建一个按钮，并设置样式123&lt;button id=&quot;btnTop&quot; class=&quot;p-2 mb-2 bg-danger text-white clearfix&quot; style=&quot;position: fixed; top: 85%; left: 80%; display: none;&quot;&gt;Top&lt;/button&gt; 2、添加jQuery方法此时，这个按钮并没有显示出来，我们需要当页面的滚动条距离最上方有50个像素时，显示“回到顶部”按钮，通过JQuery来实现 123456789101112$(function () &#123; $(window).scroll(function () &#123; if ($(window).scrollTop() &gt;= 50) &#123; //fadeIn淡入效果 $(&apos;#btnTop&apos;).fadeIn(); &#125; else &#123; //fadeOut淡出效果 $(&apos;#btnTop&apos;).fadeOut(); &#125; &#125;); &#125;); 3、添加click事件123$(&apos;#btnTop&apos;).click(function () &#123; $(&apos;html,body&apos;).animate(&#123; scrollTop: 0 &#125;, 500); &#125;);]]></content>
+      <categories>
+        <category>jQuery</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo设置]]></title>
+    <url>%2F2019%2F07%2F23%2Fhexo%E8%AE%BE%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[hexo设置一、安装Git淘宝的Git地址 二、安装NodejsNodejs 三、通过npm安装HexoNode.js安装成功后，同时会自动安装一个包管理器，称为npm（Node Package Manager）。 什么是npm？npm是一个包管理器，发布者将自己的代码发布（npm publish）到代码仓库（registry），使用者将自己需要的包写入package.json文件中，到代码仓库中把代码下载（npm install）下来。 安装：npm install -g hexo-cli 由于npm代码仓库的服务器在国外，由于Great Firewall的缘故，下载速度可能不尽如人意，这时你可以使用淘宝的npm代码仓库，通过npm安装cnpm：npm install -g cnpm --registry=https://registry.npm.taobao.org安装成功后，可以通过以下命令查看cnpm版本：cnpm -v通过cnpm来操作下载速度会得到很大提升，但包的版本不一定是最新的。之后所有的npm都可以换成cnpm 四、本地使用1、创建博客目录hexo init username.github.io 这个username就是仓库的username，同时也是github的username，目的就是访问githubPage时可以直接使用以下方式访问https://username.github.io/示例：https://hello-ajh.github.io/ 2、更换主题在更换主题之前要先切换到username.github.io目录，执行以下命令 这里选择一个比较简洁的主题：nextgit clone https://github.com/theme-next/hexo-theme-next themes/next 之后需要更改username.github.io/_config.yml里面的配置 title: 御坂0416的博客 //你博客的名字author: 御坂0416 //作者名字language: zh-CN //语言 中文theme: next //刚刚安装的主题名称deploy:type: git //使用Git 发布repo: https://github.com/hello-ajh/hello-ajh.github.io.git // 刚创建的Github仓库 主题配置： 主题配置文件在username.github.io/themes/next/_config.yml中修改 3、写文章 hexo new BlogName会在source/_posts目录下生成BlogName.md文件，可以vim或其他Markdown编辑器进行修改。 4、安装hexo-deployer-git自动部署发布工具 npm install hexo-deployer-git --save 5、生成静态文件、清理、重启Hexo hexo clean每次修改文章后，都需要清理一下，hexo g（g代表generate），生成博客静态文件最后也不要忘了通过hexo s重新启动Hexo。hexo clean &amp;&amp; hexo g &amp;&amp; hexo s 6、发布到githubPage测试没问题后，我们就生成静态网页文件发布至我们的Github pages 中。 hexo clean &amp;&amp; hexo g &amp;&amp; hexo d 如果这是你的第一次，终端会让你输入Github 的邮箱和密码，正确输入后，骚等片刻，就会把你的博客上传至Github 了。以后在每次把博客写完后，执行一下这个命令就可以直接发布了，灰常苏胡。 注意：这里会默认通过Git的方式上传到github的仓库，但是会改变原有的目录结构 7、乱码问题 hexo新建的文章为source/_posts/xxx.md，默认编码格式为ANSI，需要使用记事本将其另存为UTF-8格式或者使用sublime将其另存为UTF-8 with BOM格式]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F07%2F23%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+      <categories>
+        <category>Hello World</category>
+      </categories>
+  </entry>
+</search>
