@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Fontello免费图标]]></title>
+    <url>%2F2019%2F07%2F24%2FFontello%E5%85%8D%E8%B4%B9%E5%9B%BE%E6%A0%87%2F</url>
+    <content type="text"><![CDATA[Fontello免费图标 官网fontello 选择图标直接点击想要的图标即可选中，也可以用鼠标多选 下载 本地使用将下载下来的压缩包解压并复制到网站的public目录下，然后引入fontello.css 1&lt;link rel=&quot;stylesheet&quot; href=&quot;../css/fontello.css&quot;&gt; 图标展示1&lt;i class=&quot;icon-emo-happy&quot;&gt;&lt;/i&gt; class格式 12icon-namename就是Fontello官网上的name]]></content>
+      <categories>
+        <category>免费图标</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[jQuery实现返回顶部按钮]]></title>
     <url>%2F2019%2F07%2F24%2FjQuery%E5%AE%9E%E7%8E%B0%E8%BF%94%E5%9B%9E%E9%A1%B6%E9%83%A8%E6%8C%89%E9%92%AE%2F</url>
     <content type="text"><![CDATA[1、创建一个按钮，并设置样式123&lt;button id=&quot;btnTop&quot; class=&quot;p-2 mb-2 bg-danger text-white clearfix&quot; style=&quot;position: fixed; top: 85%; left: 80%; display: none;&quot;&gt;Top&lt;/button&gt; 2、添加jQuery方法此时，这个按钮并没有显示出来，我们需要当页面的滚动条距离最上方有50个像素时，显示“回到顶部”按钮，通过JQuery来实现 123456789101112$(function () &#123; $(window).scroll(function () &#123; if ($(window).scrollTop() &gt;= 50) &#123; //fadeIn淡入效果 $(&apos;#btnTop&apos;).fadeIn(); &#125; else &#123; //fadeOut淡出效果 $(&apos;#btnTop&apos;).fadeOut(); &#125; &#125;); &#125;); 3、添加click事件123$(&apos;#btnTop&apos;).click(function () &#123; $(&apos;html,body&apos;).animate(&#123; scrollTop: 0 &#125;, 500); &#125;);]]></content>
