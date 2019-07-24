@@ -229,6 +229,130 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/07/24/jQuery实现返回顶部按钮/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/24/jQuery实现返回顶部按钮/" itemprop="url">jQuery实现返回顶部按钮</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-24T10:03:15+08:00">
+                2019-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1、创建一个按钮，并设置样式"><a href="#1、创建一个按钮，并设置样式" class="headerlink" title="1、创建一个按钮，并设置样式"></a>1、创建一个按钮，并设置样式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=&quot;btnTop&quot; class=&quot;p-2 mb-2 bg-danger text-white clearfix&quot;</span><br><span class="line">            style=&quot;position: fixed; top: 85%; left: 80%; display: none;&quot;&gt;Top</span><br><span class="line">&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、添加jQuery方法"><a href="#2、添加jQuery方法" class="headerlink" title="2、添加jQuery方法"></a>2、添加jQuery方法</h3><p>此时，这个按钮并没有显示出来，我们需要当页面的滚动条距离最上方有50个像素时，显示“回到顶部”按钮，通过JQuery来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$(function () &#123;</span><br><span class="line">            $(window).scroll(function () &#123;</span><br><span class="line">                if ($(window).scrollTop() &gt;= 50) &#123;</span><br><span class="line">                    //fadeIn淡入效果</span><br><span class="line">                    $(&apos;#btnTop&apos;).fadeIn();</span><br><span class="line">                &#125;</span><br><span class="line">                else &#123;</span><br><span class="line">                    //fadeOut淡出效果</span><br><span class="line">                    $(&apos;#btnTop&apos;).fadeOut();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、添加click事件"><a href="#3、添加click事件" class="headerlink" title="3、添加click事件"></a>3、添加click事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&apos;#btnTop&apos;).click(function () &#123;</span><br><span class="line">            $(&apos;html,body&apos;).animate(&#123; scrollTop: 0 &#125;, 500);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/07/23/hexo设置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -561,7 +685,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
