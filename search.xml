@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[laravel_csrf白名单]]></title>
+    <url>%2F2019%2F08%2F09%2Flaravel-csrf%E7%99%BD%E5%90%8D%E5%8D%95%2F</url>
+    <content type="text"><![CDATA[laravel_csrf白名单 laravel中如何添加路由白名单？ 在app\Http\Middleware\VerifyCsrfToken.php中添加要作为排除csrf检测的路由]]></content>
+      <categories>
+        <category>laravel</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[Fontello免费图标]]></title>
     <url>%2F2019%2F07%2F24%2FFontello%E5%85%8D%E8%B4%B9%E5%9B%BE%E6%A0%87%2F</url>
     <content type="text"><![CDATA[Fontello免费图标 官网fontello 选择图标直接点击想要的图标即可选中，也可以用鼠标拖动进行多选 下载 本地使用将下载下来的压缩包解压并复制到网站的public目录下，然后引入fontello.css 1&lt;link rel=&quot;stylesheet&quot; href=&quot;../css/fontello.css&quot;&gt; 图标展示1&lt;i class=&quot;icon-emo-happy&quot;&gt;&lt;/i&gt; class格式 12icon-namename就是Fontello官网上的name]]></content>
