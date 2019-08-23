@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[laravel数据库填充]]></title>
     <url>%2F2019%2F08%2F23%2Flaravel%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A1%AB%E5%85%85%2F</url>
-    <content type="text"><![CDATA[laravel数据库填充 创建填充php artisan make:seeder UserTableSeeder 运行填充 执行单个填充php artisan db:seed --class=PaperTableSeeder 执行所有填充php artisan db:seed该命令会运行DatabaseSeeder填充文件，可以在该文件中包含所有其他的填充文件，一次性运行]]></content>
+    <content type="text"><![CDATA[laravel数据库填充 创建填充php artisan make:seeder UserTableSeeder 运行填充 执行单个填充php artisan db:seed --class=PaperTableSeeder 执行所有填充php artisan db:seed该命令会运行DatabaseSeeder填充文件，可以在该文件中包含所有其他的填充文件，一次性运行 重建数据库，并重新执行填充php artisan migrate:refresh --seed]]></content>
       <categories>
         <category>laravel</category>
       </categories>
@@ -11,7 +11,7 @@
   <entry>
     <title><![CDATA[laravel数据库迁移]]></title>
     <url>%2F2019%2F08%2F23%2Flaravel%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB%2F</url>
-    <content type="text"><![CDATA[laravel数据库迁移 创建迁移php artisan make:migration create_user_table ps:在当前项目中第一次运行迁移前，需要先执行 php artisan migrate:install 上述命令会在数据库中生成一张migrations数据表，用来记录迁移文件 运行迁移php artisan migrate【已经执行过的迁移文件不会再次执行】 回滚迁移php artisan migrate:rollback【回滚最后一次的迁移操作，回滚操作不删除迁移文件】]]></content>
+    <content type="text"><![CDATA[laravel数据库迁移 创建迁移php artisan make:migration create_user_table ps:在当前项目中第一次运行迁移前，需要先执行 php artisan migrate:install 上述命令会在数据库中生成一张migrations数据表，用来记录迁移文件 运行迁移php artisan migrate【已经执行过的迁移文件不会再次执行】 回滚迁移php artisan migrate:rollback【回滚最后一次的迁移操作，回滚操作不删除迁移文件】 重建数据库php artisan migrate:refresh【删除所有数据表，并执行所有迁移】]]></content>
       <categories>
         <category>laravel</category>
       </categories>

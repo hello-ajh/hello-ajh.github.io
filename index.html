@@ -376,6 +376,8 @@
 <blockquote>
 <h5 id="执行所有填充"><a href="#执行所有填充" class="headerlink" title="执行所有填充"></a>执行所有填充</h5><p><code>php artisan db:seed</code><br>该命令会运行<strong>DatabaseSeeder</strong>填充文件，可以在该文件中包含所有其他的填充文件，一次性运行</p>
 </blockquote>
+<hr>
+<h4 id="重建数据库，并重新执行填充"><a href="#重建数据库，并重新执行填充" class="headerlink" title="重建数据库，并重新执行填充"></a>重建数据库，并重新执行填充</h4><p><code>php artisan migrate:refresh --seed</code></p>
 
           
         
@@ -528,6 +530,8 @@
 <h4 id="运行迁移"><a href="#运行迁移" class="headerlink" title="运行迁移"></a>运行迁移</h4><p><code>php artisan migrate</code><strong>【已经执行过的迁移文件不会再次执行】</strong></p>
 <hr>
 <h4 id="回滚迁移"><a href="#回滚迁移" class="headerlink" title="回滚迁移"></a>回滚迁移</h4><p><code>php artisan migrate:rollback</code><strong>【回滚最后一次的迁移操作，回滚操作不删除迁移文件】</strong></p>
+<hr>
+<h4 id="重建数据库"><a href="#重建数据库" class="headerlink" title="重建数据库"></a>重建数据库</h4><p><code>php artisan migrate:refresh</code><strong>【删除所有数据表，并执行所有迁移】</strong></p>
 
           
         
