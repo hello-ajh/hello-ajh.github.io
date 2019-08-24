@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Jquery或Js获取元素data-*属性]]></title>
+    <url>%2F2019%2F08%2F24%2FJquery%E6%88%96Js%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0data-%E5%B1%9E%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[Jquery或Js获取元素data-*属性1&lt;li id=&quot;getId&quot; data-id=&quot;123&quot; data-vice-id=&quot;11&quot;&gt;获取id&lt;/li&gt; Js：getAttribute()/setAttribute()【操作DOM元素属性】1234567891011let li = document.getElementById(&apos;getId&apos;);//取值//getAttribute()获取属性console.log(li.getAttribute(&apos;data-id&apos;));//123console.log(li.getAttribute(&apos;data-vice-id&apos;));//11//赋值//serAttribute()赋值属性li.setAttribute(&apos;data-id&apos;, &apos;234&apos;);console.log(li.getAttribute(&apos;data-id&apos;));//234 Js：dataset【操作DOM元素dataset】12345678910111213141516//取值//data-id通过id获取console.log(li.dataset.id);//123//data-vice-id通过viceId获取，（使用驼峰命名法取值）console.log(li.dataset.viceId);//11//赋值li.dataset.id = &apos;234&apos;;//234li.dataset.viceId = &apos;22&apos;;//22//新增data属性li.dataset.id2 = &apos;100&apos;;//100//删除data属性，（设置data为null，或者delete）li.dataset.id2 = null;//nulldelete li.dataset.id2;//undefind Jquery data()【操作DOM元素dataset】123456//取值let id = $(&apos;#getId&apos;).data(&apos;id&apos;);//123let id = $(&apos;#getId&apos;).data(&apos;vice-id&apos;);//11//赋值$(&apos;#getId&apos;).data(&apos;id&apos;, &apos;100&apos;);//100 注意： 使用Jquery的data()方法修改的data-*属性不会影响到DOM元素上（即不会改变HTML代码），但是修改依旧有效，此时输出data属性也会是修改后的data属性，data()的本质其实是将一个 “cache” 附加到了对象上，并使用了一个特殊的属性名称。 Jquery attr()【操作DOM元素属性】123456//取值let id = $(&apos;#getId&apos;).attr(&apos;data-id&apos;);//123let viceId = $(&apos;#getId&apos;).attr(&apos;data-vice-id&apos;);//11//赋值$(&apos;#getId&apos;).attr(&apos;data-id&apos;, &apos;100&apos;);//100]]></content>
+      <categories>
+        <category>Jquery</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[laravel项目安装]]></title>
     <url>%2F2019%2F08%2F23%2Flaravel%E9%A1%B9%E7%9B%AE%E5%AE%89%E8%A3%85%2F</url>
     <content type="text"><![CDATA[laravel安装 安装composercomposer 安装PHP 需要满足以下要求 PHP &gt;= 7.1.3 OpenSSL PHP 拓展 PDO PHP 拓展 Mbstring PHP 拓展 Tokenizer PHP 拓展 XML PHP 拓展 Ctype PHP 拓展 JSON PHP 拓展 BCMath PHP 拓展 安装MySQL 安装apache或nginx 安装nodejs，自带npmnodejs 安装laravel，通过composer安装composer global require laravel/installer 创建laravel项目 laravel new blog 或 composer create-project --prefer-dist laravel/laravel blog 启动PHP内置服务 php artisan serve 该命令会在 http://localhost:8000 上启动服务器]]></content>
@@ -74,10 +82,10 @@
   </entry>
   <entry>
     <title><![CDATA[jQuery实现返回顶部按钮]]></title>
-    <url>%2F2019%2F07%2F24%2FjQuery%E5%AE%9E%E7%8E%B0%E8%BF%94%E5%9B%9E%E9%A1%B6%E9%83%A8%E6%8C%89%E9%92%AE%2F</url>
+    <url>%2F2019%2F07%2F24%2FJquery%E5%AE%9E%E7%8E%B0%E8%BF%94%E5%9B%9E%E9%A1%B6%E9%83%A8%E6%8C%89%E9%92%AE%2F</url>
     <content type="text"><![CDATA[1、创建一个按钮，并设置样式123&lt;button id=&quot;btnTop&quot; class=&quot;p-2 mb-2 bg-danger text-white clearfix&quot; style=&quot;position: fixed; top: 85%; left: 80%; display: none;&quot;&gt;Top&lt;/button&gt; 2、添加jQuery方法此时，这个按钮并没有显示出来，我们需要当页面的滚动条距离最上方有50个像素时，显示“回到顶部”按钮，通过JQuery来实现 123456789101112$(function () &#123; $(window).scroll(function () &#123; if ($(window).scrollTop() &gt;= 50) &#123; //fadeIn淡入效果 $(&apos;#btnTop&apos;).fadeIn(); &#125; else &#123; //fadeOut淡出效果 $(&apos;#btnTop&apos;).fadeOut(); &#125; &#125;); &#125;); 3、添加click事件123$(&apos;#btnTop&apos;).click(function () &#123; $(&apos;html,body&apos;).animate(&#123; scrollTop: 0 &#125;, 500); &#125;);]]></content>
       <categories>
-        <category>jQuery</category>
+        <category>Jquery</category>
       </categories>
   </entry>
   <entry>
