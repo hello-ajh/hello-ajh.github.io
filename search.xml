@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Laravel-DB类操作数据库]]></title>
+    <url>%2F2019%2F08%2F27%2FLaravel-DB%E7%B1%BB%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93%2F</url>
+    <content type="text"><![CDATA[DB类操作数据库 模型在控制器中的调用 引入DB门面（Facades）：use DB; 执行数据库操作之前需要先指定需要操作的数据表 $db = DB::table(&#39;member&#39;); 基础操作 增加操作 1.insert可以同时增加多行，返回布尔类型，true or false 2.insertGetId只能增加一行，但是自增的id 修改操作 where()-&gt;update(); 返回值为受到影响的行数（修改了多少行） $db-&gt;where(&#39;id&#39;,&#39;1&#39;)-&gt;update([&#39;name&#39;=&gt;&#39;张三丰&#39;]); 查询操作 where()-&gt;get(); $db-&gt;where(&#39;id&#39;,&#39;&gt;&#39;.&#39;3&#39;)-&gt;get(); where使用方法： 123where()-&gt;where()-&gt;where()... 此语法为并且（and）关系where()-&gt;orWhere()-&gt;orWhere()... 此语法为或者（or）关系 first()方法：返回结果集的第一行数据 $db-&gt;get()-&gt;first(); value()方法：返回具体某一个字段 $db-&gt;where(&#39;id&#39;,&#39;&gt;&#39;.&#39;3&#39;)-&gt;value(&#39;name&#39;); select()方法：返回一个值或多个值 $db-&gt;select(&#39;name&#39;,&#39;email&#39;)-&gt;where(&#39;id&#39;,&#39;1&#39;)-&gt;get(); orderBy()方法：排序（desc降序，asc升序） $db-&gt;orderBy(&#39;age&#39;,&#39;desc&#39;)-&gt;get(); 分页操作：limit()和offset() limit表示每页的数量 offset表示从第几条数据开始，0代表第一条数据 $db-&gt;limit(2)-&gt;offset(0)-&gt;get(); 删除操作 $db-&gt;where(&#39;id&#39;,&#39;&lt;&#39;,&#39;4&#39;)-&gt;delete(); 执行任意的SQL语句 （1）执行任意的insert update delete 语句使用statement 【影响记录的语句使用statement语法】 （2）执行任意的select语句使用select 【不影响记录的语句使用select语法】]]></content>
+      <categories>
+        <category>laravel</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Laravel-Model操作数据库]]></title>
+    <url>%2F2019%2F08%2F27%2FLaravel-Model%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93%2F</url>
+    <content type="text"><![CDATA[Laravel-Model操作数据库 位置：app目录下 命名规则：表名（首字母大写）.php example：Member.php|User.php|Goods.php 创建模型：php artisan make:model User 注意事项： 模型在控制器中的调用 引入Member模型类：use App\Home\Member; 模型的使用：模型在控制器中的使用方式有2种 （1）直接像使用DB门面一样的操作方式，以调用静态方法为主的形式，该形势下模型不需要实例化 123Member::get(); 等价于DB::table(&apos;member&apos;)-&gt;get() （2）实例化模型，然后去使用模型类 123$model = new Member();$model-&gt;get(); 基础操作 添加数据 方式一：（save） 12345$model = new Member();$model-&gt;name = &apos;安佳豪&apos;;$model-&gt;age = &apos;20&apos;;...$model-&gt;save(); 方式二：（create） 1234public function add(Request $request)&#123; $model = new Member(); $model-&gt;create($request-&gt;all());&#125; 查询操作 获取一条数据：find()返回一个对象 12$data = Member::find($id);echo $data-&gt;name; toArray()可以将对象转化为数组 12$data = Member::find($id)-&gt;toArray();echo $data[&apos;name&apos;]; 获取符合指定条件的第一条记录 1Member::where(&apos;id&apos;,&apos;&gt;&apos;,&quot;4&quot;)-&gt;first(); 获取符合指定条件的所有记录 1Member::where(&apos;id&apos;,&apos;&gt;&apos;,&apos;5&apos;)-&gt;get(); 获取指定字段的所有记录 123Member::select(&apos;name&apos;,&apos;age&apos;)-&gt;get();Member::get([&apos;name&apos;,&apos;age&apos;]);Member::all([&apos;name&apos;,&apos;age&apos;]); ps： all（）方法相当于get（）方法，单独使用都是返回所有结果集 注意：all（）方法不支持连接其他的辅助查询方法，而get（）方法则没有这种限制 get（）方法在与其他辅助查询方式连接使用时，需要放在最后 修改操作 方式一：（save） 1234$user = User::find($id);$user-&gt;title = $_POST[&apos;title&apos;];$user-&gt;content = $_POST[&apos;content&apos;];$user-&gt;save(); 方式二：（update） 1Member::where(&apos;id&apos;,&apos;7&apos;)-&gt;update([&apos;age&apos;=&gt;&apos;38&apos;]); 删除操作 方式一： 12$user = User::find($id);$user-&gt;delete(); 方式二： 1Member::where(&apos;id&apos;,&apos;9&apos;)-&gt;delete();]]></content>
+      <categories>
+        <category>laravel</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[Laravel填充文件找不到的问题]]></title>
+    <url>%2F2019%2F08%2F27%2FLaravel%E5%A1%AB%E5%85%85%E6%96%87%E4%BB%B6%E6%89%BE%E4%B8%8D%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[Laravel填充文件找不到的问题 123php artisan db:seed --class=BlogTableSeeder ReflectionException : Class BlogTableSeeder does not exist 填充文件在存在的情况下找不到的原因： composer.json未自动加载这个种子文件 解决方法 执行：composer dumpautoload]]></content>
+      <categories>
+        <category>laravel</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[Jquery或Js获取元素data-*属性]]></title>
     <url>%2F2019%2F08%2F24%2FJquery%E6%88%96Js%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0data-%E5%B1%9E%E6%80%A7%2F</url>
     <content type="text"><![CDATA[Jquery或Js获取元素data-*属性1&lt;li id=&quot;getId&quot; data-id=&quot;123&quot; data-vice-id=&quot;11&quot;&gt;获取id&lt;/li&gt; Js：getAttribute()/setAttribute()【操作DOM元素属性】1234567891011let li = document.getElementById(&apos;getId&apos;);//取值//getAttribute()获取属性console.log(li.getAttribute(&apos;data-id&apos;));//123console.log(li.getAttribute(&apos;data-vice-id&apos;));//11//赋值//serAttribute()赋值属性li.setAttribute(&apos;data-id&apos;, &apos;234&apos;);console.log(li.getAttribute(&apos;data-id&apos;));//234 Js：dataset【操作DOM元素dataset】12345678910111213141516//取值//data-id通过id获取console.log(li.dataset.id);//123//data-vice-id通过viceId获取，（使用驼峰命名法取值）console.log(li.dataset.viceId);//11//赋值li.dataset.id = &apos;234&apos;;//234li.dataset.viceId = &apos;22&apos;;//22//新增data属性li.dataset.id2 = &apos;100&apos;;//100//删除data属性，（设置data为null，或者delete）li.dataset.id2 = null;//nulldelete li.dataset.id2;//undefind Jquery data()【操作DOM元素dataset】123456//取值let id = $(&apos;#getId&apos;).data(&apos;id&apos;);//123let id = $(&apos;#getId&apos;).data(&apos;vice-id&apos;);//11//赋值$(&apos;#getId&apos;).data(&apos;id&apos;, &apos;100&apos;);//100 注意： 使用Jquery的data()方法修改的data-*属性不会影响到DOM元素上（即不会改变HTML代码），但是修改依旧有效，此时输出data属性也会是修改后的data属性，data()的本质其实是将一个 “cache” 附加到了对象上，并使用了一个特殊的属性名称。 Jquery attr()【操作DOM元素属性】123456//取值let id = $(&apos;#getId&apos;).attr(&apos;data-id&apos;);//123let viceId = $(&apos;#getId&apos;).attr(&apos;data-vice-id&apos;);//11//赋值$(&apos;#getId&apos;).attr(&apos;data-id&apos;, &apos;100&apos;);//100]]></content>
