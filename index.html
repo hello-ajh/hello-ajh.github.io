@@ -274,6 +274,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/09/05/CSS相对定位和绝对定位/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/05/CSS相对定位和绝对定位/" itemprop="url">CSS相对定位和绝对定位</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-05T17:42:59+08:00">
+                2019-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="CSS：相对定位（position：relative）和绝对定位（position：absolute）"><a href="#CSS：相对定位（position：relative）和绝对定位（position：absolute）" class="headerlink" title="CSS：相对定位（position：relative）和绝对定位（position：absolute）"></a>CSS：相对定位（position：relative）和绝对定位（position：absolute）</h3><hr>
+<blockquote>
+<p>ps：通常情况下，我们元素的position属性的值默认为static 就是没有定位，元素出现在正常的文档流中，这个时候你给这个元素设置的left,right,bottom,top这些偏移属性都是没有效果的，不会生效，比如你设置一个距离左边距偏移100px的声明：left:100px 那么这条声明不会起到任何效果。还有z-index属性在这时也不会生效。</p>
+</blockquote>
+<hr>
+<h4 id="相对定位（relative）"><a href="#相对定位（relative）" class="headerlink" title="相对定位（relative）"></a>相对定位（relative）</h4><blockquote>
+<p><strong>元素相对于自身进行定位（自身为参照物）</strong></p>
+</blockquote>
+<blockquote>
+<p>1、元素会出现在文档流中它该出现的位置</p>
+<p>2、我们可以设置它的水平或垂直偏移量，让这个元素相对于它在文档流中的位置的起始点进行移动</p>
+<p>3、在使用相对定位时，就算元素被偏移了，但是他仍然占据着它没偏移前的空间</p>
+</blockquote>
+<hr>
+<h4 id="绝对定位（absolute）"><a href="#绝对定位（absolute）" class="headerlink" title="绝对定位（absolute）"></a>绝对定位（absolute）</h4><blockquote>
+<p><strong>元素相对于设置了除static定位之外的定位（比如position:relative）的第一个祖先元素进行定位，没有这样的祖先元素则相对于body进行定位（并非窗口,相对于窗口定位的是fixed）（祖先元素为参照物）</strong></p>
+</blockquote>
+<blockquote>
+<p>1、被设置了绝对定位的元素，在文档流中是不占据空间的</p>
+<p>2、如果某元素设置了绝对定位，那么它在文档流中的位置会被删除</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>如果某元素设置了绝对定位，那么它在文档流中的位置会被删除，那这个元素到哪去了呢？它浮了起来，其实设置了相对定位relative时也会让该 元素浮起来，但它们的不同点在于，相对对定位不会删除它本身在文档流中占据的那块空间，而绝对定位则会删除掉该元素在文档流中的位置，完全从文档流中抽了出来</strong></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/27/Laravel-DB类操作数据库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1827,154 +1993,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/11/JavaScript——this/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/11/JavaScript——this/" itemprop="url">JavaScript——this</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T21:36:47+08:00">
-                2019-08-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="JavaScript——this"><a href="#JavaScript——this" class="headerlink" title="JavaScript——this"></a>JavaScript——this</h3><blockquote>
-<p>JavaScript中的上下文对象this，是由调用的对象决定的</p>
-</blockquote>
-<h4 id="以函数的形式调用，this就是window"><a href="#以函数的形式调用，this就是window" class="headerlink" title="以函数的形式调用，this就是window"></a>以函数的形式调用，this就是window</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function fun()&#123;</span><br><span class="line">	console.log(this.name);</span><br><span class="line">&#125;</span><br><span class="line">fun();</span><br><span class="line">//以函数的形式调用，this就是window</span><br><span class="line">//由于没有全局变量name，所以没有输出</span><br></pre></td></tr></table></figure>
-
-<h4 id="以方法的形式调用，this就是调用方法的对象"><a href="#以方法的形式调用，this就是调用方法的对象" class="headerlink" title="以方法的形式调用，this就是调用方法的对象"></a>以方法的形式调用，this就是调用方法的对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//创建一个对象</span><br><span class="line">var obj = &#123;</span><br><span class="line">	name:&quot;孙悟空&quot;,</span><br><span class="line">	sayName:function () &#123;</span><br><span class="line">		console.log(this.name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">//以方法形式调用this,this指向调用方法的对象</span><br><span class="line">	obj.sayName();</span><br><span class="line">//输出“孙悟空”</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2027,7 +2045,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2038,7 +2056,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
