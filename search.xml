@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Git由于远程仓库比较新而无法推送上去]]></title>
+    <url>%2F2019%2F09%2F06%2FGit%E7%94%B1%E4%BA%8E%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E6%AF%94%E8%BE%83%E6%96%B0%E8%80%8C%E6%97%A0%E6%B3%95%E6%8E%A8%E9%80%81%E4%B8%8A%E5%8E%BB%2F</url>
+    <content type="text"><![CDATA[Git由于远程仓库比较新而无法推送上去偶尔在执行推指令的时候会出现这个错误讯息： 123456789$ git pushTo https://github.com/hello-ajh/ceshi.git ! [rejected] master -&gt; master (fetch first)error: failed to push some refs to &apos;https://github.com/hello-ajh/ceshi.git&apos;hint: Updates were rejected because the remote contains work that you dohint: not have locally. This is usually caused by another repository pushinghint: to the same ref. You may want to first integrate the remote changeshint: (e.g., &apos;git pull ...&apos;) before pushing again.hint: See the &apos;Note about fast-forwards&apos; in &apos;git push --help&apos; for details. 这段讯息的意思是线上版本的内容比你电脑里这份还要新，所以Git不让你推上去。 怎么造成的？ 多人一起开发时： 1、Sherly跟Eddie两个人在差不多的时间都从Git Server上拉了一份资料下来准备进行开发。 2、Sherly手脚比较快，先完成了，于是先把做好的成果推一份上去。 3、Eddie不久后也完成了，但当他要推上去的时候发现推不上去了…… 单人开发时： 1、执行git clone，从远程仓库克隆仓库到本地，此时可以正常推上去 2、此时在远程仓库处新增一个任意文件，就会发现无法推上去 总结：本地仓库在push之前，远程仓库有过（文件、代码）更新，就会出现无法推送的情况 怎么解决？方法一：先拉再推因为你电脑里的内容是比较旧的，所以你应该先拉一份线上版本回来更新，然后再推一次 git pull 此命令会将拉取远程仓库的更新并与本地分支进行合并 例子1：远程仓库比本地仓库多了一个文件“123.txt”，执行上述命令会将“123.txt”克隆到本地仓库 例子2：远程仓库和本地仓库的文件一致，但是同一个文件“123.txt”里面的内容不一致，执行上述命令会将本地的“123.txt”的内容修改为远程仓库的“123.txt”的内容 合并如果没发生，接着就可以推送了 方法二：强制推送（覆盖）（不推荐） git push -f 添加-f会强制推送至远程分支，并且清空所有的提交历史，相当于删除远程仓库，在创建一个新的同名远程仓库，在推送上去。 此命令会覆盖远程仓库的新内容]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[Git添加远程仓库]]></title>
     <url>%2F2019%2F09%2F05%2FGit%E6%B7%BB%E5%8A%A0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%2F</url>
     <content type="text"><![CDATA[Git添加远程仓库 初始化本地git项目1git init 添加文件和注释12git add .git commit -m &quot;注释内容&quot; 在add要注意一个地方，如果文件有不需要上传的地方或者较大的文件不需要不好上传可以忽略掉，这就可以在.gitignore文件里面设置 以’#’ 开始的行为注释.忽略掉所有文件名是 test.txt 的文件.test.txt忽略build文件夹build忽略所有生成的备份文件.~忽略所有.o 和 .a文件.*.[oa] 链接远程仓库1git remote add origin 【仓库地址】 更新代码1git pull origin master --allow-unrelated-histories 因为他们是两个不同的项目，要把两个不同的项目合并，git需要添加一句代码git pull，这句代码是在git 2.9.2版本发生的，最新的版本需要添加–allow-unrelated-histories假如我们的源是origin，分支是master，那么我们 需要这样写git pull origin master —-allow-unrelated-histories需要知道，我们的源可以是本地的路径。 push至git仓库1git push --set-upstream origin master 全部过程实例：12345678mkdir Helloworldcd Helloworldgit initecho &quot;# Helloworld&quot; &gt;&gt; README.mdgit add README.mdgit commit -m &quot;first commit&quot;git remote add origin https://git.coding.net/xxxxxxx/Helloworld.gitgit push -u origin master]]></content>
