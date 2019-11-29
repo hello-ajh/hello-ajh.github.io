@@ -274,6 +274,756 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/11/JavaScript——arguments/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/11/JavaScript——arguments/" itemprop="url">JavaScript——arguments</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T21:58:47+08:00">
+                2019-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="JavaScript——arguments"><a href="#JavaScript——arguments" class="headerlink" title="JavaScript——arguments"></a>JavaScript——arguments</h3><blockquote>
+<p>在调用函数时，浏览器每次都会传递进两个隐含的参数：<br> 1.函数的上下文对象this<br> 2.封装实参的对象arguments<br>     - arguments是一个类数组对象（类似数组的对象），<br>   也可以通过索引进行操作，<br>   通过arguments.length来获取长度<br>     - 在调用函数时，我们所传递的实参都会封装到arguments中，<br>     - 我们即使不定义形参，也可以通过arguments来使用实参，<br>   arguments[0]表示第一个参数<br>   arguments[1]表示第二个参数<br>     - 它里面有一个属性callee，对应当前正在执行的函数的对象</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function fun()&#123;</span><br><span class="line">    console.log(arguments.length);//2</span><br><span class="line">    console.log(arguments[0]+&quot;~~&quot;+arguments[1]);//1~~2</span><br><span class="line">    console.log(arguments.callee);//function fun()&#123;console...&#125;</span><br><span class="line">&#125;</span><br><span class="line">fun(1, 2);</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/11/JavaScript——this/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/11/JavaScript——this/" itemprop="url">JavaScript——this</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T21:36:47+08:00">
+                2019-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="JavaScript——this"><a href="#JavaScript——this" class="headerlink" title="JavaScript——this"></a>JavaScript——this</h3><blockquote>
+<p>JavaScript中的上下文对象this，是由调用的对象决定的</p>
+</blockquote>
+<h4 id="以函数的形式调用，this就是window"><a href="#以函数的形式调用，this就是window" class="headerlink" title="以函数的形式调用，this就是window"></a>以函数的形式调用，this就是window</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function fun()&#123;</span><br><span class="line">	console.log(this.name);</span><br><span class="line">&#125;</span><br><span class="line">fun();</span><br><span class="line">//以函数的形式调用，this就是window</span><br><span class="line">//由于没有全局变量name，所以没有输出</span><br></pre></td></tr></table></figure>
+
+<h4 id="以方法的形式调用，this就是调用方法的对象"><a href="#以方法的形式调用，this就是调用方法的对象" class="headerlink" title="以方法的形式调用，this就是调用方法的对象"></a>以方法的形式调用，this就是调用方法的对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//创建一个对象</span><br><span class="line">var obj = &#123;</span><br><span class="line">	name:&quot;孙悟空&quot;,</span><br><span class="line">	sayName:function () &#123;</span><br><span class="line">		console.log(this.name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">//以方法形式调用this,this指向调用方法的对象</span><br><span class="line">	obj.sayName();</span><br><span class="line">//输出“孙悟空”</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/10/markdown编辑器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/10/markdown编辑器/" itemprop="url">markdown编辑器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-10T13:43:26+08:00">
+                2019-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/markdown/" itemprop="url" rel="index">
+                    <span itemprop="name">markdown</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="markdown编辑器（兼容github的markdown语法）"><a href="#markdown编辑器（兼容github的markdown语法）" class="headerlink" title="markdown编辑器（兼容github的markdown语法）"></a>markdown编辑器（兼容github的markdown语法）</h3><hr>
+<blockquote>
+<h4 id="Typora（本地markdown编辑器）"><a href="#Typora（本地markdown编辑器）" class="headerlink" title="Typora（本地markdown编辑器）"></a>Typora（本地markdown编辑器）</h4></blockquote>
+<p><img src="/images/Typora%E7%BC%96%E8%BE%91%E5%99%A8.png" alt="csrf白名单"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/09/laravel-csrf白名单/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/09/laravel-csrf白名单/" itemprop="url">laravel_csrf白名单</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-09T16:44:05+08:00">
+                2019-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/laravel/" itemprop="url" rel="index">
+                    <span itemprop="name">laravel</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="laravel-csrf白名单"><a href="#laravel-csrf白名单" class="headerlink" title="laravel_csrf白名单"></a>laravel_csrf白名单</h3><hr>
+<p>laravel中如何添加路由白名单？</p>
+<blockquote>
+<p>在<code>app\Http\Middleware\VerifyCsrfToken.php</code>中添加要作为排除csrf检测的路由</p>
+</blockquote>
+<p><img src="/images/laravel/csrf%E7%99%BD%E5%90%8D%E5%8D%95.png" alt="csrf白名单"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/07/24/Fontello免费图标/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/24/Fontello免费图标/" itemprop="url">Fontello免费图标</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-24T16:18:33+08:00">
+                2019-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/免费图标/" itemprop="url" rel="index">
+                    <span itemprop="name">免费图标</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Fontello免费图标"><a href="#Fontello免费图标" class="headerlink" title="Fontello免费图标"></a>Fontello免费图标</h3><hr>
+<h4 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h4><p><a href="http://fontello.com/" title="fontello.com" target="_blank" rel="noopener">fontello</a></p>
+<hr>
+<h4 id="选择图标"><a href="#选择图标" class="headerlink" title="选择图标"></a>选择图标</h4><p>直接点击想要的图标即可选中，也可以用鼠标拖动进行多选</p>
+<blockquote>
+</blockquote>
+<p><img src="/images/fontello/Fontello.png" alt="多选图标"></p>
+<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><blockquote>
+</blockquote>
+<p><img src="/images/fontello/Fontello%E4%B8%8B%E8%BD%BD.png" alt="下载"></p>
+<hr>
+<h4 id="本地使用"><a href="#本地使用" class="headerlink" title="本地使用"></a>本地使用</h4><p>将下载下来的压缩包解压并复制到网站的public目录下，然后引入fontello.css</p>
+<blockquote>
+</blockquote>
+<p><img src="/images/fontello/public%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt="public目录"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;../css/fontello.css&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="图标展示"><a href="#图标展示" class="headerlink" title="图标展示"></a>图标展示</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;i class=&quot;icon-emo-happy&quot;&gt;&lt;/i&gt;</span><br></pre></td></tr></table></figure>
+
+<p>class格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">icon-name</span><br><span class="line">name就是Fontello官网上的name</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/07/24/Jquery实现返回顶部按钮/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -802,7 +1552,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
