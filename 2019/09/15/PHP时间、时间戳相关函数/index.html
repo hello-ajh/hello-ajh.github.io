@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="PHP格式化时间戳date() 在PHP中，time()或$_SERVER[‘REQUEST_TIME’]都表示当前时间的时间戳  date(string $format [, int $timestamp ])1date(&amp;apos;Y-m-d H:i:s&amp;apos;, $_SERVER[&amp;apos;REQUEST_TIME&amp;apos;])     format字符 说明 返回值例子    日">
+<meta name="description" content="时区设置时区date_default_timezone_set(&amp;#39;Asia/shanghai&amp;#39;) 获取当前默认时区date_default_timezone_get() 获取当前的unix时间戳time() 获取指定时期时间戳mktime()  mktime()函数可以对一个日期和时间获得一个本地化时间戳。语法格式：int mktime (int $hour [, int $min">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP格式化时间戳date()">
-<meta property="og:url" content="http://yuban0416.com/2019/09/15/PHP格式化时间戳date()/index.html">
+<meta property="og:title" content="PHP时间、时间戳相关函数">
+<meta property="og:url" content="http://yuban0416.com/2019/09/15/PHP时间、时间戳相关函数/index.html">
 <meta property="og:site_name" content="御坂0416的博客">
-<meta property="og:description" content="PHP格式化时间戳date() 在PHP中，time()或$_SERVER[‘REQUEST_TIME’]都表示当前时间的时间戳  date(string $format [, int $timestamp ])1date(&amp;apos;Y-m-d H:i:s&amp;apos;, $_SERVER[&amp;apos;REQUEST_TIME&amp;apos;])     format字符 说明 返回值例子    日">
+<meta property="og:description" content="时区设置时区date_default_timezone_set(&amp;#39;Asia/shanghai&amp;#39;) 获取当前默认时区date_default_timezone_get() 获取当前的unix时间戳time() 获取指定时期时间戳mktime()  mktime()函数可以对一个日期和时间获得一个本地化时间戳。语法格式：int mktime (int $hour [, int $min">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-15T05:42:16.961Z">
+<meta property="og:updated_time" content="2019-12-03T10:59:36.878Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP格式化时间戳date()">
-<meta name="twitter:description" content="PHP格式化时间戳date() 在PHP中，time()或$_SERVER[‘REQUEST_TIME’]都表示当前时间的时间戳  date(string $format [, int $timestamp ])1date(&amp;apos;Y-m-d H:i:s&amp;apos;, $_SERVER[&amp;apos;REQUEST_TIME&amp;apos;])     format字符 说明 返回值例子    日">
+<meta name="twitter:title" content="PHP时间、时间戳相关函数">
+<meta name="twitter:description" content="时区设置时区date_default_timezone_set(&amp;#39;Asia/shanghai&amp;#39;) 获取当前默认时区date_default_timezone_get() 获取当前的unix时间戳time() 获取指定时期时间戳mktime()  mktime()函数可以对一个日期和时间获得一个本地化时间戳。语法格式：int mktime (int $hour [, int $min">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yuban0416.com/2019/09/15/PHP格式化时间戳date()/">
+  <link rel="canonical" href="http://yuban0416.com/2019/09/15/PHP时间、时间戳相关函数/">
 
 
 
 
 
-  <title>PHP格式化时间戳date() | 御坂0416的博客</title>
+  <title>PHP时间、时间戳相关函数 | 御坂0416的博客</title>
   
 
 
@@ -274,7 +274,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/09/15/PHP格式化时间戳date()/">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/09/15/PHP时间、时间戳相关函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="御坂0416">
@@ -291,7 +291,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">PHP格式化时间戳date()</h1>
+          <h1 class="post-title" itemprop="name headline">PHP时间、时间戳相关函数</h1>
         
 
         <div class="post-meta">
@@ -363,7 +363,34 @@
       
 
       
-        <h3 id="PHP格式化时间戳date"><a href="#PHP格式化时间戳date" class="headerlink" title="PHP格式化时间戳date()"></a>PHP格式化时间戳date()</h3><blockquote>
+        <h4 id="时区"><a href="#时区" class="headerlink" title="时区"></a>时区</h4><h5 id="设置时区"><a href="#设置时区" class="headerlink" title="设置时区"></a>设置时区</h5><p><code>date_default_timezone_set(&#39;Asia/shanghai&#39;)</code></p>
+<h5 id="获取当前默认时区"><a href="#获取当前默认时区" class="headerlink" title="获取当前默认时区"></a>获取当前默认时区</h5><p><code>date_default_timezone_get()</code></p>
+<h5 id="获取当前的unix时间戳"><a href="#获取当前的unix时间戳" class="headerlink" title="获取当前的unix时间戳"></a>获取当前的unix时间戳</h5><p><code>time()</code></p>
+<h4 id="获取指定时期时间戳"><a href="#获取指定时期时间戳" class="headerlink" title="获取指定时期时间戳"></a>获取指定时期时间戳</h4><p><code>mktime()</code></p>
+<blockquote>
+<p>mktime()函数可以对一个日期和时间获得一个本地化时间戳。<br>语法格式：<br>int mktime (int $hour [, int $minute [, int $second [, int $month [, int $day [. int$year [, int $.is_dstl.l } ] ] 31 )<br>函数的参数分别表示：时、分、秒、月、日、年、是否为夏令时。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mktime函数的返回结果是一个Unix时间戳，对用户的含义不大，常常与date函数一起完成时间的转换。</span><br><span class="line">//获取当前时间时间戳，并转化为&quot;2019-12-02 16:16:46&quot;这种格式</span><br><span class="line">echo date(&quot;Y-m-d H:i:s&quot;).&quot;&lt;br&gt;&quot;;</span><br><span class="line">//获取今天的10:15:35的时间戳，并转化为&quot;2019-12-02 16:16:46&quot;这种格式</span><br><span class="line">echo date(&quot;Y-m-d H:i:s&quot;,mktime(10,15,35,date(&quot;m&quot;),date(&quot;d&quot;),date(&quot;Y&quot;))).&quot;&lt;br&gt;&quot;;</span><br><span class="line">//获取30天前的10:15:35的时间戳，并转化为&quot;2019-12-02 16:16:46&quot;这种格式</span><br><span class="line">echo date(&quot;Y-m-d H:i:s&quot;,mktime(10,15,35,date(&quot;m&quot;),date(&quot;d&quot;)-30,date(&quot;Y&quot;))).&quot;&lt;br&gt;&quot;;</span><br></pre></td></tr></table></figure>
+
+<p><code>strtotime()【效率比mktime()高】</code></p>
+<blockquote>
+<p>它的语法格式如下：<br>int strtotime ( string $time [, int $now = time() ] )<br>它能将将英文文本的日期时间描述解析为 Unix 时间戳。<br>参数：<br>1.传入一个字符串的时间<br>2.可选参数为是否传入unix时间戳，如果不传则是当前的unix时间戳。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//now为现在的当前时间</span><br><span class="line">echo strtotime(&quot;now&quot;).&quot;&lt;br /&gt;&quot;;</span><br><span class="line">//2000年9月10日</span><br><span class="line">echo strtotime(&quot;10 September 2000&quot;).&quot;&lt;br /&gt;&quot;;</span><br><span class="line">//当前时间加一天</span><br><span class="line">echo strtotime(&quot;+1 day&quot;).&quot;&lt;br /&gt;&quot;;</span><br><span class="line">//当前时间加一周</span><br><span class="line">echo strtotime(&quot;+1 week&quot;).&quot;&lt;br /&gt;&quot;;</span><br><span class="line">//当前时间加一周2天4小时2秒</span><br><span class="line">echo strtotime(&quot;+1 week 2 days 4 hours 2 seconds&quot;).&quot;&lt;br /&gt;&quot;;</span><br><span class="line">//下一个星期四</span><br><span class="line">echo strtotime(&quot;next Thursday&quot;).&quot;&lt;br /&gt;&quot;;</span><br><span class="line">//上一个星期一</span><br><span class="line">echo strtotime(&quot;last Monday&quot;).&quot;&lt;br /&gt;&quot;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="获取当前系统时间"><a href="#获取当前系统时间" class="headerlink" title="获取当前系统时间"></a>获取当前系统时间</h5><p><code>getdate()</code></p>
+<blockquote>
+<p>getdate()用来获取当前系统的时间，或者获得一个时间戳的具体含义。<br>时间戳是一个长整数，表示getdate的语法格式如下所示。<br>array getdate ([ int $timestamp = time() ] )<br>函数的返回值是一个根据timestamp得到的包含有时间信息的数组。如果没有参数，则会返回当前的时间。<br>getdate返回的数组，键名包括时间和日期的完整信息。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">[seconds] =&gt; 1 //秒</span><br><span class="line">[minutes] =&gt; 10 //分钟</span><br><span class="line">[hours] =&gt; 17 //小时</span><br><span class="line">[mday] =&gt; 18 //日</span><br><span class="line">[wday] =&gt; 0 //星期中的第几天</span><br><span class="line">[mon] =&gt; 1 //月</span><br><span class="line">[year] =&gt; 2015 //年</span><br><span class="line">[yday] =&gt; 17 //年中的第几天</span><br><span class="line">[weekday] =&gt; Sunday //星期</span><br><span class="line">[month] =&gt; January //月份</span><br><span class="line">[0] =&gt; 1421597401 //时间戳</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="日期验证函数"><a href="#日期验证函数" class="headerlink" title="日期验证函数"></a>日期验证函数</h4><p><code>checkdate()</code></p>
+<blockquote>
+<p>checkdate()可以判断一个输出的日期是否有效。<br>在实际的工作中，我们需要经常用于检测常用于用户提交表单的数据验证。<br>例如：验证用户输入的时间是否正确。<br>函数的语法格式如下：<br>bool checkdate ( int $month , int $day , int $year )</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">checkdate(12, 31, 2018)//True</span><br><span class="line">checkdate(2, 29, 2011)//False,因为2011年2月没有29号，所以为False</span><br></pre></td></tr></table></figure>
+
+<h4 id="格式化时间戳date"><a href="#格式化时间戳date" class="headerlink" title="格式化时间戳date()"></a>格式化时间戳date()</h4><blockquote>
 <p>在PHP中，time()或$_SERVER[‘REQUEST_TIME’]<br>都表示当前时间的时间戳</p>
 </blockquote>
 <h4 id="date-string-format-int-timestamp"><a href="#date-string-format-int-timestamp" class="headerlink" title="date(string $format [, int $timestamp ])"></a>date(string $format [, int $timestamp ])</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date(&apos;Y-m-d H:i:s&apos;, $_SERVER[&apos;REQUEST_TIME&apos;])</span><br></pre></td></tr></table></figure>
@@ -712,7 +739,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -758,7 +785,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP格式化时间戳date"><span class="nav-number">1.</span> <span class="nav-text">PHP格式化时间戳date()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#date-string-format-int-timestamp"><span class="nav-number">1.1.</span> <span class="nav-text">date(string $format [, int $timestamp ])</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#时区"><span class="nav-number">1.</span> <span class="nav-text">时区</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#设置时区"><span class="nav-number">1.1.</span> <span class="nav-text">设置时区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#获取当前默认时区"><span class="nav-number">1.2.</span> <span class="nav-text">获取当前默认时区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#获取当前的unix时间戳"><span class="nav-number">1.3.</span> <span class="nav-text">获取当前的unix时间戳</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取指定时期时间戳"><span class="nav-number">2.</span> <span class="nav-text">获取指定时期时间戳</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#获取当前系统时间"><span class="nav-number">2.1.</span> <span class="nav-text">获取当前系统时间</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日期验证函数"><span class="nav-number">3.</span> <span class="nav-text">日期验证函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#格式化时间戳date"><span class="nav-number">4.</span> <span class="nav-text">格式化时间戳date()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#date-string-format-int-timestamp"><span class="nav-number">5.</span> <span class="nav-text">date(string $format [, int $timestamp ])</span></a></li></ol></div>
             
 
           </div>
