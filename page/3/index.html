@@ -274,6 +274,1573 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/09/06/Git由于远程仓库比较新而无法推送上去/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/06/Git由于远程仓库比较新而无法推送上去/" itemprop="url">Git由于远程仓库比较新而无法推送上去</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-06T15:23:11+08:00">
+                2019-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Git由于远程仓库比较新而无法推送上去"><a href="#Git由于远程仓库比较新而无法推送上去" class="headerlink" title="Git由于远程仓库比较新而无法推送上去"></a>Git由于远程仓库比较新而无法推送上去</h3><p>偶尔在执行推指令的时候会出现这个错误讯息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git push</span><br><span class="line">To https://github.com/hello-ajh/ceshi.git</span><br><span class="line"> ! [rejected]        master -&gt; master (fetch first)</span><br><span class="line">error: failed to push some refs to &apos;https://github.com/hello-ajh/ceshi.git&apos;</span><br><span class="line">hint: Updates were rejected because the remote contains work that you do</span><br><span class="line">hint: not have locally. This is usually caused by another repository pushing</span><br><span class="line">hint: to the same ref. You may want to first integrate the remote changes</span><br><span class="line">hint: (e.g., &apos;git pull ...&apos;) before pushing again.</span><br><span class="line">hint: See the &apos;Note about fast-forwards&apos; in &apos;git push --help&apos; for details.</span><br></pre></td></tr></table></figure>
+
+<p>这段讯息的意思是线上版本的内容比你电脑里这份还要新，所以Git不让你推上去。</p>
+<hr>
+<h4 id="怎么造成的？"><a href="#怎么造成的？" class="headerlink" title="怎么造成的？"></a>怎么造成的？</h4><blockquote>
+<p>多人一起开发时：</p>
+<p>1、Sherly跟Eddie两个人在差不多的时间都从Git Server上拉了一份资料下来准备进行开发。</p>
+<p>2、Sherly手脚比较快，先完成了，于是先把做好的成果推一份上去。</p>
+<p>3、Eddie不久后也完成了，但当他要推上去的时候发现推不上去了……</p>
+<p>单人开发时：</p>
+<p>1、执行git clone，从远程仓库克隆仓库到本地，此时可以正常推上去</p>
+<p>2、此时在远程仓库处新增一个任意文件，就会发现无法推上去</p>
+</blockquote>
+<h2 id="总结：本地仓库在push之前，远程仓库有过（文件、代码）更新，就会出现无法推送的情况"><a href="#总结：本地仓库在push之前，远程仓库有过（文件、代码）更新，就会出现无法推送的情况" class="headerlink" title="总结：本地仓库在push之前，远程仓库有过（文件、代码）更新，就会出现无法推送的情况"></a>总结：本地仓库在push之前，远程仓库有过（文件、代码）更新，就会出现无法推送的情况</h2><hr>
+<h4 id="怎么解决？"><a href="#怎么解决？" class="headerlink" title="怎么解决？"></a>怎么解决？</h4><h4 id="方法一：先拉再推"><a href="#方法一：先拉再推" class="headerlink" title="方法一：先拉再推"></a>方法一：先拉再推</h4><p>因为你电脑里的内容是比较旧的，所以你应该先拉一份线上版本回来更新，然后再推一次</p>
+<blockquote>
+<p><code>git pull</code></p>
+<p>此命令会将拉取远程仓库的更新并与本地分支进行合并</p>
+<p>例子1：远程仓库比本地仓库多了一个文件“123.txt”，执行上述命令会将“123.txt”克隆到本地仓库</p>
+<p>例子2：远程仓库和本地仓库的文件一致，但是同一个文件“123.txt”里面的内容不一致，执行上述命令会将本地的“123.txt”的内容修改为远程仓库的“123.txt”的内容</p>
+</blockquote>
+<p>合并如果没发生，接着就可以推送了</p>
+<h4 id="方法二：强制推送（覆盖）（不推荐）"><a href="#方法二：强制推送（覆盖）（不推荐）" class="headerlink" title="方法二：强制推送（覆盖）（不推荐）"></a>方法二：强制推送（覆盖）（不推荐）</h4><blockquote>
+<p><code>git push -f</code></p>
+<p>添加-f会强制推送至远程分支，并且清空所有的提交历史，相当于删除远程仓库，在创建一个新的同名远程仓库，在推送上去。</p>
+<p>此命令会覆盖远程仓库的新内容</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/09/05/Git添加远程仓库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/05/Git添加远程仓库/" itemprop="url">Git添加远程仓库</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-05T18:03:23+08:00">
+                2019-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="Git添加远程仓库"><a href="#Git添加远程仓库" class="headerlink" title="Git添加远程仓库"></a>Git添加远程仓库</h4><hr>
+<h4 id="初始化本地git项目"><a href="#初始化本地git项目" class="headerlink" title="初始化本地git项目"></a>初始化本地git项目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="添加文件和注释"><a href="#添加文件和注释" class="headerlink" title="添加文件和注释"></a>添加文件和注释</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;注释内容&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在add要注意一个地方，如果文件有不需要上传的地方或者较大的文件不需要不好上传可以忽略掉，这就可以在<strong>.gitignore</strong>文件里面设置</p>
+<blockquote>
+<p>以’#’ 开始的行为注释.<br>忽略掉所有文件名是 test.txt 的文件.<br>test.txt<br>忽略build文件夹<br>build<br>忽略所有生成的备份文件<br><em>.</em>~<br>忽略所有.o 和 .a文件.<br>*.[oa]</p>
+</blockquote>
+<hr>
+<h4 id="链接远程仓库"><a href="#链接远程仓库" class="headerlink" title="链接远程仓库"></a>链接远程仓库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin  【仓库地址】</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="更新代码"><a href="#更新代码" class="headerlink" title="更新代码"></a>更新代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin master --allow-unrelated-histories</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>因为他们是两个不同的项目，要把两个不同的项目合并，git需要添加一句代码<strong>git pull</strong>，这句代码是在git 2.9.2版本发生的，最新的版本需要添加–allow-unrelated-histories<br>假如我们的源是origin，分支是master，那么我们 需要这样写git pull origin master —-allow-unrelated-histories需要知道，我们的源可以是本地的路径。</p>
+</blockquote>
+<hr>
+<h4 id="push至git仓库"><a href="#push至git仓库" class="headerlink" title="push至git仓库"></a>push至git仓库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --set-upstream origin master</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="全部过程实例："><a href="#全部过程实例：" class="headerlink" title="全部过程实例："></a>全部过程实例：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir Helloworld</span><br><span class="line">cd Helloworld</span><br><span class="line">git init</span><br><span class="line">echo &quot;# Helloworld&quot; &gt;&gt; README.md</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git remote add origin https://git.coding.net/xxxxxxx/Helloworld.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/09/05/CSS相对定位和绝对定位/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/05/CSS相对定位和绝对定位/" itemprop="url">CSS相对定位和绝对定位</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-05T17:42:59+08:00">
+                2019-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="CSS：相对定位（position：relative）和绝对定位（position：absolute）"><a href="#CSS：相对定位（position：relative）和绝对定位（position：absolute）" class="headerlink" title="CSS：相对定位（position：relative）和绝对定位（position：absolute）"></a>CSS：相对定位（position：relative）和绝对定位（position：absolute）</h3><hr>
+<blockquote>
+<p>ps：通常情况下，我们元素的position属性的值默认为static 就是没有定位，元素出现在正常的文档流中，这个时候你给这个元素设置的left,right,bottom,top这些偏移属性都是没有效果的，不会生效，比如你设置一个距离左边距偏移100px的声明：left:100px 那么这条声明不会起到任何效果。还有z-index属性在这时也不会生效。</p>
+</blockquote>
+<hr>
+<h4 id="相对定位（relative）"><a href="#相对定位（relative）" class="headerlink" title="相对定位（relative）"></a>相对定位（relative）</h4><blockquote>
+<p><strong>元素相对于自身进行定位（自身为参照物）</strong></p>
+</blockquote>
+<blockquote>
+<p>1、元素会出现在文档流中它该出现的位置</p>
+<p>2、我们可以设置它的水平或垂直偏移量，让这个元素相对于它在文档流中的位置的起始点进行移动</p>
+<p>3、在使用相对定位时，就算元素被偏移了，但是他仍然占据着它没偏移前的空间</p>
+</blockquote>
+<hr>
+<h4 id="绝对定位（absolute）"><a href="#绝对定位（absolute）" class="headerlink" title="绝对定位（absolute）"></a>绝对定位（absolute）</h4><blockquote>
+<p><strong>元素相对于设置了除static定位之外的定位（比如position:relative）的第一个祖先元素进行定位，没有这样的祖先元素则相对于body进行定位（并非窗口,相对于窗口定位的是fixed）（祖先元素为参照物）</strong></p>
+</blockquote>
+<blockquote>
+<p>1、被设置了绝对定位的元素，在文档流中是不占据空间的</p>
+<p>2、如果某元素设置了绝对定位，那么它在文档流中的位置会被删除</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>如果某元素设置了绝对定位，那么它在文档流中的位置会被删除，那这个元素到哪去了呢？它浮了起来，其实设置了相对定位relative时也会让该 元素浮起来，但它们的不同点在于，相对对定位不会删除它本身在文档流中占据的那块空间，而绝对定位则会删除掉该元素在文档流中的位置，完全从文档流中抽了出来</strong></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/27/Laravel-DB类操作数据库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/27/Laravel-DB类操作数据库/" itemprop="url">Laravel-DB类操作数据库</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T22:49:24+08:00">
+                2019-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/laravel/" itemprop="url" rel="index">
+                    <span itemprop="name">laravel</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="DB类操作数据库"><a href="#DB类操作数据库" class="headerlink" title="DB类操作数据库"></a>DB类操作数据库</h3><hr>
+<blockquote>
+<p><strong>模型在控制器中的调用</strong></p>
+<p>引入DB门面（Facades）：use DB;</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>执行数据库操作之前需要先指定需要操作的数据表</strong></p>
+<p> <code>$db = DB::table(&#39;member&#39;);</code></p>
+</blockquote>
+<hr>
+<h4 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h4><hr>
+<h5 id="增加操作"><a href="#增加操作" class="headerlink" title="增加操作"></a>增加操作</h5><blockquote>
+<p>1.insert可以同时增加多行，返回布尔类型，true or false</p>
+<p>2.insertGetId只能增加一行，但是自增的<strong>id</strong></p>
+<p><img src="/images/laravel/DB1.png" alt="DB1"></p>
+</blockquote>
+<hr>
+<h5 id="修改操作"><a href="#修改操作" class="headerlink" title="修改操作"></a>修改操作</h5><blockquote>
+<p><strong>where()-&gt;update();</strong></p>
+<p>返回值为受到影响的行数（修改了多少行）</p>
+<p><code>$db-&gt;where(&#39;id&#39;,&#39;1&#39;)-&gt;update([&#39;name&#39;=&gt;&#39;张三丰&#39;]);</code></p>
+</blockquote>
+<hr>
+<h5 id="查询操作"><a href="#查询操作" class="headerlink" title="查询操作"></a>查询操作</h5><blockquote>
+<p><strong>where()-&gt;get();</strong></p>
+<p><code>$db-&gt;where(&#39;id&#39;,&#39;&gt;&#39;.&#39;3&#39;)-&gt;get();</code></p>
+<p><strong>where使用方法：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">where()-&gt;where()-&gt;where()...     此语法为并且（and）关系</span><br><span class="line"></span><br><span class="line">where()-&gt;orWhere()-&gt;orWhere()...     此语法为或者（or）关系</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p><strong>first()方法：返回结果集的第一行数据</strong></p>
+<p><code>$db-&gt;get()-&gt;first();</code></p>
+<p>value()方法：返回具体某一个字段</p>
+<p><code>$db-&gt;where(&#39;id&#39;,&#39;&gt;&#39;.&#39;3&#39;)-&gt;value(&#39;name&#39;);</code></p>
+<p>select()方法：返回一个值或多个值</p>
+<p><code>$db-&gt;select(&#39;name&#39;,&#39;email&#39;)-&gt;where(&#39;id&#39;,&#39;1&#39;)-&gt;get();</code></p>
+<p>orderBy()方法：排序（<strong>desc</strong>降序，<strong>asc</strong>升序）</p>
+<p><code>$db-&gt;orderBy(&#39;age&#39;,&#39;desc&#39;)-&gt;get();</code></p>
+<p>分页操作：limit()和offset()</p>
+<blockquote>
+<p>limit表示每页的数量</p>
+<p>offset表示从第几条数据开始，0代表第一条数据</p>
+</blockquote>
+<p><code>$db-&gt;limit(2)-&gt;offset(0)-&gt;get();</code></p>
+</blockquote>
+<hr>
+<h5 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h5><blockquote>
+<p><code>$db-&gt;where(&#39;id&#39;,&#39;&lt;&#39;,&#39;4&#39;)-&gt;delete();</code></p>
+</blockquote>
+<hr>
+<h6 id="执行任意的SQL语句"><a href="#执行任意的SQL语句" class="headerlink" title="执行任意的SQL语句"></a>执行任意的SQL语句</h6><blockquote>
+<p>（1）执行任意的insert  update   delete 语句使用<strong>statement</strong></p>
+<p>【影响记录的语句使用<strong>statement</strong>语法】</p>
+<p>（2）执行任意的select语句使用<strong>select</strong></p>
+<p>【不影响记录的语句使用<strong>select</strong>语法】</p>
+<p><img src="/images/laravel/DB2.png" alt="DB2"></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/27/Laravel-Model操作数据库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/27/Laravel-Model操作数据库/" itemprop="url">Laravel-Model操作数据库</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T21:37:00+08:00">
+                2019-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/laravel/" itemprop="url" rel="index">
+                    <span itemprop="name">laravel</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Laravel-Model操作数据库"><a href="#Laravel-Model操作数据库" class="headerlink" title="Laravel-Model操作数据库"></a>Laravel-Model操作数据库</h3><hr>
+<blockquote>
+<p>位置：app目录下</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>命名规则：表名（首字母大写）.php</p>
+<p>example：<strong>Member.php|User.php|Goods.php</strong></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>创建模型：<code>php artisan make:model User</code></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>注意事项：</p>
+<p><img src="/images/laravel/model.png" alt="model"></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>模型在控制器中的调用</strong></p>
+<p>引入Member模型类：use App\Home\Member;</p>
+<p><img src="/images/laravel/model2.png" alt="model2"></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>模型的使用：</strong>模型在控制器中的使用方式有2种</p>
+<p>（1）直接像使用DB门面一样的操作方式，以调用静态方法为主的形式，该形势下模型不需要实例化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Member::get(); </span><br><span class="line">等价于</span><br><span class="line">DB::table(&apos;member&apos;)-&gt;get()</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>（2）实例化模型，然后去使用模型类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$model = new Member();</span><br><span class="line"></span><br><span class="line">$model-&gt;get();</span><br></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h4 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h4><hr>
+<h5 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h5><blockquote>
+<p>方式一：（save）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$model = new Member();</span><br><span class="line">$model-&gt;name = &apos;安佳豪&apos;;</span><br><span class="line">$model-&gt;age = &apos;20&apos;;</span><br><span class="line">...</span><br><span class="line">$model-&gt;save();</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>方式二：（create）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public function add(Request $request)&#123;</span><br><span class="line">    $model = new Member();</span><br><span class="line">    $model-&gt;create($request-&gt;all());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h5 id="查询操作"><a href="#查询操作" class="headerlink" title="查询操作"></a>查询操作</h5><blockquote>
+<p>获取一条数据：find()<strong>返回一个对象</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$data = Member::find($id);</span><br><span class="line">echo $data-&gt;name;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>toArray()可以将对象转化为数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$data = Member::find($id)-&gt;toArray();</span><br><span class="line">echo $data[&apos;name&apos;];</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>获取符合指定条件的第一条记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Member::where(&apos;id&apos;,&apos;&gt;&apos;,&quot;4&quot;)-&gt;first();</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>获取符合指定条件的所有记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Member::where(&apos;id&apos;,&apos;&gt;&apos;,&apos;5&apos;)-&gt;get();</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>获取指定字段的所有记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Member::select(&apos;name&apos;,&apos;age&apos;)-&gt;get();</span><br><span class="line">Member::get([&apos;name&apos;,&apos;age&apos;]);</span><br><span class="line">Member::all([&apos;name&apos;,&apos;age&apos;]);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>ps：</p>
+<blockquote>
+<p>all（）方法相当于get（）方法，单独使用都是返回所有结果集</p>
+<p><strong>注意：all（）方法不支持连接其他的辅助查询方法，而get（）方法则没有这种限制</strong></p>
+<p>get（）方法在与其他辅助查询方式连接使用时，需要放在<strong>最后</strong></p>
+</blockquote>
+<hr>
+<h5 id="修改操作"><a href="#修改操作" class="headerlink" title="修改操作"></a>修改操作</h5><blockquote>
+<p>方式一：（save）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$user = User::find($id);</span><br><span class="line">$user-&gt;title = $_POST[&apos;title&apos;];</span><br><span class="line">$user-&gt;content = $_POST[&apos;content&apos;];</span><br><span class="line">$user-&gt;save();</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>方式二：（update）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Member::where(&apos;id&apos;,&apos;7&apos;)-&gt;update([&apos;age&apos;=&gt;&apos;38&apos;]);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h5 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h5><blockquote>
+<p>方式一：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$user = User::find($id);</span><br><span class="line">$user-&gt;delete();</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>方式二：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Member::where(&apos;id&apos;,&apos;9&apos;)-&gt;delete();</span><br></pre></td></tr></table></figure>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/27/Laravel填充文件找不到的问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/27/Laravel填充文件找不到的问题/" itemprop="url">Laravel填充文件找不到的问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T21:34:34+08:00">
+                2019-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/laravel/" itemprop="url" rel="index">
+                    <span itemprop="name">laravel</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Laravel填充文件找不到的问题"><a href="#Laravel填充文件找不到的问题" class="headerlink" title="Laravel填充文件找不到的问题"></a>Laravel填充文件找不到的问题</h3><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">php artisan db:seed --class=BlogTableSeeder</span><br><span class="line"></span><br><span class="line">  ReflectionException  : Class BlogTableSeeder does not exist</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>填充文件在存在的情况下找不到的原因：</p>
+<p>composer.json未自动加载这个种子文件</p>
+</blockquote>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><blockquote>
+<p>执行：<code>composer dumpautoload</code></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/24/Jquery或Js获取元素data-属性/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/24/Jquery或Js获取元素data-属性/" itemprop="url">Jquery或Js获取元素data-*属性</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-24T23:02:15+08:00">
+                2019-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Jquery/" itemprop="url" rel="index">
+                    <span itemprop="name">Jquery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Jquery或Js获取元素data-属性"><a href="#Jquery或Js获取元素data-属性" class="headerlink" title="Jquery或Js获取元素data-*属性"></a>Jquery或Js获取元素data-*属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;li id=&quot;getId&quot; data-id=&quot;123&quot; data-vice-id=&quot;11&quot;&gt;获取id&lt;/li&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="Js：getAttribute-setAttribute-【操作DOM元素属性】"><a href="#Js：getAttribute-setAttribute-【操作DOM元素属性】" class="headerlink" title="Js：getAttribute()/setAttribute()【操作DOM元素属性】"></a>Js：getAttribute()/setAttribute()【操作DOM元素属性】</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let li = document.getElementById(&apos;getId&apos;);</span><br><span class="line"></span><br><span class="line">//取值</span><br><span class="line">//getAttribute()获取属性</span><br><span class="line">console.log(li.getAttribute(&apos;data-id&apos;));//123</span><br><span class="line">console.log(li.getAttribute(&apos;data-vice-id&apos;));//11</span><br><span class="line"></span><br><span class="line">//赋值</span><br><span class="line">//serAttribute()赋值属性</span><br><span class="line">li.setAttribute(&apos;data-id&apos;, &apos;234&apos;);</span><br><span class="line">console.log(li.getAttribute(&apos;data-id&apos;));//234</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="Js：dataset【操作DOM元素dataset】"><a href="#Js：dataset【操作DOM元素dataset】" class="headerlink" title="Js：dataset【操作DOM元素dataset】"></a>Js：dataset【操作DOM元素dataset】</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//取值</span><br><span class="line">//data-id通过id获取</span><br><span class="line">console.log(li.dataset.id);//123</span><br><span class="line">//data-vice-id通过viceId获取，（使用驼峰命名法取值）</span><br><span class="line">console.log(li.dataset.viceId);//11</span><br><span class="line"></span><br><span class="line">//赋值</span><br><span class="line">li.dataset.id = &apos;234&apos;;//234</span><br><span class="line">li.dataset.viceId = &apos;22&apos;;//22</span><br><span class="line"></span><br><span class="line">//新增data属性</span><br><span class="line">li.dataset.id2 = &apos;100&apos;;//100</span><br><span class="line"></span><br><span class="line">//删除data属性，（设置data为null，或者delete）</span><br><span class="line">li.dataset.id2 = null;//null</span><br><span class="line">delete li.dataset.id2;//undefind</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="Jquery-data-【操作DOM元素dataset】"><a href="#Jquery-data-【操作DOM元素dataset】" class="headerlink" title="Jquery data()【操作DOM元素dataset】"></a>Jquery data()【操作DOM元素dataset】</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//取值</span><br><span class="line">let id = $(&apos;#getId&apos;).data(&apos;id&apos;);//123</span><br><span class="line">let id = $(&apos;#getId&apos;).data(&apos;vice-id&apos;);//11</span><br><span class="line"></span><br><span class="line">//赋值</span><br><span class="line">$(&apos;#getId&apos;).data(&apos;id&apos;, &apos;100&apos;);//100</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：</p>
+<p><strong>使用Jquery的data()方法修改的data-*属性不会影响到DOM元素上（即不会改变HTML代码），但是修改依旧有效，此时输出data属性也会是修改后的data属性，data()的本质其实是将一个 “cache” 附加到了对象上，并使用了一个特殊的属性名称。</strong></p>
+</blockquote>
+<hr>
+<h4 id="Jquery-attr-【操作DOM元素属性】"><a href="#Jquery-attr-【操作DOM元素属性】" class="headerlink" title="Jquery attr()【操作DOM元素属性】"></a>Jquery attr()【操作DOM元素属性】</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//取值</span><br><span class="line">let id = $(&apos;#getId&apos;).attr(&apos;data-id&apos;);//123</span><br><span class="line">let viceId = $(&apos;#getId&apos;).attr(&apos;data-vice-id&apos;);//11</span><br><span class="line"></span><br><span class="line">//赋值</span><br><span class="line">$(&apos;#getId&apos;).attr(&apos;data-id&apos;, &apos;100&apos;);//100</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/23/laravel项目安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/23/laravel项目安装/" itemprop="url">laravel项目安装</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-23T16:06:00+08:00">
+                2019-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/laravel/" itemprop="url" rel="index">
+                    <span itemprop="name">laravel</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="laravel安装"><a href="#laravel安装" class="headerlink" title="laravel安装"></a>laravel安装</h3><hr>
+<h4 id="安装composer"><a href="#安装composer" class="headerlink" title="安装composer"></a>安装composer</h4><p><a href="https://getcomposer.org/" target="_blank" rel="noopener">composer</a></p>
+<hr>
+<h4 id="安装PHP"><a href="#安装PHP" class="headerlink" title="安装PHP"></a>安装PHP</h4><blockquote>
+<p>需要满足以下要求</p>
+<ul>
+<li>PHP &gt;= 7.1.3</li>
+<li>OpenSSL PHP 拓展</li>
+<li>PDO PHP 拓展</li>
+<li>Mbstring PHP 拓展</li>
+<li>Tokenizer PHP 拓展</li>
+<li>XML PHP 拓展</li>
+<li>Ctype PHP 拓展</li>
+<li>JSON PHP 拓展</li>
+<li>BCMath PHP 拓展</li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h4><hr>
+<h4 id="安装apache或nginx"><a href="#安装apache或nginx" class="headerlink" title="安装apache或nginx"></a>安装apache或nginx</h4><hr>
+<h4 id="安装nodejs，自带npm"><a href="#安装nodejs，自带npm" class="headerlink" title="安装nodejs，自带npm"></a>安装nodejs，自带npm</h4><p><a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">nodejs</a></p>
+<hr>
+<h4 id="安装laravel，通过composer安装"><a href="#安装laravel，通过composer安装" class="headerlink" title="安装laravel，通过composer安装"></a>安装laravel，通过composer安装</h4><p><code>composer global require laravel/installer</code></p>
+<hr>
+<h4 id="创建laravel项目"><a href="#创建laravel项目" class="headerlink" title="创建laravel项目"></a>创建laravel项目</h4><blockquote>
+<p><code>laravel new blog</code></p>
+<p>或</p>
+<p><code>composer create-project --prefer-dist laravel/laravel blog</code></p>
+</blockquote>
+<hr>
+<h4 id="启动PHP内置服务"><a href="#启动PHP内置服务" class="headerlink" title="启动PHP内置服务"></a>启动PHP内置服务</h4><blockquote>
+<p><code>php artisan serve</code></p>
+<p><strong>该命令会在 <code>http://localhost:8000</code> 上启动服务器</strong></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/23/laravel数据库填充/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/23/laravel数据库填充/" itemprop="url">laravel数据库填充</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-23T15:29:10+08:00">
+                2019-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/laravel/" itemprop="url" rel="index">
+                    <span itemprop="name">laravel</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="laravel数据库填充"><a href="#laravel数据库填充" class="headerlink" title="laravel数据库填充"></a>laravel数据库填充</h3><hr>
+<h4 id="创建填充"><a href="#创建填充" class="headerlink" title="创建填充"></a>创建填充</h4><p><code>php artisan make:seeder UserTableSeeder</code></p>
+<hr>
+<h4 id="运行填充"><a href="#运行填充" class="headerlink" title="运行填充"></a>运行填充</h4><blockquote>
+<h5 id="执行单个填充"><a href="#执行单个填充" class="headerlink" title="执行单个填充"></a>执行单个填充</h5><p><code>php artisan db:seed --class=PaperTableSeeder</code></p>
+</blockquote>
+<blockquote>
+<h5 id="执行所有填充"><a href="#执行所有填充" class="headerlink" title="执行所有填充"></a>执行所有填充</h5><p><code>php artisan db:seed</code><br>该命令会运行<strong>DatabaseSeeder</strong>填充文件，可以在该文件中包含所有其他的填充文件，一次性运行</p>
+</blockquote>
+<hr>
+<h4 id="重建数据库，并重新执行填充"><a href="#重建数据库，并重新执行填充" class="headerlink" title="重建数据库，并重新执行填充"></a>重建数据库，并重新执行填充</h4><p><code>php artisan migrate:refresh --seed</code></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/23/laravel数据库迁移/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -415,1250 +1982,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/11/JavaScript——arguments/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/11/JavaScript——arguments/" itemprop="url">JavaScript——arguments</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T21:58:47+08:00">
-                2019-08-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="JavaScript——arguments"><a href="#JavaScript——arguments" class="headerlink" title="JavaScript——arguments"></a>JavaScript——arguments</h3><blockquote>
-<p>在调用函数时，浏览器每次都会传递进两个隐含的参数：<br> 1.函数的上下文对象this<br> 2.封装实参的对象arguments<br>     - arguments是一个类数组对象（类似数组的对象），<br>   也可以通过索引进行操作，<br>   通过arguments.length来获取长度<br>     - 在调用函数时，我们所传递的实参都会封装到arguments中，<br>     - 我们即使不定义形参，也可以通过arguments来使用实参，<br>   arguments[0]表示第一个参数<br>   arguments[1]表示第二个参数<br>     - 它里面有一个属性callee，对应当前正在执行的函数的对象</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function fun()&#123;</span><br><span class="line">    console.log(arguments.length);//2</span><br><span class="line">    console.log(arguments[0]+&quot;~~&quot;+arguments[1]);//1~~2</span><br><span class="line">    console.log(arguments.callee);//function fun()&#123;console...&#125;</span><br><span class="line">&#125;</span><br><span class="line">fun(1, 2);</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/11/JavaScript——this/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/11/JavaScript——this/" itemprop="url">JavaScript——this</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T21:36:47+08:00">
-                2019-08-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="JavaScript——this"><a href="#JavaScript——this" class="headerlink" title="JavaScript——this"></a>JavaScript——this</h3><blockquote>
-<p>JavaScript中的上下文对象this，是由调用的对象决定的</p>
-</blockquote>
-<h4 id="以函数的形式调用，this就是window"><a href="#以函数的形式调用，this就是window" class="headerlink" title="以函数的形式调用，this就是window"></a>以函数的形式调用，this就是window</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function fun()&#123;</span><br><span class="line">	console.log(this.name);</span><br><span class="line">&#125;</span><br><span class="line">fun();</span><br><span class="line">//以函数的形式调用，this就是window</span><br><span class="line">//由于没有全局变量name，所以没有输出</span><br></pre></td></tr></table></figure>
-
-<h4 id="以方法的形式调用，this就是调用方法的对象"><a href="#以方法的形式调用，this就是调用方法的对象" class="headerlink" title="以方法的形式调用，this就是调用方法的对象"></a>以方法的形式调用，this就是调用方法的对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//创建一个对象</span><br><span class="line">var obj = &#123;</span><br><span class="line">	name:&quot;孙悟空&quot;,</span><br><span class="line">	sayName:function () &#123;</span><br><span class="line">		console.log(this.name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">//以方法形式调用this,this指向调用方法的对象</span><br><span class="line">	obj.sayName();</span><br><span class="line">//输出“孙悟空”</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/10/markdown编辑器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/10/markdown编辑器/" itemprop="url">markdown编辑器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-10T13:43:26+08:00">
-                2019-08-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/markdown/" itemprop="url" rel="index">
-                    <span itemprop="name">markdown</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="markdown编辑器（兼容github的markdown语法）"><a href="#markdown编辑器（兼容github的markdown语法）" class="headerlink" title="markdown编辑器（兼容github的markdown语法）"></a>markdown编辑器（兼容github的markdown语法）</h3><hr>
-<blockquote>
-<h4 id="Typora（本地markdown编辑器）"><a href="#Typora（本地markdown编辑器）" class="headerlink" title="Typora（本地markdown编辑器）"></a>Typora（本地markdown编辑器）</h4></blockquote>
-<p><img src="/images/Typora%E7%BC%96%E8%BE%91%E5%99%A8.png" alt="csrf白名单"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/08/09/laravel-csrf白名单/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/09/laravel-csrf白名单/" itemprop="url">laravel_csrf白名单</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-09T16:44:05+08:00">
-                2019-08-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/laravel/" itemprop="url" rel="index">
-                    <span itemprop="name">laravel</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="laravel-csrf白名单"><a href="#laravel-csrf白名单" class="headerlink" title="laravel_csrf白名单"></a>laravel_csrf白名单</h3><hr>
-<p>laravel中如何添加路由白名单？</p>
-<blockquote>
-<p>在<code>app\Http\Middleware\VerifyCsrfToken.php</code>中添加要作为排除csrf检测的路由</p>
-</blockquote>
-<p><img src="/images/laravel/csrf%E7%99%BD%E5%90%8D%E5%8D%95.png" alt="csrf白名单"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/07/24/Fontello免费图标/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/24/Fontello免费图标/" itemprop="url">Fontello免费图标</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-24T16:18:33+08:00">
-                2019-07-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/免费图标/" itemprop="url" rel="index">
-                    <span itemprop="name">免费图标</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Fontello免费图标"><a href="#Fontello免费图标" class="headerlink" title="Fontello免费图标"></a>Fontello免费图标</h3><hr>
-<h4 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h4><p><a href="http://fontello.com/" title="fontello.com" target="_blank" rel="noopener">fontello</a></p>
-<hr>
-<h4 id="选择图标"><a href="#选择图标" class="headerlink" title="选择图标"></a>选择图标</h4><p>直接点击想要的图标即可选中，也可以用鼠标拖动进行多选</p>
-<blockquote>
-</blockquote>
-<p><img src="/images/fontello/Fontello.png" alt="多选图标"></p>
-<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><blockquote>
-</blockquote>
-<p><img src="/images/fontello/Fontello%E4%B8%8B%E8%BD%BD.png" alt="下载"></p>
-<hr>
-<h4 id="本地使用"><a href="#本地使用" class="headerlink" title="本地使用"></a>本地使用</h4><p>将下载下来的压缩包解压并复制到网站的public目录下，然后引入fontello.css</p>
-<blockquote>
-</blockquote>
-<p><img src="/images/fontello/public%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt="public目录"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;../css/fontello.css&quot;&gt;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h4 id="图标展示"><a href="#图标展示" class="headerlink" title="图标展示"></a>图标展示</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;i class=&quot;icon-emo-happy&quot;&gt;&lt;/i&gt;</span><br></pre></td></tr></table></figure>
-
-<p>class格式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">icon-name</span><br><span class="line">name就是Fontello官网上的name</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/07/24/Jquery实现返回顶部按钮/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/24/Jquery实现返回顶部按钮/" itemprop="url">jQuery实现返回顶部按钮</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-24T10:03:15+08:00">
-                2019-07-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Jquery/" itemprop="url" rel="index">
-                    <span itemprop="name">Jquery</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1、创建一个按钮，并设置样式"><a href="#1、创建一个按钮，并设置样式" class="headerlink" title="1、创建一个按钮，并设置样式"></a>1、创建一个按钮，并设置样式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id=&quot;btnTop&quot; class=&quot;p-2 mb-2 bg-danger text-white clearfix&quot;</span><br><span class="line">            style=&quot;position: fixed; top: 85%; left: 80%; display: none;&quot;&gt;Top</span><br><span class="line">&lt;/button&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2、添加jQuery方法"><a href="#2、添加jQuery方法" class="headerlink" title="2、添加jQuery方法"></a>2、添加jQuery方法</h3><p>此时，这个按钮并没有显示出来，我们需要当页面的滚动条距离最上方有50个像素时，显示“回到顶部”按钮，通过JQuery来实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$(function () &#123;</span><br><span class="line">            $(window).scroll(function () &#123;</span><br><span class="line">                if ($(window).scrollTop() &gt;= 50) &#123;</span><br><span class="line">                    //fadeIn淡入效果</span><br><span class="line">                    $(&apos;#btnTop&apos;).fadeIn();</span><br><span class="line">                &#125;</span><br><span class="line">                else &#123;</span><br><span class="line">                    //fadeOut淡出效果</span><br><span class="line">                    $(&apos;#btnTop&apos;).fadeOut();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
-
-<h3 id="3、添加click事件"><a href="#3、添加click事件" class="headerlink" title="3、添加click事件"></a>3、添加click事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&apos;#btnTop&apos;).click(function () &#123;</span><br><span class="line">            $(&apos;html,body&apos;).animate(&#123; scrollTop: 0 &#125;, 500);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/07/23/hexo设置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/23/hexo设置/" itemprop="url">hexo设置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-23T16:23:32+08:00">
-                2019-07-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="hexo设置"><a href="#hexo设置" class="headerlink" title="hexo设置"></a>hexo设置</h1><h4 id="一、安装Git"><a href="#一、安装Git" class="headerlink" title="一、安装Git"></a>一、安装Git</h4><p><a href="https://npm.taobao.org/mirrors/git-for-windows/" title="淘宝的Git地址" target="_blank" rel="noopener">淘宝的Git地址</a></p>
-<hr>
-<h4 id="二、安装Nodejs"><a href="#二、安装Nodejs" class="headerlink" title="二、安装Nodejs"></a>二、安装Nodejs</h4><p><a href="https://nodejs.org/zh-cn/" title="Nodejs" target="_blank" rel="noopener">Nodejs</a></p>
-<hr>
-<h4 id="三、通过npm安装Hexo"><a href="#三、通过npm安装Hexo" class="headerlink" title="三、通过npm安装Hexo"></a>三、通过npm安装Hexo</h4><p>Node.js安装成功后，同时会自动安装一个包管理器，称为npm（Node Package Manager）。</p>
-<blockquote>
-<p>什么是npm？<br>npm是一个包管理器，发布者将自己的代码发布（npm publish）到代码仓库（registry），使用者将自己需要的包写入package.json文件中，到代码仓库中把代码下载（npm install）下来。</p>
-</blockquote>
-<p>安装：<code>npm install -g hexo-cli</code></p>
-<blockquote>
-<p>由于npm代码仓库的服务器在国外，由于Great Firewall的缘故，下载速度可能不尽如人意，这时你可以使用淘宝的npm代码仓库，通过npm安装cnpm：<br><code>npm install -g cnpm --registry=https://registry.npm.taobao.org</code><br>安装成功后，可以通过以下命令查看cnpm版本：<br><code>cnpm -v</code><br>通过cnpm来操作下载速度会得到很大提升，但包的版本不一定是最新的。<br>之后所有的npm都可以换成cnpm</p>
-</blockquote>
-<h4 id="四、本地使用"><a href="#四、本地使用" class="headerlink" title="四、本地使用"></a>四、本地使用</h4><h5 id="1、创建博客目录"><a href="#1、创建博客目录" class="headerlink" title="1、创建博客目录"></a>1、创建博客目录</h5><p><code>hexo init username.github.io</code></p>
-<blockquote>
-<p>这个username就是仓库的username，同时也是github的username，目的就是访问githubPage时可以直接使用以下方式访问<br><code>https://username.github.io/</code><br>示例：<br><code>https://hello-ajh.github.io/</code></p>
-</blockquote>
-<h5 id="2、更换主题"><a href="#2、更换主题" class="headerlink" title="2、更换主题"></a>2、更换主题</h5><p>在更换主题之前要先切换到<code>username.github.io</code>目录，执行以下命令</p>
-<blockquote>
-<p>这里选择一个比较简洁的主题：next<br><code>git clone https://github.com/theme-next/hexo-theme-next themes/next</code></p>
-</blockquote>
-<p>之后需要更改<code>username.github.io/_config.yml</code>里面的配置</p>
-<blockquote>
-<p>title: 御坂0416的博客     //你博客的名字<br>author: 御坂0416      //作者名字<br>language: zh-CN      //语言 中文<br>theme: next           //刚刚安装的主题名称<br>deploy:<br>type: git               //使用Git 发布<br>repo: <code>https://github.com/hello-ajh/hello-ajh.github.io.git</code>   // 刚创建的Github仓库</p>
-</blockquote>
-<p>主题配置：</p>
-<blockquote>
-<p>主题配置文件在<code>username.github.io/themes/next/_config.yml</code>中修改</p>
-</blockquote>
-<h5 id="3、写文章"><a href="#3、写文章" class="headerlink" title="3、写文章"></a>3、写文章</h5><blockquote>
-<p><code>hexo new BlogName</code><br>会在source/_posts目录下生成BlogName.md文件，可以vim或其他Markdown编辑器进行修改。</p>
-</blockquote>
-<h4 id="4、安装hexo-deployer-git自动部署发布工具"><a href="#4、安装hexo-deployer-git自动部署发布工具" class="headerlink" title="4、安装hexo-deployer-git自动部署发布工具"></a>4、安装<a href="https://link.jianshu.com/?t=https://github.com/hexojs/hexo-deployer-git" target="_blank" rel="noopener">hexo-deployer-git</a>自动部署发布工具</h4><blockquote>
-<p><code>npm install hexo-deployer-git --save</code></p>
-</blockquote>
-<h4 id="5、生成静态文件、清理、重启Hexo"><a href="#5、生成静态文件、清理、重启Hexo" class="headerlink" title="5、生成静态文件、清理、重启Hexo"></a>5、生成静态文件、清理、重启Hexo</h4><blockquote>
-<p><code>hexo clean</code>每次修改文章后，都需要清理一下，<br><code>hexo g</code>（g代表generate），生成博客静态文件<br>最后也不要忘了通过<code>hexo s</code>重新启动Hexo。<br><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</code></p>
-</blockquote>
-<h4 id="6、发布到githubPage"><a href="#6、发布到githubPage" class="headerlink" title="6、发布到githubPage"></a>6、发布到githubPage</h4><p>测试没问题后，我们就生成静态网页文件发布至我们的Github pages 中。</p>
-<blockquote>
-<p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
-</blockquote>
-<p>如果这是你的第一次，终端会让你输入Github 的邮箱和密码，正确输入后，骚等片刻，就会把你的博客上传至Github 了。以后在每次把博客写完后，执行一下这个命令就可以直接发布了，灰常苏胡。</p>
-<blockquote>
-<p>注意：这里会默认通过Git的方式上传到github的仓库，但是会改变原有的目录结构<br><img src="/images/hexo/%E6%9C%AC%E5%9C%B0%E7%9B%AE%E5%BD%95.png" alt="本地目录"><br><img src="/images/hexo/github%E4%B8%8A%E7%9A%84%E7%9B%AE%E5%BD%95.png" alt="github上的目录"></p>
-</blockquote>
-<h4 id="7、乱码问题"><a href="#7、乱码问题" class="headerlink" title="7、乱码问题"></a>7、乱码问题</h4><blockquote>
-<p>hexo新建的文章为<strong>source/_posts/xxx.md</strong>，默认编码格式为<strong>ANSI</strong>，需要使用记事本将其另存为<strong>UTF-8</strong>格式或者使用sublime将其另存为<strong>UTF-8 with BOM</strong>格式</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/07/23/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/23/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-23T15:01:06+08:00">
-                2019-07-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hello-World/" itemprop="url" rel="index">
-                    <span itemprop="name">Hello World</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1706,7 +2034,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
