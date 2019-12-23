@@ -274,6 +274,1206 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP文件上传的步骤/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/23/PHP文件上传的步骤/" itemprop="url">PHP文件上传的步骤</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:34:59+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="PHP文件上传的步骤"><a href="#PHP文件上传的步骤" class="headerlink" title="PHP文件上传的步骤"></a>PHP文件上传的步骤</h4><p>为了更好的学习PHP，我们将极为复杂的PHP的文件上传归纳总结成为了6个步骤。</p>
+<h5 id="一、判断是否有错误码"><a href="#一、判断是否有错误码" class="headerlink" title="一、判断是否有错误码"></a>一、判断是否有错误码</h5><blockquote>
+<p>系统返回的错误码详解：<br>错误码说明<br>0 无误，可以继续进行文件上传的后续操作。<br>1 超出上传文件的最大限制，upload_max_filesize = 2M<br>php.ini中设置，一般默认为2M。可根据项目中的实际需要来修改<br>2 超出了指定的文件大小，根据项目的业务需求指定上传文件的大小限制<br>3 只有部分文件被上传<br>4 文件没有被上传<br>6 找不到临时文件夹，可能目录不存在或没权限<br>7 文件写入失败，可能磁盘满了或没有权限<br>注：错误码中没有5。</p>
+</blockquote>
+<h5 id="二、自定义判断是否超出文件大小范围"><a href="#二、自定义判断是否超出文件大小范围" class="headerlink" title="二、自定义判断是否超出文件大小范围"></a>二、自定义判断是否超出文件大小范围</h5><blockquote>
+<p>在开发上传功能时。我们作为开发人员，除了php.ini中规定的上传的最大值外。<br>我们通常还会设定一个值，是业务规定的上传大小限制。</p>
+</blockquote>
+<h5 id="三、判断后缀名和mime类型是否符合"><a href="#三、判断后缀名和mime类型是否符合" class="headerlink" title="三、判断后缀名和mime类型是否符合"></a>三、判断后缀名和mime类型是否符合</h5><blockquote>
+<p>MIME(Multipurpose Internet Mail Extensions)是多用途互联网邮件扩展类型。是设定某种扩展名的文件用一种应用程序来打开的方式类型，当该扩展名文件被访问的时候，浏览器会自动使用指定应用程序来打开。多用于指定一些客户端自定义的文件名，以及一些媒体文件打开方式。<br>在判断后缀和MIME类型的时候，我们会用到PHP的一个函数in_array(),该函数传入两个参数。<br>第一个参数是要判断的值；<br>第二个参数是范围数组。<br>我们用这个函数来判断文件的后缀名和mime类型是否在允许的范围内。</p>
+</blockquote>
+<h5 id="四、生成文件名"><a href="#四、生成文件名" class="headerlink" title="四、生成文件名"></a>四、生成文件名</h5><blockquote>
+<p>我们的文件上传成功了，不会让它保存原名。<br>因为，有些人在原名中有敏感关键词会违反我国的相关法律和法规。<br>我们可以采用date()、mt_rand()或者unique()生成随机的文件名。</p>
+</blockquote>
+<h5 id="五、判断是否是上传文件"><a href="#五、判断是否是上传文件" class="headerlink" title="五、判断是否是上传文件"></a>五、判断是否是上传文件</h5><blockquote>
+<p>文件上传成功时，系统会将上传的临时文件上传到系统的临时目录中。产生一个临时文件。<br>同时会产生临时文件名。我们需要做的事情是将临时文件移动到系统的指定目录中。<br>而移动前不能瞎移动，或者移动错了都是不科学的。移动前我们需要使用相关函数判断上传的文件是不是临时文件。<br>is_uploaded_file()传入一个参数($_FILES中的缓存文件名)，判断传入的名称是不是上传文件。</p>
+</blockquote>
+<h5 id="六、移动临时文件到指定位置"><a href="#六、移动临时文件到指定位置" class="headerlink" title="六、移动临时文件到指定位置"></a>六、移动临时文件到指定位置</h5><blockquote>
+<p>临时文件是真实的临时文件，我们需要将其移动到我们的网站目录下面了。<br>让我们网站目录的数据，其他人可以访问到。<br>我们使用：move_uploaded_file()。<br>这个函数是将上传文件移动到指定位置，并命名。<br>传入两个参数：<br>第一个参数是指定移动的上传文件；<br>第二个参数是指定的文件夹和名称拼接的字符串。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP文件上传php-ini/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/23/PHP文件上传php-ini/" itemprop="url">PHP文件上传php.ini</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:33:53+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="PHP文件上传php-ini"><a href="#PHP文件上传php-ini" class="headerlink" title="PHP文件上传php.ini"></a>PHP文件上传php.ini</h4><blockquote>
+<p>配置项 功能说明<br>file_uploads on为 开启文件上传功能，off为关闭<br>post_max_size 系统允许的POST传参的最大值<br>upload_max_filesize 系统允许的上传文件的最大值<br>memory_limit 内存使用限制 </p>
+</blockquote>
+<p>建议尺寸： file_size(文件大小) &lt; upload_max_filesize &lt; post_max_size &lt; memory_limit</p>
+<blockquote>
+<p>另外，需要注意的是脚本执行时间。<br>max_execution_time，这什参数的单位为秒。<br>这个参数是设定脚本的最大执行时间。<br>也可以根据需求做适当的改变。通常不需要来修改，系统默认值即可。超大文件上传的时候，可能会涉及到这一项参数的修改。<br>上传时间太长了，会超时。如果你将此项参数设为0，则是不限制超时时间，不建议使用。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP文件路径函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/23/PHP文件路径函数/" itemprop="url">PHP文件路径函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:29:28+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="PHP文件路径函数"><a href="#PHP文件路径函数" class="headerlink" title="PHP文件路径函数"></a>PHP文件路径函数</h4><blockquote>
+<p>函数名 功能<br>pathinfo 返回文件的各个组成部份<br>basename 返回文件名<br>dirname 文件目录部份<br>parse_url 网址拆解成各部份<br>http_build_query 生成url 中的query字符串<br>http_build_url 生成一个url </p>
+</blockquote>
+<hr>
+<h5 id="pathinfo"><a href="#pathinfo" class="headerlink" title="pathinfo"></a>pathinfo</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">array pathinfo ( string $路径)</span><br><span class="line">功能：传入文件路径返回文件的各个组成部份</span><br><span class="line">$path_parts = pathinfo(&apos;d:/www/index.inc.php&apos;);</span><br><span class="line">echo &apos;文件目录名：&apos;.$path_parts[&apos;dirname&apos;].&quot;&lt;br /&gt;&quot;;</span><br><span class="line">echo &apos;文件全名：&apos;.$path_parts[&apos;basename&apos;].&quot;&lt;br /&gt;&quot;;</span><br><span class="line">echo &apos;文件扩展名：&apos;.$path_parts[&apos;extension&apos;].&quot;&lt;br /&gt;&quot;;</span><br><span class="line">echo &apos;不包含扩展的文件名：&apos;.$path_parts[&apos;filename&apos;].&quot;&lt;br /&gt;&quot;; </span><br><span class="line">//文件目录名：d:/www</span><br><span class="line">文件全名：index.inc.php</span><br><span class="line">文件扩展名：php</span><br><span class="line">不包含扩展的文件名：index.inc</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="basename"><a href="#basename" class="headerlink" title="basename"></a>basename</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">string basename ( string $路径[, string $suffix ])</span><br><span class="line">功能：传入路径返回文件名</span><br><span class="line">第一个参数传入路径。</span><br><span class="line">第二个参数，指定文件名到了指定字符停止。</span><br><span class="line">echo &quot;1: &quot;.basename(&quot;d:/www/index.d&quot;, &quot;.d&quot;).PHP_EOL;</span><br><span class="line">echo &quot;2: &quot;.basename(&quot;d:/www/index.php&quot;).PHP_EOL;</span><br><span class="line">echo &quot;3: &quot;.basename(&quot;d:/www/passwd&quot;).PHP_EOL;</span><br><span class="line">//1: index</span><br><span class="line">2: index.php</span><br><span class="line">3: passwd</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="dirname"><a href="#dirname" class="headerlink" title="dirname"></a>dirname</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dirname(string $路径) </span><br><span class="line">功能：返回文件路径的文件目录部份</span><br><span class="line">echo dirname(__FILE__); </span><br><span class="line">//C:\phpStudy\PHPTutorial\WWW</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="parse-url"><a href="#parse-url" class="headerlink" title="parse_url"></a>parse_url</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mixed parse_url ( string $路径 )</span><br><span class="line">功能：将网址拆解成各个部份</span><br><span class="line">$url = &apos;http://username:password@hostname:9090/path?arg=value#anchor&apos;;</span><br><span class="line">var_dump(parse_url($url));</span><br><span class="line">//array(8) &#123;</span><br><span class="line">[&quot;scheme&quot;]=&gt; string(4) &quot;http&quot;</span><br><span class="line">[&quot;host&quot;]=&gt; string(8) &quot;hostname&quot;</span><br><span class="line">[&quot;port&quot;]=&gt; int(9090)</span><br><span class="line">[&quot;user&quot;]=&gt; string(8) &quot;username&quot;</span><br><span class="line">[&quot;pass&quot;]=&gt; string(8) &quot;password&quot;</span><br><span class="line">[&quot;path&quot;]=&gt; string(5) &quot;/path&quot;</span><br><span class="line">[&quot;query&quot;]=&gt; string(9) &quot;arg=value&quot;</span><br><span class="line">[&quot;fragment&quot;]=&gt; string(6) &quot;anchor&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="http-build-query"><a href="#http-build-query" class="headerlink" title="http_build_query"></a>http_build_query</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">string http_build_query ( mixed $需要处理的数据)</span><br><span class="line">功能：生成url 中的query字符串</span><br><span class="line">//定义一个关联数组</span><br><span class="line">$data = [</span><br><span class="line">&apos;username&apos;=&gt;&apos;php&apos;,</span><br><span class="line">&apos;area&apos;=&gt;&apos;hubei&apos;</span><br><span class="line">];</span><br><span class="line">//生成query内容</span><br><span class="line">echo http_build_query($data);</span><br><span class="line">//username=php&amp;area=hubei</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="http-build-url"><a href="#http-build-url" class="headerlink" title="http_build_url()"></a>http_build_url()</h5><p>功能： 生成一个url</p>
+<hr>
+<p>注：<br>PHP_EOL 常量<br>在 windows平台相当于 echo “\r\n”;<br>在unix\linux平台相当于 echo “\n”;<br>在mac平台相当于 echo “\r”;</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP文件权限设置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/23/PHP文件权限设置/" itemprop="url">PHP文件权限设置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:28:15+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="PHP文件权限设置"><a href="#PHP文件权限设置" class="headerlink" title="PHP文件权限设置"></a>PHP文件权限设置</h4><blockquote>
+<p>函数 功能说明<br>chmod 修改读取模式<br>chgrp 修改用户组<br>chown 修改权限 </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//修改linux 系统/var/wwwroot/某文件权限为755</span><br><span class="line">chmod(&quot;/var/wwwroot/index.html&quot;, 755); </span><br><span class="line">chmod(&quot;/var/wwwroot/index.html&quot;, &quot;u+rwx,go+rx&quot;); </span><br><span class="line">chmod(&quot;/somedir/somefile&quot;, 0755);</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP目录处理函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/23/PHP目录处理函数/" itemprop="url">PHP目录处理函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:26:46+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="PHP目录处理函数"><a href="#PHP目录处理函数" class="headerlink" title="PHP目录处理函数"></a>PHP目录处理函数</h4><blockquote>
+<p>函数名  功能<br>opendir  打开文件夹，返回操作资源<br>readdir  读取文件夹资源<br>is_dir   判断是否是文件夹<br>closedir  关闭文件夹操作资源<br>filetype  显示是文件夹还是文件，文件显示file，文件夹显示dir</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//设置打开的目录是D盘</span><br><span class="line">$dir = &quot;d:/&quot;;</span><br><span class="line">//判断是否是文件夹，是文件夹</span><br><span class="line">if (is_dir($dir)) &#123;</span><br><span class="line">if ($dh = opendir($dir)) &#123;</span><br><span class="line">//读取到最后返回false，停止循环</span><br><span class="line">while (($file = readdir($dh)) !== false) &#123;</span><br><span class="line">echo &quot;文件名为: $file : 文件的类型是: &quot; . filetype($dir . $file) . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">&#125;</span><br><span class="line">closedir($dh);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">//文件名为: $RECYCLE.BIN : 文件的类型是: dir</span><br><span class="line">文件名为: 1111.txt : 文件的类型是: file</span><br><span class="line">文件名为: 2345Downloads : 文件的类型是: dir</span><br><span class="line">文件名为: 360downloads : 文件的类型是: dir</span><br><span class="line">文件名为: BaiduNetdiskDownload : 文件的类型是: dir</span><br><span class="line">文件名为: EFI : 文件的类型是: dir</span><br><span class="line">文件名为: jyh : 文件的类型是: dir</span><br><span class="line">文件名为: Ksoftware : 文件的类型是: dir</span><br><span class="line">文件名为: NetFrameWork : 文件的类型是: dir</span><br><span class="line">文件名为: PCGame : 文件的类型是: dir</span><br><span class="line">文件名为: Program Files : 文件的类型是: dir</span><br><span class="line">文件名为: qqpcmgr_docpro : 文件的类型是: dir</span><br><span class="line">文件名为: qycache : 文件的类型是: dir</span><br><span class="line">文件名为: System Volume Information : 文件的类型是: dir</span><br><span class="line">文件名为: Temp : 文件的类型是: dir</span><br><span class="line">文件名为: 原始数据 : 文件的类型是: dir</span><br><span class="line">文件名为: 括苍一户一档 : 文件的类型是: dir</span><br><span class="line">文件名为: 桌面资料 : 文件的类型是: dir</span><br><span class="line">文件名为: 桌面资料2 : 文件的类型是: dir</span><br><span class="line">文件名为: 软件安全下载目录 : 文件的类型是: dir</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP文件常用函数和常量/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/23/PHP文件常用函数和常量/" itemprop="url">PHP文件常用函数和常量</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:23:34+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="PHP文件常用函数和常量"><a href="#PHP文件常用函数和常量" class="headerlink" title="PHP文件常用函数和常量"></a>PHP文件常用函数和常量</h4><h5 id="文件目录分割符常量"><a href="#文件目录分割符常量" class="headerlink" title="文件目录分割符常量"></a>文件目录分割符常量</h5><blockquote>
+<p>平台  分割符<br>windows <br>linux /<br>windows 的路径格式为 d:\xxx\xxx 注意：windows支持 d:/xxx/xxx<br>linux 的路径格式为 /home/xxx/xxx 注意：如果\home\xxx\xxx 在linux上是错误的<br>所以当你开启转义之类的话，转义字符 \ 用一起的话 d:\xxx\xxx 是一样的。判断时候有两个 \ 有的话 再转成一个\ 再把 \ 替换成 /当路径分割，这样在linux上或者windos上的路径就能保持统一了。</p>
+</blockquote>
+<hr>
+<p>常量：<br>DIRECTORY_SEPARATOR<br>在windows上：<br>在Linux上：/</p>
+<hr>
+<h5 id="文件指针操作函数"><a href="#文件指针操作函数" class="headerlink" title="文件指针操作函数"></a>文件指针操作函数</h5><p>rewind ( resource handle)<br>功能：指针回到开始处<br>fseek ( resource handle, int offset [, int from_where])<br>功能：文件指针向后移动指定字符</p>
+<hr>
+<p>filesize 检测文件的大小<br>$filename = ‘c:\Users\dell\Desktop\御坂御坂_new.txt’;<br>echo $filename . ‘文件大小为: ‘ . filesize($filename) . ‘ bytes’;<br>//c:/Users/dell/Desktop/御坂御坂_new.txt文件大小为: 3 bytes</p>
+<p>其实还有一些其他操作文件的函数，读取文件<br>函数名 功能<br>file 把整个文件读入一个数组中<br>fgets 从文件指针中读取一行,读到最后返回false<br>fgetc 从文件指针中读取一个字符，读到最后返回false<br>ftruncate 将文件截断到给定的长度 </p>
+<hr>
+<h5 id="文件的时间函数"><a href="#文件的时间函数" class="headerlink" title="文件的时间函数"></a>文件的时间函数</h5><p>函数 功能说明<br>filectime 文件创建时间<br>filemtime 文件修改时间<br>fileatime 文件上次访问时间<br>$filename = ‘c:\Users\dell\Desktop\御坂御坂_new.txt’;<br>if (file_exists($filename)) {<br>echo “文件的上次访问时间是:” . date(“Y-m-d H:i:s”, fileatime($filename)).”<br>“;<br>echo “文件的创建时间是: “ . date(“Y-m-d H:i:s”, filectime($filename)).”<br>“;<br>echo “文件的修改时间是: “ . date(“Y-m-d H:i:s”, filemtime($filename)).”<br>“;}<br>//文件的上次访问时间是:2019-12-10 06:38:36<br>文件的创建时间是: 2019-12-10 06:38:36<br>文件的修改时间是: 2019-12-10 06:38:36</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP检测文件属性函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/23/PHP检测文件属性函数/" itemprop="url">PHP检测文件属性函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:22:19+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="PHP检测文件属性函数"><a href="#PHP检测文件属性函数" class="headerlink" title="PHP检测文件属性函数"></a>PHP检测文件属性函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">bool file_exists ( $指定文件名或者文件路径)</span><br><span class="line">功能：文件是否存在。</span><br><span class="line"></span><br><span class="line">bool is_readable ( $指定文件名或者文件路径)</span><br><span class="line">功能：文件是否可读</span><br><span class="line"></span><br><span class="line">bool is_writeable ( $指定文件名或者文件路径)</span><br><span class="line">功能：文件是否可写</span><br><span class="line"></span><br><span class="line">bool is_executable ( $指定文件名或者文件路径)</span><br><span class="line">功能：文件是否可执行</span><br><span class="line"></span><br><span class="line">bool is_file ( $指定文件名或者文件路径)</span><br><span class="line">功能：是否是文件</span><br><span class="line"></span><br><span class="line">bool is_dir ( $指定文件名或者文件路径)</span><br><span class="line">功能：是否是目录</span><br><span class="line"></span><br><span class="line">void clearstatcache ( void )</span><br><span class="line">功能：清楚文件的状态缓存</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP文件基本操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/23/PHP文件基本操作/" itemprop="url">PHP文件基本操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:19:32+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="PHP文件基本操作"><a href="#PHP文件基本操作" class="headerlink" title="PHP文件基本操作"></a>PHP文件基本操作</h4><h5 id="重命名文件"><a href="#重命名文件" class="headerlink" title="重命名文件"></a>重命名文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bool rename($旧名,$新名);</span><br><span class="line">//旧文件名</span><br><span class="line">$file = &apos;C:\\Users\\dell\\Desktop\\御坂御坂.txt&apos;;</span><br><span class="line">//新文件名</span><br><span class="line">$newfile = &apos;C:\\Users\\dell\\Desktop\\御坂御坂_new.txt&apos;;</span><br><span class="line">//重命名文件</span><br><span class="line">rename($file, $newfile);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bool copy(源文件,目标文件)</span><br><span class="line">//旧文件名</span><br><span class="line">$file = &apos;C:\\Users\\dell\\Desktop\\御坂御坂.txt&apos;;</span><br><span class="line">//新文件名</span><br><span class="line">$newfile = &apos;C:\\Users\\dell\\Desktop\\御坂御坂_new.txt&apos;;</span><br><span class="line">//复制文件</span><br><span class="line">copy($file, $newfile);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bool unlink(指定路径的文件)</span><br><span class="line">删除文件就是将指定路径的一个文件删除，不过这个删除是直接删除。使用的是windows电脑，你在回收站看不到这个文件。</span><br><span class="line">$file = &apos;C:\\Users\\dell\\Desktop\\御坂御坂.txt&apos;;</span><br><span class="line">if (unlink($file)) &#123;</span><br><span class="line">echo &quot;删除文件 $file 成功!\n&quot;;</span><br><span class="line">&#125;else &#123;</span><br><span class="line">echo &quot;删除 $file 失败!\n&quot;;</span><br><span class="line">&#125;</span><br><span class="line">//删除文件 C:\Users\dell\Desktop\御坂御坂.txt 成功!</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/09/PHP文件函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -597,1255 +1797,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/09/PHP数组常用函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/09/PHP数组常用函数/" itemprop="url">PHP数组常用函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-09T21:01:44+08:00">
-                2019-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP数组常用函数"><a href="#PHP数组常用函数" class="headerlink" title="PHP数组常用函数"></a>PHP数组常用函数</h4><p>函数 功能</p>
-<p>array_shift 弹出数组的第一个元素<br>mixed array_shift ( array &amp;$array )</p>
-<p>array_unshift 在数组的开始处压入元素<br>int array_unshift ( array &amp;$数组 , mixed $值1 [, mixed $… ] )<br>$mingren = array(“邓超”, “黄晓明”);<br>$dc = array_unshift($mingren , “宁泽涛”, “钟汉良”);</p>
-<p>array_push 向数组的末尾处压入元素<br>int array_push ( array &amp;$array , mixed $value1 [, mixed $… ] )<br>$mingren = array(“邓超”, “黄晓明”);<br>$dc = array_push($mingren , “宁泽涛”, “钟汉良”);</p>
-<p>array_pop 弹出数组的最后一个元素<br>mixed array_pop ( array &amp;$array )</p>
-<p>current 读出指针当前位置的值<br>key 读出指针当前位置的键<br>next 指针向下移<br>prev 向上移<br>reset 指针到开始处<br>end 指针到结束处 </p>
-<p>array_combine() 生成一个数组,用一个数组的值作为键名,另一个数组值作为值<br>range() 创建并返回一个包含指定范围的元素的数组。<br>compact() 创建一个由参数所带变量组成的数组<br>array_fill() 用给定的值生成数组<br>array_chunk() 把一个数组分割为新的数组块<br>array_merge() 把两个或多个数组合并为一个数组<br>array_slice() 在数组中根据条件取出一段值，并返回<br>array_diff() 返回两个数组的差集数组<br>array_search() 在数组中搜索给定的值，如果成功则返回相应的键名<br>array_splice() 把数组中的一部分去掉并用其它值取代<br>array_sum() 计算数组中所有值的和<br>in_array() 检查数组中是否存在某个值<br>array_key_exists() 检查给定的键名或索引是否存在于数组中<br>shuffle() 将数组打乱,保留键值<br>count() 计算数组中的单元数目或对象中的属性个数<br>array_flip() 返回一个键值反转后的数组<br>array_keys() 返回数组所有的键,组成一个数组<br>array_values() 返回数组中所有值，组成一个数组<br>array_reverse() 返回一个元素顺序相反的数组<br>array_count_values() 统计数组中所有的值出现的次数<br>array_rand() 从数组中随机抽取一个或多个元素,注意是键名<br>array_unique() 删除重复值，返回剩余数组<br>sort() 按升序对给定数组的值排序,不保留键名<br>rsort() 对数组逆向排序,不保留键名<br>asort() 对数组排序,保持索引关系<br>arsort() 对数组逆向排序,保持索引关系<br>ksort() 按键名对数组排序<br>krsort() 将数组按照键逆向排序<br>natsort() 用自然顺序算法对数组中的元素排序<br>natcasesort() 自然排序,不区分大小写<br>array_filter() 去掉数组中的空元素或者预定元素<br>extract 将键变为变量名，将值变为变量值 </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/09/PHP异地登录检测/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/09/PHP异地登录检测/" itemprop="url">PHP异地登录检测</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-09T21:00:59+08:00">
-                2019-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP-异地登录检测"><a href="#PHP-异地登录检测" class="headerlink" title="PHP 异地登录检测"></a>PHP 异地登录检测</h4><p>通过在数据库中增加session_id，来防止异地登录</p>
-<p>1、在数据库的user表中添加session_id字段，用来记录每次登录时候的session_id。<br>2、情景1：用户1已经在A地方登录了账户123，已经在数据库记录了session_id，用户2正在B地方登录账户123，将会将数据库的session_id修改为一个新的session_id，此时用户1的任何操作都会出发公共的控制器，然后判断当前的session_id跟数据库中的session_id是否相同，不同则给出“异地登录”的提示，并且强制下线。（公共控制器相当于其他控制器的父类，判断session_id的操作应该放在公共控制器的初始化方法里，保证每个操作都会进行判断，至少得保证每个操作数据库的操作都要先判断一下session_id是否和数据库相同，一致才允许操作数据库）<br>情景2：只有一个用户1登录账户123，则直接将数据库中的session_id修改为当前的session_id。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/09/PHP-foreach遍历关联数组/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/09/PHP-foreach遍历关联数组/" itemprop="url">PHP-foreach遍历关联数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-09T21:00:11+08:00">
-                2019-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>PHP foreach遍历关联数组</p>
-<p>foreach的基本语法<br>foreach( 要循环的数组变量 as [键变量 =&gt;] 值变量){<br>//循环的结构体<br>}</p>
-<p>遍历关联数组</p>
-<p>这是一个固定用法，将要循环的数组放进去。<br>as 是一个固定的关键字<br>后面的键变量是可选的，随意定义一个变量，每次循环的时候，foreach这个语法会把键取出来赋值到键变量里面<br>后面的值变量是必填的。每次循环的时候，会把值放到值变量里面。</p>
-<p>$data = [<br>‘fj’ =&gt; ‘凤姐’,<br>‘fr’ =&gt; ‘芙蓉’,<br>];<br>foreach($data as $key =&gt; $value){<br>echo $key . ‘——-‘ . $value . ‘<br>‘;<br>}<br>//fj——-凤姐<br>fr——-芙蓉</p>
-<p>遍历多维数组</p>
-<p>$data = array(<br>0 =&gt; array(<br>‘中国’ =&gt; ‘china’,<br>‘美国’ =&gt; ‘usa’,<br>‘德国’ =&gt; ‘ Germany’,<br>),<br>1 =&gt; array(<br>‘湖北’ =&gt; ‘hubei’,<br>‘河北’ =&gt; ‘hebei’,<br>‘山东’ =&gt; ‘shandong’,<br>‘山西’ =&gt; ‘sanxi’,<br>),<br>);</p>
-<p>foreach($data as $value){<br>//外循环为$data二维数组的循环<br>//内循环为$value一维数组的循环<br>foreach($value as $k =&gt; $v){<br>echo $k . ‘—–’ . $v .’<br>‘;<br>}<br>echo ‘———————<br>‘;<br>}<br>//中国—–china<br>美国—–usa</p>
-<h2 id="德国—–-Germany"><a href="#德国—–-Germany" class="headerlink" title="德国—– Germany"></a>德国—– Germany</h2><p>湖北—–hubei<br>河北—–hebei<br>山东—–shandong</p>
-<h2 id="山西—–sanxi"><a href="#山西—–sanxi" class="headerlink" title="山西—–sanxi"></a>山西—–sanxi</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/09/PHP-for循环遍历索引数组/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/09/PHP-for循环遍历索引数组/" itemprop="url">PHP-for循环遍历索引数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-09T20:59:24+08:00">
-                2019-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP-for循环遍历索引数组"><a href="#PHP-for循环遍历索引数组" class="headerlink" title="PHP for循环遍历索引数组"></a>PHP for循环遍历索引数组</h4><p>因为for循环是一个单纯的计数型循环，而索引数组的下标为整型的数值。因此，我们可以通过for循环来遍历索引数组。</p>
-<p>$num = [1,2,3,4,5,6,7,8,9];<br>for($i = 0 ; $i &lt; count($num) ; $i++){<br>echo $num[$i];<br>}<br>//123456789</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/09/PHP数组的计算/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/09/PHP数组的计算/" itemprop="url">PHP数组的计算</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-09T20:58:23+08:00">
-                2019-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP数组的计算"><a href="#PHP数组的计算" class="headerlink" title="PHP数组的计算"></a>PHP数组的计算</h4><p>count()<br>int count ( mixed $变量)<br>参数$变量 要求是一个数组或者一个可以被统计的对象</p>
-<p>$data = [<br>‘baidu’ =&gt;’百度’,<br>‘ali’ =&gt; ‘阿里’,<br>‘tencent’ =&gt; ‘腾讯’,<br>];<br>echo count($data);<br>//3</p>
-<p>$erwei = [<br>[<br>‘baidu’ =&gt;’百度’,<br>‘ali’ =&gt; ‘阿里’,<br>‘tencent’ =&gt; ‘腾讯’,<br>],<br>[<br>‘netease’ =&gt;’网易’,<br>‘sohu’ =&gt; ‘搜狐’,<br>‘sina’ =&gt; ‘新浪’,<br>]<br>];<br>//试试输出一个二维数组个数<br>echo count($erwei);<br>//2</p>
-<p>//试试输出二维数组中某个元素的个数<br>echo count($erwei[1]);<br>//3</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/09/PHP数组的定义/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/09/PHP数组的定义/" itemprop="url">PHP数组的定义</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-09T20:56:14+08:00">
-                2019-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP数组的定义"><a href="#PHP数组的定义" class="headerlink" title="PHP数组的定义"></a>PHP数组的定义</h4><p>索引数组：就是下标全为整型的数组。</p>
-<h5 id="向索引数组中增加元素"><a href="#向索引数组中增加元素" class="headerlink" title="向索引数组中增加元素"></a>向索引数组中增加元素</h5><p>$minren = [<br>‘杨幂’,<br>‘王珞丹’,<br>‘刘亦菲’,<br>‘黄圣依’<br>];<br>$minren[] = ‘范冰冰’;<br>$minren[100] = ‘范爷’;<br>$minren[] = ‘李晨’;<br>echo “<pre>";<br>var_dump($minren);<br>echo "</pre>“;<br>//array(7) {<br>[0]=&gt;<br>string(6) “杨幂”<br>[1]=&gt;<br>string(9) “王珞丹”<br>[2]=&gt;<br>string(9) “刘亦菲”<br>[3]=&gt;<br>string(9) “黄圣依”<br>[4]=&gt;<br>string(9) “范冰冰”<br>[100]=&gt;<br>string(6) “范爷”<br>[101]=&gt;<br>string(6) “李晨”<br>}</p>
-<blockquote>
-<p>总结：<br>1.向索引数组中增加元素用: 数组变量名[]、数组变量名[键值]这两种方式来增加元素<br>2.键值的增长规则与之前的规则一样。都是最大值加1的原则。</p>
-</blockquote>
-<h5 id="向索引数组中删除元素"><a href="#向索引数组中删除元素" class="headerlink" title="向索引数组中删除元素"></a>向索引数组中删除元素</h5><p>$minren = array(<br>‘杨幂’,<br>‘王珞丹’,<br>‘刘亦菲’,<br>‘黄圣依’,<br>‘范冰冰’<br>);<br>unset($minren[3]);<br>$minren[] = ‘金星’;<br>echo ‘<pre>';<br>var_dump($minren);<br>echo '</pre>‘;<br>//array(5) {<br>[0]=&gt;<br>string(6) “杨幂”<br>[1]=&gt;<br>string(9) “王珞丹”<br>[2]=&gt;<br>string(9) “刘亦菲”<br>[4]=&gt;<br>string(9) “范冰冰”<br>[5]=&gt;<br>string(6) “金星”<br>}</p>
-<blockquote>
-<p>总结：<br>1.使用unset删除变量的方式来删除数组里面的值。<br>2.删除了中间的值，并不会让后面的下标向前自动移动。而是原来的值为多少就为多少<br>3.删除掉其中的某个值，新加入的值不会替换掉原来的位置，依然遵循最大值加1的原则。</p>
-</blockquote>
-<h5 id="修改值"><a href="#修改值" class="headerlink" title="修改值"></a>修改值</h5><p>$minren = array(<br>‘杨幂’,<br>‘王珞丹’,<br>‘刘亦菲’,<br>‘黄圣依’,<br>‘范冰冰’<br>);<br>$minren[5] = ‘范爷’;<br>$minren[2] = ‘亦菲，不要嫁给韩国人好吗？’;<br>echo ‘<pre>';<br>var_dump($minren);<br>echo '</pre>‘;<br>//array(6) {<br>[0]=&gt;<br>string(6) “杨幂”<br>[1]=&gt;<br>string(9) “王珞丹”<br>[2]=&gt;<br>string(39) “亦菲，不要嫁给韩国人好吗？”<br>[3]=&gt;<br>string(9) “黄圣依”<br>[4]=&gt;<br>string(9) “范冰冰”<br>[5]=&gt;<br>string(6) “范爷”<br>}</p>
-<blockquote>
-<p>总结：<br>1.用变量名[键] = 新值。就把数组中的值定的值修改了。</p>
-</blockquote>
-<h5 id="索引数组的其他声明方式"><a href="#索引数组的其他声明方式" class="headerlink" title="索引数组的其他声明方式"></a>索引数组的其他声明方式</h5><p>一、直接用之前未声明的变量，用变量名后面接中括号的方式声明数组。<br>//直接写一个变量后面加上中括号，声明变量<br>$qi[] = ‘可口可乐’;<br>$qi[10] =’百事可乐’;<br>echo ‘<pre>';<br>var_dump($qi);<br>echo '</pre>‘;<br>//array(2) {<br>[0]=&gt;<br>string(12) “可口可乐”<br>[10]=&gt;<br>string(12) “百事可乐”<br>}</p>
-<p>二、每次用array()写的太麻烦了，还可以不用写array哟，更简单。<br>$minren = [<br>‘杨幂’,<br>‘王珞丹’,<br>100 =&gt; ‘刘亦菲’,<br>‘黄圣依’,<br>‘范冰冰’<br>];<br>echo ‘<pre>';<br>var_dump($minren);<br>echo '</pre>‘;<br>//array(5) {<br>[0]=&gt;<br>string(6) “杨幂”<br>[1]=&gt;<br>string(9) “王珞丹”<br>[100]=&gt;<br>string(9) “刘亦菲”<br>[101]=&gt;<br>string(9) “黄圣依”<br>[102]=&gt;<br>string(9) “范冰冰”<br>}</p>
-<h5 id="关联数组"><a href="#关联数组" class="headerlink" title="关联数组"></a>关联数组</h5><p>只要数组里面有一个为字符串的数组，就为关联数组。<br>//声明一下关联数组<br>$rela = array(<br>‘帅’ =&gt; ‘陈奕迅’,<br>‘很帅’ =&gt; ‘黄晓明’,<br>‘灰常灰常帅’ =&gt; ‘宁泽涛’,<br>‘有男人味的大叔’ =&gt; ‘吴秀波’,<br>);<br>//再来玩玩简洁声明<br>$drink = [<br>‘美’ =&gt; ‘凤姐’,<br>‘很美’ =&gt; ‘芙蓉姐姐’,<br>‘verymei’ =&gt; ‘杨幂’,<br>‘心中滴女神呀’ =&gt; ‘华妃’,<br>100 =&gt; ‘孙俪’,<br>‘娘娘’,<br>];<br>// 输出 $rela<br>echo ‘<pre>';<br>var_dump($rela);<br>echo '</pre>‘;<br>// 输出$drink<br>echo ‘<pre>';<br>var_dump($drink);<br>echo '</pre>‘;</p>
-<p>//array(4) {<br>[“帅”]=&gt;<br>string(9) “陈奕迅”<br>[“很帅”]=&gt;<br>string(9) “黄晓明”<br>[“灰常灰常帅”]=&gt;<br>string(9) “宁泽涛”<br>[“有男人味的大叔”]=&gt;<br>string(9) “吴秀波”<br>}<br>array(6) {<br>[“美”]=&gt;<br>string(6) “凤姐”<br>[“很美”]=&gt;<br>string(12) “芙蓉姐姐”<br>[“verymei”]=&gt;<br>string(6) “杨幂”<br>[“心中滴女神呀”]=&gt;<br>string(6) “华妃”<br>[100]=&gt;<br>string(6) “孙俪”<br>[101]=&gt;<br>string(6) “娘娘”<br>}</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/09/PHP-String常用函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/09/PHP-String常用函数/" itemprop="url">PHP_String常用函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-09T20:53:17+08:00">
-                2019-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP-String常用函数"><a href="#PHP-String常用函数" class="headerlink" title="PHP String常用函数"></a>PHP String常用函数</h4><p>trim() 删除字符串两端的空格或其他预定义字符<br>var_dump(trim(“\r\n php.cn \r\n”));</p>
-<p>rtrim() 删除字符串右边的空格或其他预定义字符<br>var_dump(rtrim(“\r\n php.cn \r\n”));<br>chop() rtrim()的别名 </p>
-<p>ltrim() 删除字符串左边的空格或其他预定义字符<br>var_dump(ltrim(“\r\n php.cn \r\n”));</p>
-<p>dirname() 返回路径中的目录部分（我们把它归在了字符串函数里了）<br>echo dirname(‘c:/test/web/home.php’);<br>//c:/test/web</p>
-<p>str_pad() 把字符串填充为指定的长度<br>echo str_pad($str, 20, ‘.’);</p>
-<p>str_repeat() 重复使用指定字符串<br>echo str_repeat(‘.’, 13);</p>
-<p>str_split() 把字符串分割到数组中<br>print_r(str_split(‘Hello’));<br>//Array ( [0] =&gt; H [1] =&gt; e [2] =&gt; l [3] =&gt; l [4] =&gt; o ) </p>
-<p>strrev() 反转字符串<br>echo strrev(‘Hello’);<br>//olleH</p>
-<p>wordwrap() 按照指定长度对字符串进行折行处理 </p>
-<p>str_shuffle() 随机地打乱字符串中所有字符<br>echo str_shuffle(‘Hello World’);</p>
-<p>parse_str() 将字符串解析成变量<br>parse_str(‘id=123&amp;name=John%20Adams’,$myArray);<br>print_r($myArray);<br>//Array ( [id] =&gt; 123 [name] =&gt; John Adams ) </p>
-<p>number_format() 通过千位分组来格式化数字<br>echo number_format(‘1234567890’);<br>//1,234,567,890</p>
-<p>strtolower() 字符串转为小写<br>echo strtolower(‘Hello World’);<br>//hello world</p>
-<p>strtoupper() 字符串转为大写<br>echo strtoupper(‘Hello World’);<br>//HELLO WORLD</p>
-<p>ucfirst() 字符串首字母大写<br>echo ucfirst(‘hello world’);<br>//Hello world</p>
-<p>ucwords() 字符串每个单词首字符转为大写<br>echo ucwords(‘hello world’);<br>//Hello World</p>
-<p>htmlentities() 把字符转为HTML实体</p>
-<p>htmlspecialchars() 预定义字符转html编码<br>$str = “This is some <b>bold</b> text.”;<br>echo htmlspecialchars($str);<br>//This is some <b>bold</b> text.<br>//如果直接echo $str，浏览器将会解析<b></b>标签，将bold变成粗体，再加上htmlspecialchars后，浏览器将不会解析其中的字符串，直接输出</p>
-<p>nl2br() \n转义为换行标签<br>echo nl2br(“One line.\nAnother line.”);<br>//One line.<br>//Another line.</p>
-<p>strip_tags() 剥去 HTML、XML 以及 PHP 的标签<br>echo strip_tags(“Hello <b>World</b>“);<br>//Hello World</p>
-<p>addcslashes() 在指定的字符前添加反斜线转义字符串中字符<br>$str = “My name is mi”;<br>echo addcslashes($str,’m’);<br>//My na\me is \mi</p>
-<p>stripcslashes() 删除由addcslashes()添加的反斜线<br>echo stripcslashes(“Hello,\my na\me is Van.”);<br>//Hello,my name is Van.</p>
-<p>quotemeta() 在字符串中某些预定义的字符前添加反斜线<br>$str = “Hello world.(can you hear me?)”;<br>echo quotemeta($str);<br>//Hello world.(can you hear me?)</p>
-<p>chr() 从指定的 ASCII 值返回字符<br>echo chr(052);<br>//*</p>
-<p>ord() 返回字符串第一个字符的 ASCII值<br>echo ord(“hello123”);<br>//104</p>
-<p>strcasecmp() 不区分大小写比较两字符串<br>echo strcasecmp(“hello world”,”HELLO WORLD”);<br>//0</p>
-<p>strcmp() 区分大小写比较两字符串</p>
-<p>strncmp() 比较字符串前n个字符，区分大小写</p>
-<p>strncasecmp() 比较字符串前n个字符，不区分大小写<br>int strncasecmp ( string $str1 , string $str2 , int $len )</p>
-<p>strnatcmp()   自然顺序法比较字符串长度,区分大小写<br>int strnatcmp ( string $str1 , string $str2 )</p>
-<p>strnatcasecmp() 自然顺序法比较字符串长度,不区分大小写<br>int strnatcasecmp ( string $str1 , string $str2 )</p>
-<p>chunk_split() 将字符串分成小块<br>str chunk_split(str $body[,int $len[,str $end]])</p>
-<p>strtok() 切开字符串<br>str strtok(str $str,str $token)</p>
-<p>explode() 使用一个字符串为标志分割另一个字符串<br>array explode(str $sep,str $str[,int $limit])<br>$str = “Hello@World@123@456”;<br>print_r(explode(‘@’,$str));<br>//Array ( [0] =&gt; Hello [1] =&gt; World [2] =&gt; 123 [3] =&gt; 456 )</p>
-<p>implode() 同join,将数组值用预订字符连接成字符串<br>string implode ( string $glue , array $pieces )<br>$arr = [‘ajh’,’大帅比’,’hhh’];<br>print_r(implode(‘@’,$arr));<br>//ajh@大帅比@hhh</p>
-<p>substr() 截取字符串<br>string substr ( string $string , int $start [, int $length ] )</p>
-<p>str_replace() 字符串替换操作,区分大小写<br>mix str_replace(mix $search,,mix $replace,mix $subject[,int &amp;$num])</p>
-<p>str_ireplace() 字符串替换操作,不区分大小写<br>mix str_ireplace ( mix $search , mix $replace , mix $subject [, int &amp;$count ] )</p>
-<p>substr_count() 统计一个字符串,在另一个字符串中出现次数<br>int substr_count ( string $haystack , string $needle [, int $offset = 0 [, int $length ]] )</p>
-<p>substr_replace() 替换字符串中某串为另一个字符串<br>mixed substr_replace ( mixed $string , string $replacement , int $start [, int $length ] )</p>
-<p>similar_text() 返回两字符串相同字符的数量<br>int similar_text(str $str1,str $str2)</p>
-<p>strchr() 返回一个字符串在另一个字符串中开始位置到结束的字符串<br>string strstr ( string $str, string $needle , bool $before_needle )</p>
-<p>strrchr() 返回一个字符串在另一个字符串中最后一次出现位置开始到末尾的字符串<br>string strrchr ( string $haystack , mixed $needle )</p>
-<p>stristr() 返回一个字符串在另一个字符串中开始位置到结束的字符串，不区分大小写<br>string stristr ( string $haystack , mixed $needle [, bool $before_needle = false ] )</p>
-<p>strtr() 转换字符串中的某些字符<br>string strtr ( string $str , string $from , string $to )</p>
-<p>strpos() 寻找字符串中某字符最先出现的位置<br>int strpos ( string $haystack , mixed $needle [, int $offset = 0 ] )</p>
-<p>stripos() 寻找字符串中某字符最先出现的位置,不区分大小写<br>int stripos ( string $haystack , string $needle [, int $offset ] )</p>
-<p>strrpos() 寻找某字符串中某字符最后出现的位置<br>int strrpos ( string $haystack , string $needle [, int $offset = 0 ] )</p>
-<p>strripos() 寻找某字符串中某字符最后出现的位置,不区分大小写<br>int strripos ( string $haystack , string $needle [, int $offset ] )</p>
-<p>strspn() 返回字符串中首次符合mask的子字符串长度<br>int strspn ( string $str1 , string $str2 [, int $start [, int $length ]] )</p>
-<p>strcspn() 返回字符串中不符合mask的字符串的长度<br>int strcspn ( string $str1 , string $str2 [, int $start [, int $length ]] )</p>
-<p>str_word_count() 统计字符串含有的单词数<br>mix str_word_count(str $str,[])</p>
-<p>strlen() 统计字符串长度<br>int strlen(str $str)</p>
-<p>count_chars() 统计字符串中所有字母出现次数(0..255)<br>mixed count_chars ( string $string [, int $mode ] )</p>
-<p>md5() 字符串md5编码<br>$str = “Hello”; echo md5($str)<br>//8b1a9953c4611296a827abf8c47804d7</p>
-<p>iconv  </p>
-<p>mb_substr 获取字符串的部分<br>string mb_substr ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] )</p>
-<p>mb_http_output 设置/获取 HTTP 输出字符编码<br>mixed mb_http_output ([ string $encoding = mb_http_output() ] )</p>
-<p>mb_strlen 获取字符串的长度<br>mixed mb_strlen ( string $str [, string $encoding = mb_internal_encoding() ] )</p>
-<p>iconv 字符串按要求的字符编码来转换<br>string iconv ( string $in_charset , string $out_charset , string $str )</p>
-<p>iconv_substr 截取字符串的部分</p>
-<p>iconv_get_encoding 获取 iconv 扩展的内部配置变量  </p>
-<p>mb_substr_count 统计字符串出现的次数  </p>
-<p>mb_check_encoding 检查字符串在指定的编码里是否有效  </p>
-<p>mb_strrpos 查找字符串在一个字符串中最后出现的位置  </p>
-<p>mb_split 使用正则表达式分割多字节字符串  </p>
-<p>parse_url 解释URL成为一个数组  </p>
-<blockquote>
-<p>注：mb_* 和iconv_* 他们可以处理多字节字符，例如：中文。<br>中文主要用的是GBK和utf-8两种编码格式。<br>GBK和utf-8是两个不同的编码委员会对于汉字进行的编码的标准。<br>他们规定GBK是双字节，也就是一个汉字占用2Bytes。<br>utf-8是三字节，一个汉字占用三个字节长度的存储空间。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/03/PHP文件包含函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/03/PHP文件包含函数/" itemprop="url">PHP文件包含函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-03T19:00:45+08:00">
-                2019-12-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP文件包含函数"><a href="#PHP文件包含函数" class="headerlink" title="PHP文件包含函数"></a>PHP文件包含函数</h4><p><code>Include()</code><br>包含并运行指定文件，当包含外部文件发生错误时，系统给出警告，但整个php文件继续执行。</p>
-<p><code>Require()</code><br>跟include唯一不同的是，当产生错误时候，include下面继续运行而require停止运行了。</p>
-<p><code>Include_once()</code><br>这个函数跟include函数作用几乎相同，只是他在导入函数之前先检测下该文件是否被导入。如果已经执行一遍那么就不重复执行了。</p>
-<p><code>Require_once()</code><br>这个函数跟require的区别 跟上面我所讲的include和include_once是一样的。所以我就不重复了。</p>
-<p>注意：<br>1，少用_once，因为它会消耗更多的资源去做检测的工作。<br>2，特高级<br>Include文件只需要编译一次，因为每次包含include都会再执行一次对应的代码，如何减少include再次执行时，需要重新解析的过程。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1893,7 +1849,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

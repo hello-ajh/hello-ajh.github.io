@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[PHP文件上传的步骤]]></title>
+    <url>%2F2019%2F12%2F23%2FPHP%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%AD%A5%E9%AA%A4%2F</url>
+    <content type="text"><![CDATA[PHP文件上传的步骤为了更好的学习PHP，我们将极为复杂的PHP的文件上传归纳总结成为了6个步骤。 一、判断是否有错误码 系统返回的错误码详解：错误码说明0 无误，可以继续进行文件上传的后续操作。1 超出上传文件的最大限制，upload_max_filesize = 2Mphp.ini中设置，一般默认为2M。可根据项目中的实际需要来修改2 超出了指定的文件大小，根据项目的业务需求指定上传文件的大小限制3 只有部分文件被上传4 文件没有被上传6 找不到临时文件夹，可能目录不存在或没权限7 文件写入失败，可能磁盘满了或没有权限注：错误码中没有5。 二、自定义判断是否超出文件大小范围 在开发上传功能时。我们作为开发人员，除了php.ini中规定的上传的最大值外。我们通常还会设定一个值，是业务规定的上传大小限制。 三、判断后缀名和mime类型是否符合 MIME(Multipurpose Internet Mail Extensions)是多用途互联网邮件扩展类型。是设定某种扩展名的文件用一种应用程序来打开的方式类型，当该扩展名文件被访问的时候，浏览器会自动使用指定应用程序来打开。多用于指定一些客户端自定义的文件名，以及一些媒体文件打开方式。在判断后缀和MIME类型的时候，我们会用到PHP的一个函数in_array(),该函数传入两个参数。第一个参数是要判断的值；第二个参数是范围数组。我们用这个函数来判断文件的后缀名和mime类型是否在允许的范围内。 四、生成文件名 我们的文件上传成功了，不会让它保存原名。因为，有些人在原名中有敏感关键词会违反我国的相关法律和法规。我们可以采用date()、mt_rand()或者unique()生成随机的文件名。 五、判断是否是上传文件 文件上传成功时，系统会将上传的临时文件上传到系统的临时目录中。产生一个临时文件。同时会产生临时文件名。我们需要做的事情是将临时文件移动到系统的指定目录中。而移动前不能瞎移动，或者移动错了都是不科学的。移动前我们需要使用相关函数判断上传的文件是不是临时文件。is_uploaded_file()传入一个参数($_FILES中的缓存文件名)，判断传入的名称是不是上传文件。 六、移动临时文件到指定位置 临时文件是真实的临时文件，我们需要将其移动到我们的网站目录下面了。让我们网站目录的数据，其他人可以访问到。我们使用：move_uploaded_file()。这个函数是将上传文件移动到指定位置，并命名。传入两个参数：第一个参数是指定移动的上传文件；第二个参数是指定的文件夹和名称拼接的字符串。]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[PHP文件上传php.ini]]></title>
+    <url>%2F2019%2F12%2F23%2FPHP%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0php-ini%2F</url>
+    <content type="text"><![CDATA[PHP文件上传php.ini 配置项 功能说明file_uploads on为 开启文件上传功能，off为关闭post_max_size 系统允许的POST传参的最大值upload_max_filesize 系统允许的上传文件的最大值memory_limit 内存使用限制 建议尺寸： file_size(文件大小) &lt; upload_max_filesize &lt; post_max_size &lt; memory_limit 另外，需要注意的是脚本执行时间。max_execution_time，这什参数的单位为秒。这个参数是设定脚本的最大执行时间。也可以根据需求做适当的改变。通常不需要来修改，系统默认值即可。超大文件上传的时候，可能会涉及到这一项参数的修改。上传时间太长了，会超时。如果你将此项参数设为0，则是不限制超时时间，不建议使用。]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[PHP文件路径函数]]></title>
+    <url>%2F2019%2F12%2F23%2FPHP%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[PHP文件路径函数 函数名 功能pathinfo 返回文件的各个组成部份basename 返回文件名dirname 文件目录部份parse_url 网址拆解成各部份http_build_query 生成url 中的query字符串http_build_url 生成一个url pathinfo1234567891011array pathinfo ( string $路径)功能：传入文件路径返回文件的各个组成部份$path_parts = pathinfo(&apos;d:/www/index.inc.php&apos;);echo &apos;文件目录名：&apos;.$path_parts[&apos;dirname&apos;].&quot;&lt;br /&gt;&quot;;echo &apos;文件全名：&apos;.$path_parts[&apos;basename&apos;].&quot;&lt;br /&gt;&quot;;echo &apos;文件扩展名：&apos;.$path_parts[&apos;extension&apos;].&quot;&lt;br /&gt;&quot;;echo &apos;不包含扩展的文件名：&apos;.$path_parts[&apos;filename&apos;].&quot;&lt;br /&gt;&quot;; //文件目录名：d:/www文件全名：index.inc.php文件扩展名：php不包含扩展的文件名：index.inc basename12345678910string basename ( string $路径[, string $suffix ])功能：传入路径返回文件名第一个参数传入路径。第二个参数，指定文件名到了指定字符停止。echo &quot;1: &quot;.basename(&quot;d:/www/index.d&quot;, &quot;.d&quot;).PHP_EOL;echo &quot;2: &quot;.basename(&quot;d:/www/index.php&quot;).PHP_EOL;echo &quot;3: &quot;.basename(&quot;d:/www/passwd&quot;).PHP_EOL;//1: index2: index.php3: passwd dirname1234dirname(string $路径) 功能：返回文件路径的文件目录部份echo dirname(__FILE__); //C:\phpStudy\PHPTutorial\WWW parse_url1234567891011121314mixed parse_url ( string $路径 )功能：将网址拆解成各个部份$url = &apos;http://username:password@hostname:9090/path?arg=value#anchor&apos;;var_dump(parse_url($url));//array(8) &#123;[&quot;scheme&quot;]=&gt; string(4) &quot;http&quot;[&quot;host&quot;]=&gt; string(8) &quot;hostname&quot;[&quot;port&quot;]=&gt; int(9090)[&quot;user&quot;]=&gt; string(8) &quot;username&quot;[&quot;pass&quot;]=&gt; string(8) &quot;password&quot;[&quot;path&quot;]=&gt; string(5) &quot;/path&quot;[&quot;query&quot;]=&gt; string(9) &quot;arg=value&quot;[&quot;fragment&quot;]=&gt; string(6) &quot;anchor&quot;&#125; http_build_query12345678910string http_build_query ( mixed $需要处理的数据)功能：生成url 中的query字符串//定义一个关联数组$data = [&apos;username&apos;=&gt;&apos;php&apos;,&apos;area&apos;=&gt;&apos;hubei&apos;];//生成query内容echo http_build_query($data);//username=php&amp;area=hubei http_build_url()功能： 生成一个url 注：PHP_EOL 常量在 windows平台相当于 echo “\r\n”;在unix\linux平台相当于 echo “\n”;在mac平台相当于 echo “\r”;]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[PHP文件权限设置]]></title>
+    <url>%2F2019%2F12%2F23%2FPHP%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[PHP文件权限设置 函数 功能说明chmod 修改读取模式chgrp 修改用户组chown 修改权限 1234//修改linux 系统/var/wwwroot/某文件权限为755chmod(&quot;/var/wwwroot/index.html&quot;, 755); chmod(&quot;/var/wwwroot/index.html&quot;, &quot;u+rwx,go+rx&quot;); chmod(&quot;/somedir/somefile&quot;, 0755);]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[PHP目录处理函数]]></title>
+    <url>%2F2019%2F12%2F23%2FPHP%E7%9B%AE%E5%BD%95%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[PHP目录处理函数 函数名 功能opendir 打开文件夹，返回操作资源readdir 读取文件夹资源is_dir 判断是否是文件夹closedir 关闭文件夹操作资源filetype 显示是文件夹还是文件，文件显示file，文件夹显示dir 1234567891011121314151617181920212223242526272829303132//设置打开的目录是D盘$dir = &quot;d:/&quot;;//判断是否是文件夹，是文件夹if (is_dir($dir)) &#123;if ($dh = opendir($dir)) &#123;//读取到最后返回false，停止循环while (($file = readdir($dh)) !== false) &#123;echo &quot;文件名为: $file : 文件的类型是: &quot; . filetype($dir . $file) . &quot;&lt;br /&gt;&quot;;&#125;closedir($dh);&#125;&#125;//文件名为: $RECYCLE.BIN : 文件的类型是: dir文件名为: 1111.txt : 文件的类型是: file文件名为: 2345Downloads : 文件的类型是: dir文件名为: 360downloads : 文件的类型是: dir文件名为: BaiduNetdiskDownload : 文件的类型是: dir文件名为: EFI : 文件的类型是: dir文件名为: jyh : 文件的类型是: dir文件名为: Ksoftware : 文件的类型是: dir文件名为: NetFrameWork : 文件的类型是: dir文件名为: PCGame : 文件的类型是: dir文件名为: Program Files : 文件的类型是: dir文件名为: qqpcmgr_docpro : 文件的类型是: dir文件名为: qycache : 文件的类型是: dir文件名为: System Volume Information : 文件的类型是: dir文件名为: Temp : 文件的类型是: dir文件名为: 原始数据 : 文件的类型是: dir文件名为: 括苍一户一档 : 文件的类型是: dir文件名为: 桌面资料 : 文件的类型是: dir文件名为: 桌面资料2 : 文件的类型是: dir文件名为: 软件安全下载目录 : 文件的类型是: dir]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[PHP文件常用函数和常量]]></title>
+    <url>%2F2019%2F12%2F23%2FPHP%E6%96%87%E4%BB%B6%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E5%92%8C%E5%B8%B8%E9%87%8F%2F</url>
+    <content type="text"><![CDATA[PHP文件常用函数和常量文件目录分割符常量 平台 分割符windows linux /windows 的路径格式为 d:\xxx\xxx 注意：windows支持 d:/xxx/xxxlinux 的路径格式为 /home/xxx/xxx 注意：如果\home\xxx\xxx 在linux上是错误的所以当你开启转义之类的话，转义字符 \ 用一起的话 d:\xxx\xxx 是一样的。判断时候有两个 \ 有的话 再转成一个\ 再把 \ 替换成 /当路径分割，这样在linux上或者windos上的路径就能保持统一了。 常量：DIRECTORY_SEPARATOR在windows上：在Linux上：/ 文件指针操作函数rewind ( resource handle)功能：指针回到开始处fseek ( resource handle, int offset [, int from_where])功能：文件指针向后移动指定字符 filesize 检测文件的大小$filename = ‘c:\Users\dell\Desktop\御坂御坂_new.txt’;echo $filename . ‘文件大小为: ‘ . filesize($filename) . ‘ bytes’;//c:/Users/dell/Desktop/御坂御坂_new.txt文件大小为: 3 bytes 其实还有一些其他操作文件的函数，读取文件函数名 功能file 把整个文件读入一个数组中fgets 从文件指针中读取一行,读到最后返回falsefgetc 从文件指针中读取一个字符，读到最后返回falseftruncate 将文件截断到给定的长度 文件的时间函数函数 功能说明filectime 文件创建时间filemtime 文件修改时间fileatime 文件上次访问时间$filename = ‘c:\Users\dell\Desktop\御坂御坂_new.txt’;if (file_exists($filename)) {echo “文件的上次访问时间是:” . date(“Y-m-d H:i:s”, fileatime($filename)).”“;echo “文件的创建时间是: “ . date(“Y-m-d H:i:s”, filectime($filename)).”“;echo “文件的修改时间是: “ . date(“Y-m-d H:i:s”, filemtime($filename)).”“;}//文件的上次访问时间是:2019-12-10 06:38:36文件的创建时间是: 2019-12-10 06:38:36文件的修改时间是: 2019-12-10 06:38:36]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[PHP检测文件属性函数]]></title>
+    <url>%2F2019%2F12%2F23%2FPHP%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[PHP检测文件属性函数1234567891011121314151617181920bool file_exists ( $指定文件名或者文件路径)功能：文件是否存在。bool is_readable ( $指定文件名或者文件路径)功能：文件是否可读bool is_writeable ( $指定文件名或者文件路径)功能：文件是否可写bool is_executable ( $指定文件名或者文件路径)功能：文件是否可执行bool is_file ( $指定文件名或者文件路径)功能：是否是文件bool is_dir ( $指定文件名或者文件路径)功能：是否是目录void clearstatcache ( void )功能：清楚文件的状态缓存]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[PHP文件基本操作]]></title>
+    <url>%2F2019%2F12%2F23%2FPHP%E6%96%87%E4%BB%B6%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[PHP文件基本操作重命名文件1234567bool rename($旧名,$新名);//旧文件名$file = &apos;C:\\Users\\dell\\Desktop\\御坂御坂.txt&apos;;//新文件名$newfile = &apos;C:\\Users\\dell\\Desktop\\御坂御坂_new.txt&apos;;//重命名文件rename($file, $newfile); 复制文件1234567bool copy(源文件,目标文件)//旧文件名$file = &apos;C:\\Users\\dell\\Desktop\\御坂御坂.txt&apos;;//新文件名$newfile = &apos;C:\\Users\\dell\\Desktop\\御坂御坂_new.txt&apos;;//复制文件copy($file, $newfile); 删除文件123456789bool unlink(指定路径的文件)删除文件就是将指定路径的一个文件删除，不过这个删除是直接删除。使用的是windows电脑，你在回收站看不到这个文件。$file = &apos;C:\\Users\\dell\\Desktop\\御坂御坂.txt&apos;;if (unlink($file)) &#123;echo &quot;删除文件 $file 成功!\n&quot;;&#125;else &#123;echo &quot;删除 $file 失败!\n&quot;;&#125;//删除文件 C:\Users\dell\Desktop\御坂御坂.txt 成功!]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[PHP文件函数]]></title>
     <url>%2F2019%2F12%2F09%2FPHP%E6%96%87%E4%BB%B6%E5%87%BD%E6%95%B0%2F</url>
     <content type="text"><![CDATA[PHP文件函数PHP读取文件readfile 直接输出文件内容int readfile ( string $文件名) file_get_contents 获取文件内容，成为一个字符串string file_get_contents ( string filename)//假设我们有一个多行的文件叫生成出生年月.py，没有的话你可以新建一个这个文件$filename = ‘C:\Users\dell\Desktop\生成出生年月.py’;//打开这个文件，将文件内容赋值给$filestring$filestring = file_get_contents($filename);//因为每一行有一个回车即\n，我用\n来把这个字符串切割成数组$filearray = explode(“\n”, $filestring);//把切割成的数组循环输出。foreach ($filearray as $key =&gt; $value) {echo $key.’：’.$value.’‘;}//0：import xlrd1：2：from xlutils.copy import copy3：4：workbook = xlrd.open_workbook(‘1.xls’, formatting_info=False)5：6：workbooknew = copy(workbook)7：8：sheetnew = workbooknew.get_sheet(0)9：sheetold = workbook.sheet_by_name(‘Sheet1’)10：ID = 7#身份证的列11：Birthday = 6#出生年月的列12：row_begin = 1#开始列数13：row_end = sheetold.nrows#结束列数14：15：for num in range(row_begin,row_end):16： #sheetnew.write(num,2,sheetold.cell(num,4).value)#将性别复制到人口一行17： year = sheetold.cell(num, ID).value[6:10]18： month = sheetold.cell(num, ID).value[10:12]19： day = sheetold.cell(num, ID).value[12:14]20： sheetnew.write(num,Birthday,year+’-‘+month+’-‘+day)#出生年月21：22：workbooknew.save(‘1copy.xls’) fopen、fread、fclose操作读取文件resource fopen ( string $文件名, string 模式)string fread ( resource $操作资源, int 读取长度)bool fclose ( resource $操作资源 ) 通过上面的函数我们来讲解资源类型的通常操作方式：1.打开资源：fopen2.使用相关函数进行操作：fread3.关闭资源：fclose fopen函数 fopen函数的功能是打开文件，参数主要有两个：1.文件打开的路径2.打开文件的模式返回类型是一个资源类型。资源类型需要其他的函数来操作这个资源。所有的资源有打开就要有关闭！！！ fopen模式说明r 只读方式打开，将文件指针指向文件头。r+ 读写方式打开，将文件指针指向文件头。w 写入方式打开，将文件指针指向文件头并将文件大小截为零。如果文件不存在则尝试创建w+ 读写方式打开，将文件指针指向文件头并将文件大小截为零。如果文件不存在则尝试创建a 写入方式打开，将文件指针指向文件末尾。如果文件不存在则尝试创建a+ 读写方式打开，将文件指针指向文件末尾。如果文件不存在则尝试创建之x 创建并以写入方式打开，将文件指针指向文件头。如果文件已存在，则 fopen() 调用失败并返回 FALSE，并生成一条 E_WARNING 级别的错误信息。如果文件不存在则尝试创建x+ 创建并以读写方式打开，将文件指针指向文件头。如果文件已存在，则 fopen() 调用失败并返回 FALSE，并生成一条 E_WARNING 级别的错误信息。如果文件不存在则尝试创建 fread函数 函数的功能的功能是读取打开的文件资源。读取指定长度的文件资源，读取一部份向后移动一部份。至到文件结尾。 fclose函数 fclose函数的功能是关闭资源。资源有打开就有关闭。 打开文件//你可以创建一个NoAlike.txt，以只读模式打开$fp = fopen(‘C:\Users\dell\Desktop\生成出生年月.py’, “r”);//var_dump()操作一下$fp看看效果，输出的是不是只有类型提示的是resourcevar_dump($fp);//resource(5) of type (stream) 读取文件//打开一个文件类型后，读取指定长度$contents = fread($fp, 10);echo $contents;//import xlr 关闭文件fclose($fp); 其他注意事项：模式 说明t windows下将\n转为\r\nb 二进制打开模式 PHP创建和修改文件file_put_contents写入文件int file_put_contents ( string $文件路径, string $写入数据])功能：向指定的文件当中写入一个字符串，如果文件不存在则创建文件。返回的是写入的字节长度 fwrite配合fopen进行写入操作int fwrite ( resource $文件资源变量, string $写入的字符串 [, int 长度])注：fwrite的别名函数是fputs$file = ‘C:\Users\dell\Desktop\御坂御坂.txt’;$fp= fopen($file, “w”);$len = fwrite($fp, ‘我是一只来自北方的狼，却在南方冻成了狗’);fclose($fp);print $len .’字节被写入了’; 总结：1.不论有没有新建都会打开文件重新写入2.原有的文件内容会被覆盖掉3.文件不存在会创建 那我们来对比一下以下几个模式的不同：模式说明r 只能读不能使用fwrite写r+ 可操作读、写w 只可以写功能w+ 即可读又可以写 a模式和w模式的不同 总结：模式总结w 每次写入会清除原有文件的内容，文件不存在都会创建a 每次写入都会向文件的尾端追加内容注：a+ 是增强的追加功能。在读取时也可以使用。 x模式和w模式的不同 我们会发现： 1.文件存在的时候使用x模式会报错 3.x+ 是增强的x模式。读取时也可以使用。]]></content>
