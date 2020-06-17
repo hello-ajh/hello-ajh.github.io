@@ -274,6 +274,1138 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2020/06/17/Redis——SpringBoot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/17/Redis——SpringBoot/" itemprop="url">Redis——SpringBoot</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T19:11:00+08:00">
+                2020-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java-spring/" itemprop="url" rel="index">
+                    <span itemprop="name">java spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Redis——SpringBoot"><a href="#Redis——SpringBoot" class="headerlink" title="Redis——SpringBoot"></a>Redis——SpringBoot</h1><p>1.安装redis</p>
+<p>2.启动redis命令：redis-server.exe redis.windows.conf</p>
+<p>jedis已经不生效了，需要使用 lettuce</p>
+<p>3.导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>4.配置连接</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置Redis</span></span><br><span class="line"><span class="string">spring.redis.host=127.0.0.1</span></span><br><span class="line"><span class="string">spring.redis.port=6379</span></span><br><span class="line"><span class="comment">#spring.redis.jedis.pool.max-active=    失效</span></span><br><span class="line"><span class="comment">#spring.redis.lettuce.pool.max-active=  不失效</span></span><br></pre></td></tr></table></figure>
+
+<p>5.测试！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedisSpringbootApplicationTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// redisTemplate    操作不同的数据类型，api和我们的指令是一样的</span></span><br><span class="line">        <span class="comment">// opsForValue  操作字符串   类似String</span></span><br><span class="line">        <span class="comment">// opsForList   操作list  类似List</span></span><br><span class="line">        <span class="comment">// opsForSet</span></span><br><span class="line">        <span class="comment">// opsForHash</span></span><br><span class="line">        <span class="comment">// opsForZSet</span></span><br><span class="line">        <span class="comment">// opsForGeo</span></span><br><span class="line">        <span class="comment">// opsForHyperLogLog</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//除了基本的操作，我们常用的方法都可以直接通过redisTemplate来操作，比如事务，基本的CRUD</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取redis的连接对象</span></span><br><span class="line">        <span class="comment">//        RedisConnection connection = redisTemplate.getConnectionFactory().getConnection();</span></span><br><span class="line">        <span class="comment">//        connection.flushDb();</span></span><br><span class="line">        <span class="comment">//        connection.flushAll();</span></span><br><span class="line"></span><br><span class="line">        redisTemplate.opsForValue().set(<span class="string">"mykey"</span>,<span class="string">"misaka"</span>);</span><br><span class="line">        System.out.println(redisTemplate.opsForValue().get(<span class="string">"mykey"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2020/06/17/Spring Boot 常用依赖/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/17/Spring Boot 常用依赖/" itemprop="url">Spring Boot 常用依赖</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T19:11:00+08:00">
+                2020-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java-spring/" itemprop="url" rel="index">
+                    <span itemprop="name">java spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Spring-Boot-常用依赖"><a href="#Spring-Boot-常用依赖" class="headerlink" title="Spring Boot 常用依赖"></a>Spring Boot 常用依赖</h3><h5 id="web"><a href="#web" class="headerlink" title="web"></a>web</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="thymeleaf试图模版"><a href="#thymeleaf试图模版" class="headerlink" title="thymeleaf试图模版"></a>thymeleaf试图模版</h5><blockquote>
+<p>thymeleaf   视图下的命名空间：</p>
+</blockquote>
+<p><code>&lt;html lang=&quot;en&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Spring-Security"><a href="#Spring-Security" class="headerlink" title="Spring Security"></a>Spring Security</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="thymeleaf——Spring-Security"><a href="#thymeleaf——Spring-Security" class="headerlink" title="thymeleaf——Spring Security"></a>thymeleaf——Spring Security</h5><blockquote>
+<p>视图的命名空间：</p>
+</blockquote>
+<p><code>xmlns:sec=&quot;http://www.thymeleaf.org/extras/spring-security&quot;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.thymeleaf.extras&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;thymeleaf-extras-springsecurity5&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.0.4.RELEASE&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="shiro——Spring"><a href="#shiro——Spring" class="headerlink" title="shiro——Spring"></a>shiro——Spring</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.5.3&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="shiro——thymeleaf"><a href="#shiro——thymeleaf" class="headerlink" title="shiro——thymeleaf"></a>shiro——thymeleaf</h5><blockquote>
+<p>视图的命名空间：</p>
+</blockquote>
+<p><code>xmlns:shiro=&quot;http://www.thymeleaf.org/extras/shiro&quot;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.github.theborakompanioni&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;thymeleaf-extras-shiro&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="shiro——SpringBoot"><a href="#shiro——SpringBoot" class="headerlink" title="shiro——SpringBoot"></a>shiro——SpringBoot</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring-boot-web-starter --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;shiro-spring-boot-web-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.5.3&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="log4j"><a href="#log4j" class="headerlink" title="log4j"></a>log4j</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;log4j&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;log4j&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.2.17&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="jdbc"><a href="#jdbc" class="headerlink" title="jdbc"></a>jdbc</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--springboot官方的以spring-boot-starter开头--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="lombok"><a href="#lombok" class="headerlink" title="lombok"></a>lombok</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;lombok&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="druid阿里云数据源"><a href="#druid阿里云数据源" class="headerlink" title="druid阿里云数据源"></a>druid阿里云数据源</h5><blockquote>
+<p>阿里云datasource数据源（操作数据库）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;druid&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.1.22&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="druid数据源连接mysql"><a href="#druid数据源连接mysql" class="headerlink" title="druid数据源连接mysql"></a>druid数据源连接mysql</h5><blockquote>
+<p>application.yml配置（连接的数据库名字为mybatis，mysql用户名root，密码123456）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    username: root</span><br><span class="line">    password: 123456</span><br><span class="line">    url: jdbc:mysql://localhost:3306/mybatis?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=UTC</span><br><span class="line">    driver-class-name: com.mysql.cj.jdbc.Driver</span><br><span class="line">    type: com.alibaba.druid.pool.DruidDataSource</span><br><span class="line"></span><br><span class="line">    #Spring Boot默认是不注入这些属性值的，需要自己绑定</span><br><span class="line">    #druid 数据源专有配置</span><br><span class="line">    initialSize: 5</span><br><span class="line">    minIdle: 5</span><br><span class="line">    maxActive: 20</span><br><span class="line">    maxWait: 60000</span><br><span class="line">    timeBetweenEvictionRunsMillis: 60000</span><br><span class="line">    minEvictableIdleTimeMillis: 300000</span><br><span class="line">    validationQuery: SELECT 1 FROM DUAL</span><br><span class="line">    testWhileIdle: true</span><br><span class="line">    testOnBorrow: false</span><br><span class="line">    testOnReturn: false</span><br><span class="line">    poolPreparedStatements: true</span><br><span class="line"></span><br><span class="line">    filters: stat,wall,log4j</span><br><span class="line">    maxPoolPreparedStatementPerConnectionSize: 20</span><br><span class="line">    useGlobalDataSourceStat: true</span><br><span class="line">    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500</span><br></pre></td></tr></table></figure>
+
+<h5 id="mybatis"><a href="#mybatis" class="headerlink" title="mybatis"></a>mybatis</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.1.3&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>绑定mybatis的额外配置，需要同时加上上面的application.yml配置才能连接mysql</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mybatis:</span><br><span class="line">  type-aliases-package: com.misaka.pojo</span><br><span class="line">  mapper-locations: classpath:mapper/*.xml</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用mybatis的步骤"><a href="#使用mybatis的步骤" class="headerlink" title="使用mybatis的步骤"></a>使用mybatis的步骤</h5><ul>
+<li>导入依赖</li>
+<li>在application.yml中写配置</li>
+</ul>
+<ul>
+<li><p>创建pojo层，创建其中的数据表实体类（User），加上注解，用来生成构造函数，get/set方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建mapper层（jdbc中的dao层），创建其中的数据表操作接口（UserMapper），加上注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="meta">@Mapper</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>创建resources/mapper/UserMapper.xml（数据表xml文件）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE mapper</span></span><br><span class="line"><span class="meta">        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"</span></span><br><span class="line"><span class="meta">        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"com.misaka.mapper.UserMapper"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"queryUserList"</span> <span class="attr">resultType</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">        select * from user;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"queryUserById"</span> <span class="attr">resultType</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">        select * from user where id = #&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"addUser"</span> <span class="attr">parameterType</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">        insert into user(id,name,pwd) values(#&#123;id&#125;,#&#123;name&#125;,#&#123;pwd&#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateUser"</span> <span class="attr">parameterType</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">        update user set name=#&#123;name&#125;,pwd=#&#123;pwd&#125; where id=#&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">delete</span> <span class="attr">id</span>=<span class="string">"deleteUser"</span> <span class="attr">parameterType</span>=<span class="string">"int"</span>&gt;</span></span><br><span class="line">        delete from user where id=#&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">delete</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--swagger2--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--swagger-ui--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="mail邮件"><a href="#mail邮件" class="headerlink" title="mail邮件"></a>mail邮件</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--邮件--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-mail<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="Redis——SpringBoot"><a href="#Redis——SpringBoot" class="headerlink" title="Redis——SpringBoot"></a>Redis——SpringBoot</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="服务注册发现实战Dubbo-Zookeeper-SpringBoot"><a href="#服务注册发现实战Dubbo-Zookeeper-SpringBoot" class="headerlink" title="服务注册发现实战Dubbo+Zookeeper+SpringBoot"></a>服务注册发现实战Dubbo+Zookeeper+SpringBoot</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--导入依赖：Dubbo + Zookeeper--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--Dubbo--&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo-spring-boot-starter --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.dubbo<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>dubbo-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.7.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--zkclient--&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/com.github.sgroschupf/zkclient --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.sgroschupf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zkclient<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--日志会冲突--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--引入zookeper--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-framework<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.12.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-recipes<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.12.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.zookeeper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zookeeper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.14<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--排除这个slf4j-log4j12--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2020/06/17/Swagger/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/17/Swagger/" itemprop="url">Swagger</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T19:11:00+08:00">
+                2020-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java-spring/" itemprop="url" rel="index">
+                    <span itemprop="name">java spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h1><p>学习目标：</p>
+<ul>
+<li>了解Swagger的作用和概念</li>
+<li>了解前后端分离</li>
+<li>在SpringBoot中集成Swagger</li>
+</ul>
+<h3 id="Swagger简介"><a href="#Swagger简介" class="headerlink" title="Swagger简介"></a>Swagger简介</h3><p><strong>前后端分离</strong></p>
+<p>Vue + SpringBoot</p>
+<p>后端时代：前端只用管理静态页面：html ==&gt; 后端，模版引擎 JSP =&gt; 后端是主力</p>
+<p>前后端分离时代：</p>
+<ul>
+<li>后端：后端控制层controller，服务层service，数据访问层dao【后端团队】</li>
+<li>前端：前端控制层，视图层【前端团队】<ul>
+<li>伪造后端数据，json。已经存在了，不需要后端，前端工程依旧能够跑起来</li>
+</ul>
+</li>
+<li>前后端如何交互 ===&gt; API</li>
+<li>前后端相对独立，松耦合</li>
+<li>前后端可以部署在不同的服务器上</li>
+</ul>
+<p>产生一个问题：</p>
+<ul>
+<li>前后端集成联调，前端人员和后端人员无法做到 “即时协商，尽早解决”</li>
+</ul>
+<p>解决方案：</p>
+<ul>
+<li>首先指定schema【计划的提纲】，实时更新最新API，降低集成的风险</li>
+<li>早些年：制定word计划文档；</li>
+<li>前后端分离：<ul>
+<li>前端测试后端接口：postman</li>
+<li>后端提供接口，需要实时更新最新的消息及改动！</li>
+</ul>
+</li>
+</ul>
+<h3 id="Swagger-1"><a href="#Swagger-1" class="headerlink" title="Swagger"></a>Swagger</h3><ul>
+<li>号称世界上最流行的Api框架；</li>
+<li>RestFul  Api文档在线自动生成工具 =&gt; <strong>Api文档与Api定义同步更新</strong></li>
+<li>直接运行，可以在线测试API接口；</li>
+<li>支持多种语言：（Java，PHP….）</li>
+</ul>
+<p>官网：<a href="https://swagger.io" target="_blank" rel="noopener">https://swagger.io</a></p>
+<p>在项目使用Swagger，需要 SpringFox</p>
+<ul>
+<li>swagger2</li>
+<li>ui</li>
+</ul>
+<h3 id="SpringBoot集成Swagger"><a href="#SpringBoot集成Swagger" class="headerlink" title="SpringBoot集成Swagger"></a>SpringBoot集成Swagger</h3><p>1.新建一个SpringBoot——Web项目</p>
+<p>2.导入相关依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--swagger2--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--swagger-ui--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3.编写一个Hello工程</p>
+<p>4.配置Swagger ==&gt; Config</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger</span>2     <span class="comment">//开启Swagger2</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5.测试运行：<a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noopener">http://localhost:8080/swagger-ui.html</a></p>
+<h3 id="配置Swagger"><a href="#配置Swagger" class="headerlink" title="配置Swagger"></a>配置Swagger</h3><p>Swagger的bean实例    Docket</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置了Swagger的 Docket实例</span></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Docket <span class="title">docket</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置Swagger的基本信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置Swagger 信息=apiInfo</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//作者信息</span></span><br><span class="line">    Contact contact = <span class="keyword">new</span> Contact(<span class="string">"Misaka"</span>, <span class="string">"https://hello-ajh.github.io/"</span>, <span class="string">"yuban0416@qq.com"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ApiInfo(</span><br><span class="line">        <span class="string">"Misaka的SwaggerAPI文档"</span>,</span><br><span class="line">        <span class="string">"这个人是个懒狗，什么都没有写"</span>,</span><br><span class="line">        <span class="string">"v1.0"</span>,</span><br><span class="line">        <span class="string">"https://hello-ajh.github.io/"</span>,</span><br><span class="line">        contact,</span><br><span class="line">        <span class="string">"Apache 2.0"</span>,</span><br><span class="line">        <span class="string">"http://www.apache.org/licenses/LICENSE-2.0"</span>,</span><br><span class="line">        <span class="keyword">new</span> ArrayList()</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Swagger配置扫描接口"><a href="#Swagger配置扫描接口" class="headerlink" title="Swagger配置扫描接口"></a>Swagger配置扫描接口</h3><p>Docket.select（）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置了Swagger的 Docket实例</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">docket</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2)</span><br><span class="line">                .apiInfo(apiInfo())</span><br><span class="line">                <span class="comment">//enable()      配置是否启动Swagger，如果为false，则Swagger不能在浏览器中访问</span></span><br><span class="line"><span class="comment">//                .enable(false)</span></span><br><span class="line">                .select()</span><br><span class="line">                <span class="comment">//RequestHandlerSelectors   配置要扫描接口的方式</span></span><br><span class="line">                <span class="comment">//any()     扫描全部</span></span><br><span class="line"><span class="comment">//                .apis(RequestHandlerSelectors.any())</span></span><br><span class="line">                <span class="comment">//none()     不扫描</span></span><br><span class="line"><span class="comment">//                .apis(RequestHandlerSelectors.none())</span></span><br><span class="line">                <span class="comment">//withClassAnnotation()     扫描类上的注解，参数是一个注解的反射对象</span></span><br><span class="line"><span class="comment">//                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))</span></span><br><span class="line">                <span class="comment">//withMethodAnnotation()     扫描方法上的注解</span></span><br><span class="line"><span class="comment">//                .apis(RequestHandlerSelectors.withMethodAnnotation(RequestMapping.class))</span></span><br><span class="line">                <span class="comment">//basePackage   指定要扫描的包</span></span><br><span class="line">                .apis(RequestHandlerSelectors.basePackage(<span class="string">"com.misaka.swagger.controller"</span>))</span><br><span class="line">                <span class="comment">//paths()       过滤什么url，只有这个url下的 API才会被扫描</span></span><br><span class="line"><span class="comment">//                .paths(PathSelectors.ant("/misaka/**"))</span></span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置是否启动Swagger</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置了Swagger的 Docket实例</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">docket</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2)</span><br><span class="line">                .apiInfo(apiInfo())</span><br><span class="line">                <span class="comment">//enable()      配置是否启动Swagger，如果为false，则Swagger不能在浏览器中访问</span></span><br><span class="line">                .enable(<span class="keyword">true</span>)</span><br><span class="line">                .select()</span><br><span class="line">            .apis(RequestHandlerSelectors.basePackage(<span class="string">"com.misaka.swagger.controller"</span>))</span><br><span class="line">            	.build();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>我只希望我的Swagger在生产环境中使用，在发布的时候不使用？</p>
+<ul>
+<li><p>如果当前项目激活的配置文件是application-dev.yml或者是application-test.yml，则让Swagger生效</p>
+<p>（如果当前项目的环境是dev或test，则让Swagger生效）</p>
+</li>
+<li><p>判断是不是生产环境    flag = false</p>
+</li>
+<li><p>注入enable（flag）</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置了Swagger的 Docket实例</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">docket</span><span class="params">(Environment environment)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置要显示的Swagger环境</span></span><br><span class="line">        Profiles profiles = Profiles.of(<span class="string">"dev"</span>,<span class="string">"test"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取项目的环境（默认/dev/test/pro）:</span></span><br><span class="line">        <span class="comment">//通过environment.acceptsProfiles() 判断是否处在自己设定的环境当中</span></span><br><span class="line">        <span class="comment">//如果当前项目环境为dev/test，flag就为true</span></span><br><span class="line">        <span class="keyword">boolean</span> flag = environment.acceptsProfiles(profiles);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2)</span><br><span class="line">                .apiInfo(apiInfo())</span><br><span class="line">                <span class="comment">//enable()      配置是否启动Swagger，如果为false，则Swagger不能在浏览器中访问</span></span><br><span class="line">                .enable(flag)</span><br><span class="line">                .select()               .apis(RequestHandlerSelectors.basePackage(<span class="string">"com.misaka.swagger.controller"</span>))</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在application.yml中可以指定生效的yml文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">spring.profiles.active=dev</span>	<span class="comment">#application-dev.yml文件生效	</span></span><br><span class="line"><span class="comment">#spring.profiles.active=pro</span></span><br></pre></td></tr></table></figure>
+
+<p>配置API文档的分组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.groupName(<span class="string">"安佳豪"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如何配置多个分组；配置多个Docket实例即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Docket <span class="title">docket1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2).groupName(<span class="string">"A"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Docket <span class="title">docket2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2).groupName(<span class="string">"B"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Docket <span class="title">docket3</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2).groupName(<span class="string">"C"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实体类配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//@Api(注释)</span></span><br><span class="line"><span class="meta">@ApiModel</span>(<span class="string">"用户实体类"</span>)</span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(<span class="string">"用户名"</span>)</span><br><span class="line">    <span class="keyword">public</span> String username;</span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(<span class="string">"密码"</span>)</span><br><span class="line">    <span class="keyword">public</span> String password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>controller</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//@Api(tags = "Hello控制类")</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(value = <span class="string">"/hello"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"hello"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//只要我们的接口中，返回值中存在实体类，它就会被扫描到 Swagger中</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(value = <span class="string">"/user"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">user</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Operation接口，不是放在类上的，是方法</span></span><br><span class="line">    <span class="meta">@ApiOperation</span>(<span class="string">"Hello2方法"</span>)</span><br><span class="line">    <span class="meta">@GetMapping</span>(value = <span class="string">"/hello2"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello2</span><span class="params">(@ApiParam(<span class="string">"用户名"</span>)</span> String username)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"hello"</span>+username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation</span>(<span class="string">"post测试"</span>)</span><br><span class="line">    <span class="meta">@PostMapping</span>(value = <span class="string">"/postt"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">postt</span><span class="params">(@ApiParam(<span class="string">"用户名"</span>)</span> User user)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>1.我们可以通过Swagger给一些比较难理解的属性或者接口，添加注释信息</p>
+<p>2.接口文档实时更新</p>
+<p>3.可以在线测试</p>
+<p>Swagger是一个优秀的工具</p>
+<p>【注意点】在正式发布的时候，关闭Swagger！！！出于安全考虑，而且节省运行的内存。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2020/06/17/任务/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/17/任务/" itemprop="url">任务</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T19:11:00+08:00">
+                2020-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java-spring/" itemprop="url" rel="index">
+                    <span itemprop="name">java spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h1><h3 id="异步任务"><a href="#异步任务" class="headerlink" title="异步任务~"></a>异步任务~</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableAsync</span>    <span class="comment">//开启异步注解功能</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//告诉Spring这是一个异步的方法</span></span><br><span class="line">    <span class="meta">@Async</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"数据正在处理......"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    AsyncService asyncService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/hello"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        asyncService.hello();<span class="comment">//停止3秒，转圈~</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"OK"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务~"></a>定时任务~</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">TaskScheduler	任务调度者</span><br><span class="line">TaskExecutor	任务执行者</span><br><span class="line"></span><br><span class="line"><span class="meta">@EnableScheduling</span>   <span class="comment">//开启定时功能的注解</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Scheduled</span>	<span class="comment">//什么时候执行~</span></span><br><span class="line"></span><br><span class="line">Cron表达式</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScheduledService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在一个特定的时间执行这个方法！   Timer</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//cron表达式</span></span><br><span class="line">    <span class="comment">//秒   分   时   日   月   周几</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    "0 0 12 * * ?" 每天中午12点触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 15 10 ? * *" 每天上午10:15触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 15 10 * * ?" 每天上午10:15触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 15 10 * * ? *" 每天上午10:15触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 15 10 * * ? 2005" 2005年的每天上午10:15触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 * 14 * * ?" 在每天下午2点到下午2:59期间的每1分钟触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 0/5 14 * * ?" 在每天下午2点到下午2:55期间的每5分钟触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 0/5 14,18 * * ?" 在每天下午2点到2:55期间和下午6点到6:55期间的每5分钟触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 0-5 14 * * ?" 在每天下午2点到下午2:05期间的每1分钟触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 10,44 14 ? 3 WED" 每年三月的星期三的下午2:10和2:44触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 15 10 ? * MON-FRI" 周一至周五的上午10:15触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 15 10 15 * ?" 每月15日上午10:15触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 15 10 L * ?" 每月最后一日的上午10:15触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 15 10 ? * 6L" 每月的最后一个星期五上午10:15触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 15 10 ? * 6L 2002-2005" 2002年至2005年的每月的最后一个星期五上午10:15触发</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    "0 15 10 ? * 6#3" 每月的第三个星期五上午10:15触发</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"0/2 * * * * ?"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello，你被执行了！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="邮件发送"><a href="#邮件发送" class="headerlink" title="邮件发送~"></a>邮件发送~</h3><p>依赖</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--邮件--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-mail&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>application.properties</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">spring.mail.username=yuban0416@qq.com</span></span><br><span class="line"><span class="comment">#QQ邮箱 POP3/SMTP授权码</span></span><br><span class="line"><span class="string">spring.mail.password=prxemstcmiihdjcb</span></span><br><span class="line"><span class="string">spring.mail.host=smtp.qq.com</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启加密验证</span></span><br><span class="line"><span class="string">spring.mail.properties.mail.smtp.ssl.enable=true</span></span><br></pre></td></tr></table></figure>
+
+<p>ApplicationTests</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoApplicationTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    JavaMailSenderImpl mailSender;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//一个简单的邮件</span></span><br><span class="line">        SimpleMailMessage mailMessage = <span class="keyword">new</span> SimpleMailMessage();</span><br><span class="line"></span><br><span class="line">        mailMessage.setSubject(<span class="string">"Misaka:我是一个主题"</span>);<span class="comment">//主题</span></span><br><span class="line">        mailMessage.setText(<span class="string">"Misaka:我是一个内容"</span>);<span class="comment">//内容</span></span><br><span class="line">        mailMessage.setTo(<span class="string">"2275777296@qq.com"</span>);<span class="comment">//收件人邮箱地址</span></span><br><span class="line">        mailMessage.setFrom(<span class="string">"yuban0416@qq.com"</span>);<span class="comment">//发件人邮箱地址</span></span><br><span class="line"></span><br><span class="line">        mailSender.send(mailMessage);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">contextLoads2</span><span class="params">()</span> <span class="keyword">throws</span> MessagingException </span>&#123;</span><br><span class="line">        <span class="comment">//一个复杂的邮件</span></span><br><span class="line">        MimeMessage mimeMessage = mailSender.createMimeMessage();</span><br><span class="line">        <span class="comment">//组装~</span></span><br><span class="line">        MimeMessageHelper helper = <span class="keyword">new</span> MimeMessageHelper(mimeMessage,<span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">//正文</span></span><br><span class="line">        helper.setSubject(<span class="string">"Misaka:我是一个主题"</span>);</span><br><span class="line">        helper.setText(<span class="string">"&lt;p style='color:red'&gt;Misaka:我是一个内容&lt;/p&gt;"</span>,<span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">//附件</span></span><br><span class="line">        helper.addAttachment(<span class="string">"1.jpg"</span>,<span class="keyword">new</span> File(<span class="string">"C:/Users/Administrator/Desktop/井盖地雷.jpg"</span>));</span><br><span class="line">        helper.addAttachment(<span class="string">"2.jpg"</span>,<span class="keyword">new</span> File(<span class="string">"C:/Users/Administrator/Desktop/井盖地雷.jpg"</span>));</span><br><span class="line">        helper.setTo(<span class="string">"2275777296@qq.com"</span>);</span><br><span class="line">        helper.setFrom(<span class="string">"yuban0416@qq.com"</span>);</span><br><span class="line">        mailSender.send(mimeMessage);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2020/06/17/pojo,dao,service,controller/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/17/pojo,dao,service,controller/" itemprop="url">pojo,dao,service,controller</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T19:11:00+08:00">
+                2020-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java-spring/" itemprop="url" rel="index">
+                    <span itemprop="name">java spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="POJO-plain-ordinaty-java-object-数据对象原型：数据表层"><a href="#POJO-plain-ordinaty-java-object-数据对象原型：数据表层" class="headerlink" title="POJO(plain ordinaty java object)数据对象原型：数据表层"></a>POJO(plain ordinaty java object)数据对象原型：数据表层</h3><ul>
+<li><p>一个类代表一张数据表</p>
+</li>
+<li><p>里面只有成员变量、构造函数、get/set方法这些基本内容</p>
+</li>
+<li><p>不允许有业务方法,也不能携带有connection之类的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="comment">//加上上面这些lombok注解之后，会自动生成构造函数、get/set方法等基本内容</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String pwd;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="DAO-Data-Access-Object-：是一个数据访问接口，dao和mapper差不多，对数据库进行数据持久化操作"><a href="#DAO-Data-Access-Object-：是一个数据访问接口，dao和mapper差不多，对数据库进行数据持久化操作" class="headerlink" title="DAO(Data Access Object)：是一个数据访问接口，dao和mapper差不多，对数据库进行数据持久化操作"></a>DAO(Data Access Object)：是一个数据访问接口，dao和mapper差不多，对数据库进行数据持久化操作</h3><ul>
+<li><p>需要加上@Repository 注解</p>
+</li>
+<li><p>就是创建对数据进行CRUD这些操作的方法的类</p>
+</li>
+<li><p>这些创建好的方法将要等待service层或controller层来调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这个注解表示了这是一个mybatis的mapper类，其实就是dao层</span></span><br><span class="line"><span class="comment">//与resources/mybatis/mapper/UserMapper.xml相对应</span></span><br><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> </span>&#123;</span><br><span class="line">    <span class="function">List&lt;User&gt; <span class="title">queryUserList</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">User <span class="title">queryUserById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">addUser</span><span class="params">(User user)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">updateUser</span><span class="params">(User user)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">deleteUser</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//部门 dao</span></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DepartmentDao</span> </span>&#123;</span><br><span class="line">    <span class="comment">//模拟数据库中的数据</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;Integer, Department&gt; departments = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        departments = <span class="keyword">new</span> HashMap&lt;Integer, Department&gt;();<span class="comment">//创建一个部门表</span></span><br><span class="line">        departments.put(<span class="number">101</span>, <span class="keyword">new</span> Department(<span class="number">101</span>, <span class="string">"教学部"</span>));</span><br><span class="line">        departments.put(<span class="number">102</span>, <span class="keyword">new</span> Department(<span class="number">102</span>, <span class="string">"市场部"</span>));</span><br><span class="line">        departments.put(<span class="number">103</span>, <span class="keyword">new</span> Department(<span class="number">103</span>, <span class="string">"教研部"</span>));</span><br><span class="line">        departments.put(<span class="number">104</span>, <span class="keyword">new</span> Department(<span class="number">104</span>, <span class="string">"运营部"</span>));</span><br><span class="line">        departments.put(<span class="number">105</span>, <span class="keyword">new</span> Department(<span class="number">105</span>, <span class="string">"后勤部"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//获得所有部门信息</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Collection&lt;Department&gt; <span class="title">getDepartments</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> departments.values();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//通过id得到部门</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Department <span class="title">getDepartmentById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> departments.get(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h3 id="Service层：业务层"><a href="#Service层：业务层" class="headerlink" title="Service层：业务层"></a>Service层：业务层</h3><ul>
+<li><p>需要加上@Service 注解</p>
+</li>
+<li><p>一般情况下，一个DAO只操作一个POJO对象，因此一个DAO对应一个POJO对象。 Service层是为了处理包含多个POJO对象（即对多个表的数据操作）时，进行事务管理（声明式事务管理），Service层（其接口的实现类）被注入多个DAO对象，以完成其数据操作。</p>
+</li>
+<li><p>SSM中Service存放业务逻辑处理，也是一些关于数据库处理的操作，但不是直接和数据库打交道，他有接口还有接口的实现方法，在接口的实现方法中需要导入mapper层，mapper层是直接跟数据库打交道的，它也是个接口，只有方法名字，具体实现在mapper.xml文件里，service是供我们使用的方法。</p>
+</li>
+<li><p>mapper层等于dao层，现在用mybatis逆向工程生成的mapper层，其实就是dao层。对数据库进行数据持久化操作，他的方法语句是直接针对数据库操作的，而service层是针对我们controller，也就是针对我们使用者。service的impl是把mapper和service进行整合的文件</p>
+</li>
+</ul>
+<h3 id="controller层：控制层：接收前端传过来的参数进行业务操作"><a href="#controller层：控制层：接收前端传过来的参数进行业务操作" class="headerlink" title="controller层：控制层：接收前端传过来的参数进行业务操作"></a>controller层：控制层：接收前端传过来的参数进行业务操作</h3><ul>
+<li>需要加上@Controller注解或@RestController注解</li>
+<li>@RestController  //相当于@Controller+@ResponseBody，加了这个注解之后，里面的所有方法都不会去返回视图，而是直接输出内容</li>
+<li>如果只使用@Controller，不使用@ResponseBody，那么所有方法都会去返回视图</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class LoginController &#123;</span><br><span class="line">    @RequestMapping(&quot;/user/login&quot;)</span><br><span class="line">//    @ResponseBody</span><br><span class="line">    //加上这个注解，就不会去走视图解析器，而是直接将结果输出</span><br><span class="line">    //如果不加这个注解，将会走视图解析器，直接去找对应名字的页面（在templates下找）</span><br><span class="line">    //如果找不到对应页面，将会报500错误</span><br><span class="line">    public String login(</span><br><span class="line">            @RequestParam(&quot;username&quot;) String username,</span><br><span class="line">            @RequestParam(&quot;password&quot;) String password,</span><br><span class="line">            Model model,</span><br><span class="line">            HttpSession session) &#123;</span><br><span class="line"></span><br><span class="line">        //具体业务：</span><br><span class="line">        if (!StringUtils.isEmpty(username) &amp;&amp; &quot;123&quot;.equals(password)) &#123;</span><br><span class="line">            session.setAttribute(&quot;loginUser&quot;, username);</span><br><span class="line">            return &quot;redirect:/main.html&quot;;//重定向</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            //登录失败了</span><br><span class="line">            model.addAttribute(&quot;msg&quot;, &quot;用户名或密码错误&quot;);</span><br><span class="line">            return &quot;index&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @RequestMapping(&quot;/user/logout&quot;)</span><br><span class="line">    public String logout(HttpSession session)&#123;</span><br><span class="line">        session.invalidate();</span><br><span class="line">        return &quot;redirect:/index&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2020/06/17/分布式Dubbo+Zookeeper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="御坂0416">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="御坂0416的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/17/分布式Dubbo+Zookeeper/" itemprop="url">分布式Dubbo+Zookeeper</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T19:11:00+08:00">
+                2020-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java-spring/" itemprop="url" rel="index">
+                    <span itemprop="name">java spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="分布式Dubbo-Zookeeper-SpringBoot"><a href="#分布式Dubbo-Zookeeper-SpringBoot" class="headerlink" title="分布式Dubbo+Zookeeper+SpringBoot"></a>分布式Dubbo+Zookeeper+SpringBoot</h2><p>|阿里云|腾讯云|华为云|</p>
+<h3 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h3><blockquote>
+<p>RPC是指<strong>远程过程调用</strong>，也就是说两台服务器A，B，一个应用部署在A服务器上，想要调用B服务器上应用提供的函数/方法，由于不在一个内存空间，不能直接调用，需要通过网络来表达调用的语义和传达调用的数据。</p>
+</blockquote>
+<p>HTTP SpringCloud~</p>
+<p>RPC两个核心模块：通讯，序列化</p>
+<p>序列化：数据传输需要转换</p>
+<hr>
+<h3 id="zookeeper-hadoop-hive"><a href="#zookeeper-hadoop-hive" class="headerlink" title="zookeeper: hadoop hive~"></a>zookeeper: hadoop hive~</h3><p>zookeeper：地址：<a href="http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.14/" target="_blank" rel="noopener">http://mirror.bit.edu.cn/apache/zookeeper/zookeeper-3.4.14/</a></p>
+<h5 id="zookeeper安装"><a href="#zookeeper安装" class="headerlink" title="zookeeper安装"></a>zookeeper安装</h5><p>1.需要将zookeeper-3.4.14/conf/zoo_sample.cfg复制一份，重命名为zoo.cfg</p>
+<p>2.运行zookeeper-3.4.14/bin/zkServer.cmd    （windows下为cmd文件，linux下为sh文件）</p>
+<p>3.运行zookeeper-3.4.14/bin/zkCli.cmd</p>
+<hr>
+<h3 id="Dubbo"><a href="#Dubbo" class="headerlink" title="Dubbo"></a>Dubbo</h3><p>dubbo：地址：<a href="https://github.com/apache/dubbo-admin/tree/master" target="_blank" rel="noopener">https://github.com/apache/dubbo-admin/tree/master</a></p>
+<h5 id="dubbo项目打包"><a href="#dubbo项目打包" class="headerlink" title="dubbo项目打包"></a>dubbo项目打包</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean package -Dmaven.test.skip=true</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动：不启动SpringBoot时的顺序"><a href="#启动：不启动SpringBoot时的顺序" class="headerlink" title="启动：不启动SpringBoot时的顺序~"></a>启动：不启动SpringBoot时的顺序~</h3><p>1.启动zookeeper：zkServer.cmd</p>
+<p>2.启动dubbo：dubbo-admin-0.0.1-SNAPSHOT.jar</p>
+<p>3.进入端口<a href="http://localhost:7001/" target="_blank" rel="noopener">http://localhost:7001/</a></p>
+<p>4.输入账户密码    root/root</p>
+<p>dubbo-admin：是一个监控管理后台，查看我们注册了那些服务，那些服务被消费了</p>
+<p>Dubbo：jar包</p>
+<h3 id="启动：启动SpringBoot时的顺序！！！！"><a href="#启动：启动SpringBoot时的顺序！！！！" class="headerlink" title="启动：启动SpringBoot时的顺序！！！！"></a>启动：启动SpringBoot时的顺序！！！！</h3><p>前提：zookeeper服务要先被开启，然后才能启动提供者以及消费者，然后再启动Dubbo</p>
+<p>1.提供者提供服务</p>
+<p>​    1.导入依赖</p>
+<p>​    2.配置注册中心的地址，以及服务发现名，和要扫描的包</p>
+<p>​    3.在想要被注册的服务上增加两个注解@Service（属于dubbo的注解），@Component</p>
+<p>2.消费者如何消费</p>
+<p>​    1.导入依赖</p>
+<p>​    2.配置注册中心的地址，配置自己的服务名</p>
+<p>​    3.从远程注入服务</p>
+<p>1.启动zookeeper</p>
+<p>2.启动SpringBoot服务提供者</p>
+<p>3.启动dubbo</p>
+<p>4.进入端口<a href="http://localhost:7001/" target="_blank" rel="noopener">http://localhost:7001/</a></p>
+<p>5.输入账户密码    root/root</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP文件上传的步骤/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -876,932 +2008,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP目录处理函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/23/PHP目录处理函数/" itemprop="url">PHP目录处理函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:26:46+08:00">
-                2019-12-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP目录处理函数"><a href="#PHP目录处理函数" class="headerlink" title="PHP目录处理函数"></a>PHP目录处理函数</h4><blockquote>
-<p>函数名  功能<br>opendir  打开文件夹，返回操作资源<br>readdir  读取文件夹资源<br>is_dir   判断是否是文件夹<br>closedir  关闭文件夹操作资源<br>filetype  显示是文件夹还是文件，文件显示file，文件夹显示dir</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//设置打开的目录是D盘</span><br><span class="line">$dir = &quot;d:/&quot;;</span><br><span class="line">//判断是否是文件夹，是文件夹</span><br><span class="line">if (is_dir($dir)) &#123;</span><br><span class="line">if ($dh = opendir($dir)) &#123;</span><br><span class="line">//读取到最后返回false，停止循环</span><br><span class="line">while (($file = readdir($dh)) !== false) &#123;</span><br><span class="line">echo &quot;文件名为: $file : 文件的类型是: &quot; . filetype($dir . $file) . &quot;&lt;br /&gt;&quot;;</span><br><span class="line">&#125;</span><br><span class="line">closedir($dh);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">//文件名为: $RECYCLE.BIN : 文件的类型是: dir</span><br><span class="line">文件名为: 1111.txt : 文件的类型是: file</span><br><span class="line">文件名为: 2345Downloads : 文件的类型是: dir</span><br><span class="line">文件名为: 360downloads : 文件的类型是: dir</span><br><span class="line">文件名为: BaiduNetdiskDownload : 文件的类型是: dir</span><br><span class="line">文件名为: EFI : 文件的类型是: dir</span><br><span class="line">文件名为: jyh : 文件的类型是: dir</span><br><span class="line">文件名为: Ksoftware : 文件的类型是: dir</span><br><span class="line">文件名为: NetFrameWork : 文件的类型是: dir</span><br><span class="line">文件名为: PCGame : 文件的类型是: dir</span><br><span class="line">文件名为: Program Files : 文件的类型是: dir</span><br><span class="line">文件名为: qqpcmgr_docpro : 文件的类型是: dir</span><br><span class="line">文件名为: qycache : 文件的类型是: dir</span><br><span class="line">文件名为: System Volume Information : 文件的类型是: dir</span><br><span class="line">文件名为: Temp : 文件的类型是: dir</span><br><span class="line">文件名为: 原始数据 : 文件的类型是: dir</span><br><span class="line">文件名为: 括苍一户一档 : 文件的类型是: dir</span><br><span class="line">文件名为: 桌面资料 : 文件的类型是: dir</span><br><span class="line">文件名为: 桌面资料2 : 文件的类型是: dir</span><br><span class="line">文件名为: 软件安全下载目录 : 文件的类型是: dir</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP文件常用函数和常量/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/23/PHP文件常用函数和常量/" itemprop="url">PHP文件常用函数和常量</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:23:34+08:00">
-                2019-12-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP文件常用函数和常量"><a href="#PHP文件常用函数和常量" class="headerlink" title="PHP文件常用函数和常量"></a>PHP文件常用函数和常量</h4><h5 id="文件目录分割符常量"><a href="#文件目录分割符常量" class="headerlink" title="文件目录分割符常量"></a>文件目录分割符常量</h5><blockquote>
-<p>平台  分割符<br>windows <br>linux /<br>windows 的路径格式为 d:\xxx\xxx 注意：windows支持 d:/xxx/xxx<br>linux 的路径格式为 /home/xxx/xxx 注意：如果\home\xxx\xxx 在linux上是错误的<br>所以当你开启转义之类的话，转义字符 \ 用一起的话 d:\xxx\xxx 是一样的。判断时候有两个 \ 有的话 再转成一个\ 再把 \ 替换成 /当路径分割，这样在linux上或者windos上的路径就能保持统一了。</p>
-</blockquote>
-<hr>
-<p>常量：<br>DIRECTORY_SEPARATOR<br>在windows上：<br>在Linux上：/</p>
-<hr>
-<h5 id="文件指针操作函数"><a href="#文件指针操作函数" class="headerlink" title="文件指针操作函数"></a>文件指针操作函数</h5><p>rewind ( resource handle)<br>功能：指针回到开始处<br>fseek ( resource handle, int offset [, int from_where])<br>功能：文件指针向后移动指定字符</p>
-<hr>
-<p>filesize 检测文件的大小<br>$filename = ‘c:\Users\dell\Desktop\御坂御坂_new.txt’;<br>echo $filename . ‘文件大小为: ‘ . filesize($filename) . ‘ bytes’;<br>//c:/Users/dell/Desktop/御坂御坂_new.txt文件大小为: 3 bytes</p>
-<p>其实还有一些其他操作文件的函数，读取文件<br>函数名 功能<br>file 把整个文件读入一个数组中<br>fgets 从文件指针中读取一行,读到最后返回false<br>fgetc 从文件指针中读取一个字符，读到最后返回false<br>ftruncate 将文件截断到给定的长度 </p>
-<hr>
-<h5 id="文件的时间函数"><a href="#文件的时间函数" class="headerlink" title="文件的时间函数"></a>文件的时间函数</h5><p>函数 功能说明<br>filectime 文件创建时间<br>filemtime 文件修改时间<br>fileatime 文件上次访问时间<br>$filename = ‘c:\Users\dell\Desktop\御坂御坂_new.txt’;<br>if (file_exists($filename)) {<br>echo “文件的上次访问时间是:” . date(“Y-m-d H:i:s”, fileatime($filename)).”<br>“;<br>echo “文件的创建时间是: “ . date(“Y-m-d H:i:s”, filectime($filename)).”<br>“;<br>echo “文件的修改时间是: “ . date(“Y-m-d H:i:s”, filemtime($filename)).”<br>“;}<br>//文件的上次访问时间是:2019-12-10 06:38:36<br>文件的创建时间是: 2019-12-10 06:38:36<br>文件的修改时间是: 2019-12-10 06:38:36</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP检测文件属性函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/23/PHP检测文件属性函数/" itemprop="url">PHP检测文件属性函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:22:19+08:00">
-                2019-12-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP检测文件属性函数"><a href="#PHP检测文件属性函数" class="headerlink" title="PHP检测文件属性函数"></a>PHP检测文件属性函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">bool file_exists ( $指定文件名或者文件路径)</span><br><span class="line">功能：文件是否存在。</span><br><span class="line"></span><br><span class="line">bool is_readable ( $指定文件名或者文件路径)</span><br><span class="line">功能：文件是否可读</span><br><span class="line"></span><br><span class="line">bool is_writeable ( $指定文件名或者文件路径)</span><br><span class="line">功能：文件是否可写</span><br><span class="line"></span><br><span class="line">bool is_executable ( $指定文件名或者文件路径)</span><br><span class="line">功能：文件是否可执行</span><br><span class="line"></span><br><span class="line">bool is_file ( $指定文件名或者文件路径)</span><br><span class="line">功能：是否是文件</span><br><span class="line"></span><br><span class="line">bool is_dir ( $指定文件名或者文件路径)</span><br><span class="line">功能：是否是目录</span><br><span class="line"></span><br><span class="line">void clearstatcache ( void )</span><br><span class="line">功能：清楚文件的状态缓存</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/23/PHP文件基本操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/23/PHP文件基本操作/" itemprop="url">PHP文件基本操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T19:19:32+08:00">
-                2019-12-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP文件基本操作"><a href="#PHP文件基本操作" class="headerlink" title="PHP文件基本操作"></a>PHP文件基本操作</h4><h5 id="重命名文件"><a href="#重命名文件" class="headerlink" title="重命名文件"></a>重命名文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bool rename($旧名,$新名);</span><br><span class="line">//旧文件名</span><br><span class="line">$file = &apos;C:\\Users\\dell\\Desktop\\御坂御坂.txt&apos;;</span><br><span class="line">//新文件名</span><br><span class="line">$newfile = &apos;C:\\Users\\dell\\Desktop\\御坂御坂_new.txt&apos;;</span><br><span class="line">//重命名文件</span><br><span class="line">rename($file, $newfile);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bool copy(源文件,目标文件)</span><br><span class="line">//旧文件名</span><br><span class="line">$file = &apos;C:\\Users\\dell\\Desktop\\御坂御坂.txt&apos;;</span><br><span class="line">//新文件名</span><br><span class="line">$newfile = &apos;C:\\Users\\dell\\Desktop\\御坂御坂_new.txt&apos;;</span><br><span class="line">//复制文件</span><br><span class="line">copy($file, $newfile);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h5 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bool unlink(指定路径的文件)</span><br><span class="line">删除文件就是将指定路径的一个文件删除，不过这个删除是直接删除。使用的是windows电脑，你在回收站看不到这个文件。</span><br><span class="line">$file = &apos;C:\\Users\\dell\\Desktop\\御坂御坂.txt&apos;;</span><br><span class="line">if (unlink($file)) &#123;</span><br><span class="line">echo &quot;删除文件 $file 成功!\n&quot;;</span><br><span class="line">&#125;else &#123;</span><br><span class="line">echo &quot;删除 $file 失败!\n&quot;;</span><br><span class="line">&#125;</span><br><span class="line">//删除文件 C:\Users\dell\Desktop\御坂御坂.txt 成功!</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/09/PHP文件函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/09/PHP文件函数/" itemprop="url">PHP文件函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-09T21:08:32+08:00">
-                2019-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP文件函数"><a href="#PHP文件函数" class="headerlink" title="PHP文件函数"></a>PHP文件函数</h4><h5 id="PHP读取文件"><a href="#PHP读取文件" class="headerlink" title="PHP读取文件"></a>PHP读取文件</h5><h5 id="readfile-直接输出文件内容"><a href="#readfile-直接输出文件内容" class="headerlink" title="readfile 直接输出文件内容"></a>readfile 直接输出文件内容</h5><p>int readfile ( string $文件名)</p>
-<h5 id="file-get-contents-获取文件内容，成为一个字符串"><a href="#file-get-contents-获取文件内容，成为一个字符串" class="headerlink" title="file_get_contents 获取文件内容，成为一个字符串"></a>file_get_contents 获取文件内容，成为一个字符串</h5><p>string file_get_contents ( string filename)<br>//假设我们有一个多行的文件叫生成出生年月.py，没有的话你可以新建一个这个文件<br>$filename = ‘C:\Users\dell\Desktop\生成出生年月.py’;<br>//打开这个文件，将文件内容赋值给$filestring<br>$filestring = file_get_contents($filename);<br>//因为每一行有一个回车即\n，我用\n来把这个字符串切割成数组<br>$filearray = explode(“\n”, $filestring);<br>//把切割成的数组循环输出。<br>foreach ($filearray as $key =&gt; $value) {<br>echo $key.’：’.$value.’<br>‘;<br>}<br>//0：import xlrd<br>1：<br>2：from xlutils.copy import copy<br>3：<br>4：workbook = xlrd.open_workbook(‘1.xls’, formatting_info=False)<br>5：<br>6：workbooknew = copy(workbook)<br>7：<br>8：sheetnew = workbooknew.get_sheet(0)<br>9：sheetold = workbook.sheet_by_name(‘Sheet1’)<br>10：ID = 7#身份证的列<br>11：Birthday = 6#出生年月的列<br>12：row_begin = 1#开始列数<br>13：row_end = sheetold.nrows#结束列数<br>14：<br>15：for num in range(row_begin,row_end):<br>16： #sheetnew.write(num,2,sheetold.cell(num,4).value)#将性别复制到人口一行<br>17： year = sheetold.cell(num, ID).value[6:10]<br>18： month = sheetold.cell(num, ID).value[10:12]<br>19： day = sheetold.cell(num, ID).value[12:14]<br>20： sheetnew.write(num,Birthday,year+’-‘+month+’-‘+day)#出生年月<br>21：<br>22：workbooknew.save(‘1copy.xls’)</p>
-<h5 id="fopen、fread、fclose操作读取文件"><a href="#fopen、fread、fclose操作读取文件" class="headerlink" title="fopen、fread、fclose操作读取文件"></a>fopen、fread、fclose操作读取文件</h5><p>resource fopen ( string $文件名, string 模式)<br>string fread ( resource $操作资源, int 读取长度)<br>bool fclose ( resource $操作资源 )</p>
-<blockquote>
-<p>通过上面的函数我们来讲解资源类型的通常操作方式：<br>1.打开资源：fopen<br>2.使用相关函数进行操作：fread<br>3.关闭资源：fclose</p>
-</blockquote>
-<p>fopen函数 fopen函数的功能是打开文件，参数主要有两个：<br>1.文件打开的路径<br>2.打开文件的模式<br>返回类型是一个资源类型。<br>资源类型需要其他的函数来操作这个资源。<br>所有的资源有打开就要有关闭！！！</p>
-<p>fopen模式说明<br>r 只读方式打开，将文件指针指向文件头。<br>r+ 读写方式打开，将文件指针指向文件头。<br>w 写入方式打开，将文件指针指向文件头并将文件大小截为零。如果文件不存在则尝试创建<br>w+ 读写方式打开，将文件指针指向文件头并将文件大小截为零。如果文件不存在则尝试创建<br>a 写入方式打开，将文件指针指向文件末尾。如果文件不存在则尝试创建<br>a+ 读写方式打开，将文件指针指向文件末尾。如果文件不存在则尝试创建之<br>x 创建并以写入方式打开，将文件指针指向文件头。如果文件已存在，则 fopen() 调用失败并返回 FALSE，并生成一条 E_WARNING 级别的错误信息。如果文件不存在则尝试创建<br>x+ 创建并以读写方式打开，将文件指针指向文件头。如果文件已存在，则 fopen() 调用失败并返回 FALSE，并生成一条 E_WARNING 级别的错误信息。如果文件不存在则尝试创建 </p>
-<p>fread函数 函数的功能的功能是读取打开的文件资源。读取指定长度的文件资源，读取一部份向后移动一部份。至到文件结尾。</p>
-<p>fclose函数 fclose函数的功能是关闭资源。资源有打开就有关闭。</p>
-<p>打开文件<br>//你可以创建一个NoAlike.txt，以只读模式打开<br>$fp = fopen(‘C:\Users\dell\Desktop\生成出生年月.py’, “r”);<br>//var_dump()操作一下$fp看看效果，输出的是不是只有类型提示的是resource<br>var_dump($fp);<br>//resource(5) of type (stream) </p>
-<p>读取文件<br>//打开一个文件类型后，读取指定长度<br>$contents = fread($fp, 10);<br>echo $contents;<br>//import xlr</p>
-<p>关闭文件<br>fclose($fp);</p>
-<p>其他注意事项：<br>模式  说明<br>t  windows下将\n转为\r\n<br>b  二进制打开模式</p>
-<h5 id="PHP创建和修改文件"><a href="#PHP创建和修改文件" class="headerlink" title="PHP创建和修改文件"></a>PHP创建和修改文件</h5><h5 id="file-put-contents写入文件"><a href="#file-put-contents写入文件" class="headerlink" title="file_put_contents写入文件"></a>file_put_contents写入文件</h5><p>int file_put_contents ( string $文件路径, string $写入数据])<br>功能：向指定的文件当中写入一个字符串，如果文件不存在则创建文件。返回的是写入的字节长度</p>
-<h5 id="fwrite配合fopen进行写入操作"><a href="#fwrite配合fopen进行写入操作" class="headerlink" title="fwrite配合fopen进行写入操作"></a>fwrite配合fopen进行写入操作</h5><p>int fwrite ( resource $文件资源变量, string $写入的字符串 [, int 长度])<br>注：fwrite的别名函数是fputs<br>$file = ‘C:\Users\dell\Desktop\御坂御坂.txt’;<br>$fp= fopen($file, “w”);<br>$len = fwrite($fp, ‘我是一只来自北方的狼，却在南方冻成了狗’);<br>fclose($fp);<br>print $len .’字节被写入了’;</p>
-<blockquote>
-<p>总结：<br>1.不论有没有新建都会打开文件重新写入<br>2.原有的文件内容会被覆盖掉<br>3.文件不存在会创建</p>
-</blockquote>
-<p>那我们来对比一下以下几个模式的不同：<br>模式说明<br>r 只能读不能使用fwrite写<br>r+ 可操作读、写<br>w 只可以写功能<br>w+ 即可读又可以写 </p>
-<p>a模式和w模式的不同</p>
-<blockquote>
-<p>总结：<br>模式总结<br>w 每次写入会清除原有文件的内容，文件不存在都会创建<br>a 每次写入都会向文件的尾端追加内容<br>注：a+ 是增强的追加功能。在读取时也可以使用。</p>
-</blockquote>
-<p>x模式和w模式的不同</p>
-<blockquote>
-<p>我们会发现：<br>    1.文件存在的时候使用x模式会报错<br>    3.x+ 是增强的x模式。读取时也可以使用。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yuban0416.com/2019/12/09/PHP正则表达式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="御坂0416">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="御坂0416的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/09/PHP正则表达式/" itemprop="url">PHP正则表达式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-09T21:05:50+08:00">
-                2019-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="PHP正则表达式"><a href="#PHP正则表达式" class="headerlink" title="PHP正则表达式"></a>PHP正则表达式</h4><h5 id="定界符"><a href="#定界符" class="headerlink" title="定界符"></a>定界符</h5><p>定界符，就是定一个边界，边界已内的就是正则表达示。<br>PHP的正则表达示定界符的规定如下：<br>定界符，不能用a-zA-Z0-9\ 其他的都可以用。必须成对出现，有开始就有结束。<br>例子说明<br>/中间写正则/ 正确<br>$中间写正则$ 正确<br>%中间写正则% 正确<br>^中间写正则^ 正确<br>@中间写正则@ 正确<br>(中间写正则) 错误<br>A中间写正则A 错误 </p>
-<h5 id="原子"><a href="#原子" class="headerlink" title="原子"></a>原子</h5><p>原子是正则表达示里面的最小单位，原子说白了就是需要匹配的内容。<br>说明：我们见到的空格、回车、换行、0-9、A-Za-z、中文、标点符号、特殊符号全为原子。</p>
-<h5 id="正则匹配函数"><a href="#正则匹配函数" class="headerlink" title="正则匹配函数"></a>正则匹配函数</h5><p>preg_match()：<br>int preg_match ( string $正则 , string $字符串 [, array &amp;$结果] )<br>功能：根据$正则变量，匹配$字符串变量。如果存在则返回匹配的个数，把匹配到的结果放到$结果变量里。如果没有匹配到结果返回0。<br>$zz = ‘/a/‘;<br>$string = ‘aaaaaaaaaaaa’;<br>if(preg_match($zz, $string, $matches)){<br>echo ‘匹配到了，结果为：’;<br>var_dump($matches);<br>}else{<br>echo ‘没有匹配到’;<br>}<br>//匹配到了，结果为：array(1) { [0]=&gt; string(1) “a” }</p>
-<h5 id="特殊标识的原子"><a href="#特殊标识的原子" class="headerlink" title="特殊标识的原子"></a>特殊标识的原子</h5><p>原子说明<br>\d 匹配一个0-9<br>\D 除了0-9以外的所有字符<br>\w a-zA-Z0-9_<br>\W 除了0-9A-Za-z_以外的所有字符<br>\s 匹配所有空白字符\n \t \r 空格<br>\S 匹配所有非空白字符<br>[ ] 指定范围的原子<br>例：[0-5]表示匹配0-5里面的任意数字，[a-z]表示匹配a-z里面的任意字母<br>[^字符]匹配不在指定区间的字符，如果有不在指定区间的字符，则匹配出来</p>
-<blockquote>
-<p>总结：<br>原子等价式<br>\w [a-zA-Z0-9_]<br>\W [^a-zA-Z0-9_]<br>\d [0-9]<br>\D [^0-9]<br>\s [ \t\n\f\r]<br>\S [^ \t\n\f\r] </p>
-</blockquote>
-<h5 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h5><p>元字符功能说明</p>
-<ul>
-<li>匹配0次或者多次前面的字符。</li>
-</ul>
-<ul>
-<li>匹配1次或多次前面的字符<br>? 前面的字符可有可无<br>. 匹配除了\n以外的所有字符<br>^ 必须要以抑扬符之后的字符串开始<br>$ 必须要以$之前的字符结尾<br>\b 词边界<br>\B 非边界<br>{m} 有且只能出现m次<br>{n,m} 可以出现n到m次<br>{m,} 至少m次，最大次数不限制<br>() 改变优先级或者将某个字符串视为一个整体，匹配到的数据取出来也可以使用它</li>
-</ul>
-<h5 id="模式匹配符"><a href="#模式匹配符" class="headerlink" title="模式匹配符"></a>模式匹配符</h5><p>/ 正则表达示/模式匹配符<br>模式匹配符是放在这句话的最后的。例如：<br>/\w+/s</p>
-<p>模式匹配符 功能<br>i 不区分大小写</p>
-<p>m 将字符串视为多行<br>正则在匹配的时候，要匹配的目标字符串我们通常视为一行。<br>“行起始”元字符（^）仅仅匹配字符串的起始，“行结束”元字符（$）仅仅匹配字符串的结束。当设定了此修正符，“行起始”和“行结束”除了匹配整个字符串开头和结束外，还分别匹配其中的换行符的之后和之前。<br>注意：如果要匹配的字符串中没有“\n”字符或者模式中没有 ^ 或 $，则设定此修正符没有任何效果。</p>
-<p>s 将字符串视为单行,换行符作为普通字符.<br>如果设定了此修正符，模式中的圆点元字符（.）匹配所有的字符，包括换行符。</p>
-<p>x 将模式中的空白忽略.<br>1.如果设定了此修正符，模式中的空白字符除了被转义的或在字符类中的以外完全被忽略。<br>2.未转义的字符类外部的#字符和下一个换行符之间的字符也被忽略。</p>
-<p>A 强制仅从目标字符串的开头开始匹配.<br>此模式类似于元字符中的^（抑扬符）效果。</p>
-<p>D 模式中的美元元字符仅匹配目标字符串的结尾. </p>
-<p>U 只匹配最近的字符串，不进行全局匹配<br>正则表达式在加上+或*以后，默认是贪婪的，也就是尽可能的最大限度匹配。<br>但是在加上U这个模式匹配符之后，就不会进行全局匹配，只会匹配一次<br>例：正则表达式为：/\d/<br>字符串为：123456789<br>匹配结果为：匹配到了，结果为：array(1) { [0]=&gt; string(1) “1” } </p>
-<p>正则表达式为：/\d+/<br>字符串为：123456789<br>匹配结果为：匹配到了，结果为：array(1) { [0]=&gt; string(9) “123456789” }</p>
-<p>正则表达式为：/\d*/<br>字符串为：123456789<br>匹配结果为：匹配到了，结果为：array(1) { [0]=&gt; string(9) “123456789” }</p>
-<p>正则表达式为：/\d+/U<br>字符串为：123456789<br>匹配结果为：匹配到了，结果为：array(1) { [0]=&gt; string(1) “1” }</p>
-<p>正则表达式为：/\d<em>/U<br>字符串为：123456789<br>匹配结果为：匹配到了，结果为：array(1) { [0]=&gt; string(0) “” }<br>//因为</em>是匹配0次及以上，所以在加上U这个模式匹配符之后匹配到的是空字符串</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1849,7 +2060,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1860,7 +2071,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1899,7 +2110,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
